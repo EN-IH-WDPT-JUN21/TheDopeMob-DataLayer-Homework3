@@ -1,5 +1,7 @@
 package ContactInfo;
 
+import java.util.Objects;
+
 public abstract class ContactInfo {
     private static int idCounter = 1;
     private int id = idCounter;
@@ -66,5 +68,18 @@ public abstract class ContactInfo {
                 ", email='" + email + '\'' +
                 ", companyName='" + companyName + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ContactInfo that = (ContactInfo) o;
+        return id == that.id && Objects.equals(name, that.name) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(email, that.email) && Objects.equals(companyName, that.companyName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, phoneNumber, email, companyName);
     }
 }
