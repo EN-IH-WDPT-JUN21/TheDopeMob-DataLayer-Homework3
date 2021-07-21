@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -195,6 +196,63 @@ class DatabaseManagerTest {
         referenceObject.add(l6);
         //Asserting loaded data is the same as the sample one
         assertEquals(referenceObject,DatabaseManager.getLeads());
+    }
+    @Test
+    public void UseCase_add_and_save_data_few_times_reset_and_load_each_save_assert_manage_data_properly() throws IOException {
+        //Setting the test env. Resetting the db, deleting files
+        DatabaseManager.reset();
+        File leadsFile = new File(DatabaseManager.getLeadsDbPath());
+        File contactsFile = new File(DatabaseManager.getContactsDbPath());
+        if (leadsFile.exists() && !leadsFile.delete())
+            throw new IOException("Can't delete db file!");
+        if (contactsFile.exists() && !contactsFile.delete())
+            throw new IOException("Can't delete db file!");
+        //Create and add sample data
+        Lead l1 = new Lead("Use Case Test","10000","U.Case@Test.com","UCase1");
+        DatabaseManager.getLeads().add(l1);
+        //Save 1 object
+        assertFalse(leadsFile.exists());
+        DatabaseManager.save();
+        assertTrue(leadsFile.exists());
+        //Reset
+        DatabaseManager.reset();
+        //Load 1 object
+        DatabaseManager.load();
+        assertEquals(1,DatabaseManager.getLeads().size());
+        //Add another object
+        Lead l2 = new Lead("Need Sleep","10000-no","Sleep.Me@Test.com","UCase2");
+        DatabaseManager.getLeads().add(l2);
+        //save
+        assertTrue(leadsFile.exists());
+        DatabaseManager.save();
+        //Add another without reset
+        assertEquals(2,DatabaseManager.getLeads().size());
+        //load 2 objects
+        DatabaseManager.load();
+        //Add 3rd object
+        Lead l3 = new Lead("Last lead","10000-no","Last.lead@Test.com","UCase3");
+        DatabaseManager.getLeads().add(l3);
+        assertEquals(3,DatabaseManager.getLeads().size());
+        //save
+        DatabaseManager.save();
+        //reset
+        DatabaseManager.reset();
+        //Add items that will be gone after load method
+        DatabaseManager.getLeads().add(l1);
+        DatabaseManager.getLeads().add(l1);
+        DatabaseManager.getLeads().add(l2);
+        DatabaseManager.getLeads().add(l1);
+        DatabaseManager.getLeads().add(l3);
+        DatabaseManager.getLeads().add(l3);
+        //load without saving the previous step
+        DatabaseManager.load();
+        //Creating reference object
+        ArrayList<Lead> reference = new ArrayList<>();
+        reference.add(l1);
+        reference.add(l2);
+        reference.add(l3);
+        //Assert Database loads 3 objects from file and is equal to reference objects are equal
+        assertEquals(reference,DatabaseManager.getLeads());
     }
 
 }

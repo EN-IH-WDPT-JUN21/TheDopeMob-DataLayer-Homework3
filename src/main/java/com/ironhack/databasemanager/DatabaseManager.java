@@ -1,5 +1,6 @@
 package com.ironhack.databasemanager;
 
+import Contact.Contact;
 import ContactInfo.ContactInfo;
 import Lead.Lead;
 import com.google.gson.Gson;
@@ -9,13 +10,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public abstract class DatabaseManager {
     private static final String LEADS_DB_PATH = "leads.json";
     private static final String CONTACTS_DB_PATH = "contacts.json";
 
-    private static ArrayList<Lead> leads = new ArrayList<>();
+    private static final ArrayList<Lead> leads = new ArrayList<>();
     private static final ArrayList<ContactInfo> contacts = new ArrayList<>();
 
     public static ArrayList<Lead> getLeads() {
@@ -60,10 +62,10 @@ public abstract class DatabaseManager {
     }
 
     public static void load() throws IOException {
-        loadDB(LEADS_DB_PATH);
-        loadDB(CONTACTS_DB_PATH);
+        loadDB(LEADS_DB_PATH, leads, new Lead[]{});
+        loadDB(CONTACTS_DB_PATH, contacts, new Contact[]{});
     }
-    private static void loadDB(String filePath) throws IOException {
+    private static void loadDB(String filePath, ArrayList destination, Object[] tmpType) throws IOException {
         File leadsDBFile = new File(filePath);
         if (leadsDBFile.exists()){
             Scanner scn = new Scanner(leadsDBFile);
@@ -72,8 +74,9 @@ public abstract class DatabaseManager {
                 content.append(scn.nextLine());
             }
             Gson gson = new Gson();
-            Lead[] leadsArray = gson.fromJson(content.toString(),Lead[].class);
-            leads.addAll(Arrays.asList(leadsArray));
+            tmpType = gson.fromJson(content.toString(),tmpType.getClass());
+            destination.clear();
+            destination.addAll(Arrays.asList(tmpType));
         }
         else{if (!leadsDBFile.createNewFile()){throw new IOException("Can't create DB file!");}}
     }
