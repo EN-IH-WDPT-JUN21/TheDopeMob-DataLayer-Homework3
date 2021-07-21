@@ -1,5 +1,6 @@
 package com.ironhack.databasemanager;
 
+import Contact.Contact;
 import Lead.Lead;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
@@ -101,6 +102,60 @@ class DatabaseManagerTest {
         assertEquals("[]",loadedContent.toString());
     }
     @Test
+    public void save_method_insert_sample_for_leads_and_contacts_save_assert_data_saved() throws IOException {
+        //Setting the env. Deleting leads and contacts files.
+        DatabaseManager.reset();
+        File leadsFile = new File(DatabaseManager.getLeadsDbPath());
+        File contactsFile = new File(DatabaseManager.getContactsDbPath());
+        if (leadsFile.exists() && !leadsFile.delete())
+            throw new IOException("Can't delete db file!");
+        if (contactsFile.exists() && !contactsFile.delete())
+            throw new IOException("Can't delete db file!");
+        //Creating sample data
+        Lead l1 = new Lead("Adam Test","1234-555", "A.Test@Example.com", "Example");
+        Lead l2 = new Lead("Adam Test","5555555", "A.Test@Example.com", "Example");
+        Lead l3 = new Lead("Adam Test","33334343", "A.Test@Example.com", "Example");
+        Contact c1 = new Contact("Adam Contact","555434554","A.Con@Ex.com", "Ex1");
+        Contact c2 = new Contact("Anna Contact","555434dfv554","A1.Con@Ex.com", "Ex2");
+        Contact c3 = new Contact("Mark Contact","5554345fdg54","A2.Con@Ex.com", "Ex3");
+        //Adding sample data to DatabaseManager
+        DatabaseManager.getLeads().add(l1);
+        DatabaseManager.getLeads().add(l2);
+        DatabaseManager.getLeads().add(l3);
+        DatabaseManager.getContacts().add(c1);
+        DatabaseManager.getContacts().add(c2);
+        DatabaseManager.getContacts().add(c3);
+        //Saving the data
+        assertTrue(!leadsFile.exists() && !contactsFile.exists());
+        DatabaseManager.save();
+        //Reading from files
+        Scanner scn = new Scanner(leadsFile);
+        StringBuilder leadSB = new StringBuilder();
+        while (scn.hasNext()) {
+            leadSB.append(scn.nextLine());
+        }
+        scn.close();
+        scn = new Scanner(contactsFile);
+        StringBuilder contactSB = new StringBuilder();
+        while (scn.hasNext()) {
+            contactSB.append(scn.nextLine());
+        }
+        scn.close();
+        //Creating reference Lists of Leads and Contacts
+        Gson gson = new Gson();
+        ArrayList<Lead> leadRef = new ArrayList<Lead>();
+        ArrayList<Contact> contactRef = new ArrayList<Contact>();
+        leadRef.add(l1);
+        leadRef.add(l2);
+        leadRef.add(l3);
+        contactRef.add(c1);
+        contactRef.add(c2);
+        contactRef.add(c3);
+        //Assert read data and reference data are same
+        assertEquals(leadSB.toString(),gson.toJson(leadRef));
+        assertEquals(contactSB.toString(),gson.toJson(contactRef));
+    }
+    @Test
     public void load_method_insert_sample_data_save_then_reset_then_load_assert_it_loaded() throws IOException {
         //Setting up test env. Reset data, delete files
         File file = new File(DatabaseManager.getLeadsDbPath());
@@ -141,4 +196,5 @@ class DatabaseManagerTest {
         //Asserting loaded data is the same as the sample one
         assertEquals(referenceObject,DatabaseManager.getLeads());
     }
+
 }
