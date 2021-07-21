@@ -16,4 +16,5 @@ public class Lead extends ContactInfo {
 // Method to add Contact to ArrayList<Contact> contactList
         System.out.println("Enter " + contact.getName() + "'s product of interest: Hybrid Truck, Flatbed Truck, or Box Truck");
     }
+
 }
