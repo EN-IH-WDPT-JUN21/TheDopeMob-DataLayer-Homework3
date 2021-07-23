@@ -64,9 +64,15 @@ public abstract class InputHandler {
         while(true) {
             System.out.println("\nEnter command:");
             fullCommand = scanner.nextLine().toLowerCase();
-            if(fullCommand.split(" ").length == 3) {
-                actionCommand = fullCommand.split(" ")[0] + " " + fullCommand.split(" ")[1];
-                commandId = fullCommand.split(" ")[2];
+
+            if(fullCommand.matches(".*\\d.*")) {
+                if (fullCommand.split(" ").length == 3) {
+                    actionCommand = fullCommand.split(" ")[0] + " " + fullCommand.split(" ")[1];
+                    commandId = fullCommand.split(" ")[2];
+                } else {
+                    actionCommand = fullCommand.split(" ")[0];
+                    commandId = fullCommand.split(" ")[1];
+                }
             }else{
                 actionCommand = fullCommand;
                 commandId = "0";
@@ -81,9 +87,37 @@ public abstract class InputHandler {
                     break;
                 case "lookup lead":
                     try{
-                        System.out.println(DatabaseManager.getLeads().get(Integer.parseInt(commandId) - 1));
+                        lookupLeads(commandId);
                     }catch(IndexOutOfBoundsException e) {
                         System.out.println("There is no lead with that id, enter a valid id.\nUse 'show leads' to check all leads");
+                    }
+                    break;
+                case "convert":
+                    try{
+                        convertId(commandId);
+                    }catch (IndexOutOfBoundsException e) {
+                        System.out.println("There is no lead with that id, enter a valid id.\nUse 'show leads' to check all leads");
+                    }
+                    break;
+                case "lookup opportunity":
+                    try{
+                        lookupOpportunity(commandId);
+                    }catch (IndexOutOfBoundsException e) {
+                        System.out.println("There is no opportunity with that id, enter a valid id");
+                    }
+                    break;
+                case "close-won":
+                    try{
+                        closeWon(commandId);
+                    }catch (IndexOutOfBoundsException e){
+                        System.out.println("There is no opportunity with that id, enter a valid id");
+                    }
+                    break;
+                case "close-lost":
+                    try{
+                        closeLost(commandId);
+                    }catch (IndexOutOfBoundsException e){
+                        System.out.println("There is no opportunity with that id, enter a valid id");
                     }
                     break;
                 case "quit":
@@ -100,6 +134,7 @@ public abstract class InputHandler {
         }
     }
 
+    //----METHODS FOR COMMANDS AVAILABLE TO USER----//
     // Creates a new lead, called by welcome()
     public static void newLead() {
         String tempName;
@@ -119,7 +154,6 @@ public abstract class InputHandler {
     }
 
     // ---HELPER FUNCTION USED BY newLead()---//
-
     // newLead() helper method with name input validation
     public static String setName() {
         String name;
@@ -157,6 +191,8 @@ public abstract class InputHandler {
                 System.out.println("Phone must be 9 digits long");
             }else if (phone.charAt(0) == '0'){
                 System.out.println("Phone cannot start with zero");
+            }else if(phone.matches(".*[a-z|A-Z].*")){
+                System.out.println("Phone cannot have letters");
             }else{
                 break;
             }
@@ -202,9 +238,27 @@ public abstract class InputHandler {
         System.out.println("The registered company name is: " + companyName + "\n");
         return companyName;
     }
-    //----------------------------------------//
 
+    //---METHODS FOR COMMANDS AVAILABLE TO USER----//
     public static void showLeads() {
         System.out.println(DatabaseManager.getLeads());
+    }
+
+    public static void lookupLeads(String commandId) {
+        System.out.println(DatabaseManager.getLeads().get(Integer.parseInt(commandId) - 1));
+    }
+
+    public static void convertId(String commandId) {
+        System.out.println("Lead converted to opportunity");
+    }
+
+    public static void lookupOpportunity(String commandId){
+        System.out.println("Retrieved " + commandId + " opportunity");
+    }
+    public static void closeWon(String commandId) {
+        System.out.println("Closed won opportunity with id: " + commandId);
+    }
+    public static void closeLost(String commandId) {
+        System.out.println("Closed lost opportunity with id: " + commandId);
     }
 }
