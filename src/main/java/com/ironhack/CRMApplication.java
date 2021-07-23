@@ -6,7 +6,7 @@ import com.ironhack.data.InputHandler;
 public class CRMApplication
 {
     public static void main(String[] args) {
-        InputHandler.welcome();
+        InputHandler.start();
 
     }
 }

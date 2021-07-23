@@ -2,14 +2,17 @@ package com.ironhack.data;
 
 import com.ironhack.contact.Lead;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public abstract class InputHandler {
 
-    // Login message and instructions after successful login
-    public static void welcome() {
-        String command;
+    // Scanner for commands, login message and instructions
+    public static void start() {
+        String fullCommand;
+        String actionCommand;
+        String commandId;
 
         try {
             int animationFrames = 0;
@@ -57,13 +60,31 @@ public abstract class InputHandler {
 
         Scanner scanner = new Scanner(System.in);
 
-        // Command loop: asks for valid input
+        // Command loop: asks for valid input and assigns id to variable if necessary
         while(true) {
             System.out.println("\nEnter command:");
-            command = scanner.nextLine().toLowerCase();
-            switch (command) {
+            fullCommand = scanner.nextLine().toLowerCase();
+            if(fullCommand.split(" ").length == 3) {
+                actionCommand = fullCommand.split(" ")[0] + " " + fullCommand.split(" ")[1];
+                commandId = fullCommand.split(" ")[2];
+            }else{
+                actionCommand = fullCommand;
+                commandId = "0";
+            }
+
+            switch (actionCommand) {
                 case "new lead":
                     newLead();
+                    break;
+                case "show leads":
+                    showLeads();
+                    break;
+                case "lookup lead":
+                    try{
+                        System.out.println(DatabaseManager.getLeads().get(Integer.parseInt(commandId) - 1));
+                    }catch(IndexOutOfBoundsException e) {
+                        System.out.println("There is no lead with that id, enter a valid id.\nUse 'show leads' to check all leads");
+                    }
                     break;
                 case "quit":
                     try {
@@ -75,13 +96,11 @@ public abstract class InputHandler {
                     }
                 default:
                     System.out.println("Please enter a valid command");
-
             }
-
         }
     }
 
-    // Create a new lead
+    // Creates a new lead, called by welcome()
     public static void newLead() {
         String tempName;
         String tempPhoneNumber;
@@ -100,6 +119,7 @@ public abstract class InputHandler {
     }
 
     // ---HELPER FUNCTION USED BY newLead()---//
+
     // newLead() helper method with name input validation
     public static String setName() {
         String name;
@@ -155,7 +175,7 @@ public abstract class InputHandler {
 
             if(email.length() < 4) {
                 System.out.println("Email must be more than 4 characters long");
-            }else if (!email.matches("^(.+)@(.+)$")){
+            }else if (!email.matches("^(.+)@(.+)\\.(.+)$")){
                 System.out.println("Please enter a valid email address");;
             }else{
                 break;
@@ -182,5 +202,9 @@ public abstract class InputHandler {
         System.out.println("The registered company name is: " + companyName + "\n");
         return companyName;
     }
-    //---------------------------------------//
+    //----------------------------------------//
+
+    public static void showLeads() {
+        System.out.println(DatabaseManager.getLeads());
+    }
 }
