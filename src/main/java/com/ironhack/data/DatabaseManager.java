@@ -1,8 +1,8 @@
-package com.ironhack.databasemanager;
+package com.ironhack.data;
 
-import Contact.Contact;
-import ContactInfo.ContactInfo;
-import Lead.Lead;
+import com.ironhack.contact.Contact;
+import com.ironhack.contact.ContactInfo;
+import com.ironhack.contact.Lead;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -10,7 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public abstract class DatabaseManager {
@@ -79,5 +78,10 @@ public abstract class DatabaseManager {
             destination.addAll(Arrays.asList(tmpType));
         }
         else{if (!leadsDBFile.createNewFile()){throw new IOException("Can't create DB file!");}}
+    }
+
+    // InputHandler uses this method to add lead to lead array
+    public static void addLead(Lead lead) {
+        leads.add(lead);
     }
 }
