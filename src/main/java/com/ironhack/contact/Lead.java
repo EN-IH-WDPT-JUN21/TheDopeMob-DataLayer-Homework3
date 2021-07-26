@@ -1,7 +1,4 @@
-package Lead;
-
-import Contact.Contact;
-import ContactInfo.ContactInfo;
+package com.ironhack.contact;
 
 public class Lead extends ContactInfo {
 

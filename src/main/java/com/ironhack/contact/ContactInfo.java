@@ -1,4 +1,4 @@
-package ContactInfo;
+package com.ironhack.contact;
 
 import java.util.Objects;
 
