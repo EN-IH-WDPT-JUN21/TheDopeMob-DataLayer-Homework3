@@ -1,2 +1,5 @@
-package Opportunity;public enum Product {
+package Opportunity;
+
+public enum Product {
+    HYBRID, FLATBED, BOX
 }
