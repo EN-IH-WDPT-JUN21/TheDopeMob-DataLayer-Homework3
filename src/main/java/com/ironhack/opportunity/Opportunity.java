@@ -1,4 +1,5 @@
-package Opportunity;
+/*
+package com.ironhack.opportunity;
 
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
@@ -131,7 +132,4 @@ import javax.swing.JLabel;
             }
         }
     }
-
-
-
-}
+*/

@@ -13,8 +13,17 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public abstract class DatabaseManager {
-    private static final String LEADS_DB_PATH = "leads.json";
-    private static final String CONTACTS_DB_PATH = "contacts.json";
+    private static String LEADS_DB_PATH = "leads.json";
+
+    public static void setLeadsDbPath(String leadsDbPath) {
+        LEADS_DB_PATH = leadsDbPath;
+    }
+
+    public static void setContactsDbPath(String contactsDbPath) {
+        CONTACTS_DB_PATH = contactsDbPath;
+    }
+
+    private static String CONTACTS_DB_PATH = "contacts.json";
 
     private static final ArrayList<Lead> leads = new ArrayList<>();
     private static final ArrayList<ContactInfo> contacts = new ArrayList<>();
@@ -36,9 +45,13 @@ public abstract class DatabaseManager {
 
 
 
-    public static void save() throws IOException {
-        saveDB(LEADS_DB_PATH, leads);
-        saveDB(CONTACTS_DB_PATH, contacts);
+    public static void save() {
+        try{
+            saveDB(LEADS_DB_PATH, leads);
+            saveDB(CONTACTS_DB_PATH, contacts);
+        } catch (IOException e) {
+            System.err.println("Failed to save new lead(s) to leads.json");
+        }
     }
     public static void reset(){
         leads.clear();
@@ -50,6 +63,7 @@ public abstract class DatabaseManager {
             fw.append(gson.toJson(content));
             fw.close();
     }
+
     private static void saveDB(String filePath, Object content) throws IOException {
         File file = new File(filePath);
         if (file.exists()){ appendFile(file, content); }
@@ -60,9 +74,14 @@ public abstract class DatabaseManager {
         }
     }
 
-    public static void load() throws IOException {
-        loadDB(LEADS_DB_PATH, leads, new Lead[]{});
-        loadDB(CONTACTS_DB_PATH, contacts, new Contact[]{});
+    public static void load() {
+        try{
+            loadDB(LEADS_DB_PATH, leads, new Lead[]{});
+            loadDB(CONTACTS_DB_PATH, contacts, new Contact[]{});
+        } catch (IOException e) {
+            System.err.println("Unable to load databases");
+        }
+
     }
     private static void loadDB(String filePath, ArrayList destination, Object[] tmpType) throws IOException {
         File leadsDBFile = new File(filePath);
@@ -72,10 +91,11 @@ public abstract class DatabaseManager {
             while (scn.hasNext()){
                 content.append(scn.nextLine());
             }
-            Gson gson = new Gson();
-            tmpType = gson.fromJson(content.toString(),tmpType.getClass());
-            destination.clear();
-            destination.addAll(Arrays.asList(tmpType));
+                Gson gson = new Gson();
+                tmpType = gson.fromJson(content.toString(),tmpType.getClass());
+                destination.clear();
+                destination.addAll(Arrays.asList(tmpType));
+
         }
         else{if (!leadsDBFile.createNewFile()){throw new IOException("Can't create DB file!");}}
     }
@@ -83,5 +103,13 @@ public abstract class DatabaseManager {
     // InputHandler uses this method to add lead to lead array
     public static void addLead(Lead lead) {
         leads.add(lead);
+    }
+
+    public static int findLastLeadId() {
+        if(leads.isEmpty()) {
+            return 1;
+        } else {
+            return leads.get(leads.size() - 1).getId() + 1;
+        }
     }
 }

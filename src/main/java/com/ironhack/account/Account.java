@@ -1,21 +1,18 @@
-package Account;
+package com.ironhack.account;
+
+import com.ironhack.contact.Contact;
+import com.ironhack.opportunity.OpportunityNew;
 
 import java.util.ArrayList;
-
-//enum
-enum Industry{
-    PRODUCE,
-    ECOMMERCE,
-    MANUFACTURING,
-    MEDICAL,
-    OTHER
-}
 
 public class Account {
     int id;
     int employeeCount;
+    IndustryEnum type;
     String city;
     String Country;
+    ArrayList<Contact> contactList;
+    ArrayList<OpportunityNew> opportunityList;
 
 //Constructor
     public Account(int id, int employeeCount, String city, String country) {
