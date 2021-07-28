@@ -1,10 +1,11 @@
 package com.ironhack.contact;
 
+import com.ironhack.data.DatabaseManager;
+
 import java.util.Objects;
 
 public abstract class ContactInfo {
-    private static int idCounter = 1;
-    private int id = idCounter;
+    private int id;
     private String name;
     private String phoneNumber;
     private String email;
@@ -15,8 +16,7 @@ public abstract class ContactInfo {
         setPhoneNumber(phoneNumber);
         setEmail(email);
         setCompanyName(companyName);
-        setId(id);
-        idCounter++;
+        setId(DatabaseManager.findLastLeadId());
     }
 
     public int getId() {

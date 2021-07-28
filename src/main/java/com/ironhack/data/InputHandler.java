@@ -2,9 +2,7 @@ package com.ironhack.data;
 
 import com.ironhack.contact.Lead;
 
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 public abstract class InputHandler {
 
@@ -14,39 +12,9 @@ public abstract class InputHandler {
         String actionCommand;
         String commandId;
 
-        try {
-            int animationFrames = 0;
-            while (animationFrames < 3) {
-                System.out.print("\r.");
-                System.out.flush();
-                Thread.sleep(200);
-                System.out.print("\r :");
-                System.out.flush();
-                Thread.sleep(200);
-                System.out.print("\r  0");
-                System.out.flush();
-                Thread.sleep(200);
-                System.out.print("\r   :");
-                System.out.flush();
-                Thread.sleep(200);
-                System.out.print("\r    .");
-                System.out.flush();
-                Thread.sleep(200);
-                System.out.print("\r   :");
-                System.out.flush();
-                Thread.sleep(200);
-                System.out.print("\r  0");
-                System.out.flush();
-                Thread.sleep(200);
-                System.out.print("\r :");
-                System.out.flush();
-                Thread.sleep(200);
-                animationFrames++;
-            }
-        }catch(InterruptedException e) {
-            e.printStackTrace();
-            System.out.println("Thread was interrupted");
-        }
+        // Load database leads.json and contacts.json
+        DatabaseManager.load();
+
         try {
             System.out.println("\r***Log in successful***");
             Thread.sleep(1000);
@@ -57,6 +25,8 @@ public abstract class InputHandler {
             e.printStackTrace();
             System.out.println("Thread was interrupted");
         }
+
+
 
         Scanner scanner = new Scanner(System.in);
 
@@ -99,25 +69,25 @@ public abstract class InputHandler {
                         System.out.println("There is no lead with that id, enter a valid id.\nUse 'show leads' to check all leads");
                     }
                     break;
-                case "lookup opportunity":
+                case "lookup com.ironhack.opportunity":
                     try{
                         lookupOpportunity(commandId);
                     }catch (IndexOutOfBoundsException e) {
-                        System.out.println("There is no opportunity with that id, enter a valid id");
+                        System.out.println("There is no com.ironhack.opportunity with that id, enter a valid id");
                     }
                     break;
                 case "close-won":
                     try{
                         closeWon(commandId);
                     }catch (IndexOutOfBoundsException e){
-                        System.out.println("There is no opportunity with that id, enter a valid id");
+                        System.out.println("There is no com.ironhack.opportunity with that id, enter a valid id");
                     }
                     break;
                 case "close-lost":
                     try{
                         closeLost(commandId);
                     }catch (IndexOutOfBoundsException e){
-                        System.out.println("There is no opportunity with that id, enter a valid id");
+                        System.out.println("There is no com.ironhack.opportunity with that id, enter a valid id");
                     }
                     break;
                 case "quit":
@@ -151,6 +121,7 @@ public abstract class InputHandler {
         tempLead = new Lead(tempName, tempPhoneNumber, tempEmail, tempCompanyName);
 
         DatabaseManager.addLead(tempLead);
+        DatabaseManager.save();
     }
 
     // ---HELPER FUNCTION USED BY newLead()---//
@@ -249,16 +220,16 @@ public abstract class InputHandler {
     }
 
     public static void convertId(String commandId) {
-        System.out.println("Lead converted to opportunity");
+        System.out.println("Lead converted to com.ironhack.opportunity");
     }
 
     public static void lookupOpportunity(String commandId){
-        System.out.println("Retrieved " + commandId + " opportunity");
+        System.out.println("Retrieved " + commandId + "com/ironhack/opportunity");
     }
     public static void closeWon(String commandId) {
-        System.out.println("Closed won opportunity with id: " + commandId);
+        System.out.println("Closed won com.ironhack.opportunity with id: " + commandId);
     }
     public static void closeLost(String commandId) {
-        System.out.println("Closed lost opportunity with id: " + commandId);
+        System.out.println("Closed lost com.ironhack.opportunity with id: " + commandId);
     }
 }
