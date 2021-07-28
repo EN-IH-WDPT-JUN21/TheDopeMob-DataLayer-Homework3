@@ -216,7 +216,11 @@ public abstract class InputHandler {
     }
 
     public static void lookupLeads(String commandId) {
-        System.out.println(DatabaseManager.getLeads().get(Integer.parseInt(commandId) - 1));
+        try{
+            System.out.println(DatabaseManager.findLeadById(Integer.parseInt(commandId)));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void convertId(String commandId) {

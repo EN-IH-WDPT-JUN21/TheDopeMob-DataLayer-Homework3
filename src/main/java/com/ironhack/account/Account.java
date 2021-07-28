@@ -1,7 +1,7 @@
 package com.ironhack.account;
 
 import com.ironhack.contact.Contact;
-import com.ironhack.opportunity.OpportunityNew;
+import com.ironhack.opportunity.Opportunity;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ public class Account {
     String city;
     String Country;
     ArrayList<Contact> contactList;
-    ArrayList<OpportunityNew> opportunityList;
+    ArrayList<Opportunity> opportunityList;
 
 //Constructor
     public Account(int id, int employeeCount, String city, String country) {

@@ -4,6 +4,7 @@ import com.ironhack.contact.Contact;
 import com.ironhack.contact.ContactInfo;
 import com.ironhack.contact.Lead;
 import com.google.gson.Gson;
+import com.ironhack.opportunity.Opportunity;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -13,20 +14,14 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public abstract class DatabaseManager {
-    private static String LEADS_DB_PATH = "leads.json";
 
-    public static void setLeadsDbPath(String leadsDbPath) {
-        LEADS_DB_PATH = leadsDbPath;
-    }
-
-    public static void setContactsDbPath(String contactsDbPath) {
-        CONTACTS_DB_PATH = contactsDbPath;
-    }
-
-    private static String CONTACTS_DB_PATH = "contacts.json";
+    private static final String LEADS_DB_PATH = "leads.json";
+    private static final String CONTACTS_DB_PATH = "contacts.json";
+    private static final String OPPORTUNITIES_DB_PATH = "opportunities.json";
 
     private static final ArrayList<Lead> leads = new ArrayList<>();
     private static final ArrayList<ContactInfo> contacts = new ArrayList<>();
+    private static final ArrayList<Opportunity> opportunities = new ArrayList<>();
 
     public static ArrayList<Lead> getLeads() {
         return leads;
@@ -45,10 +40,12 @@ public abstract class DatabaseManager {
 
 
 
+
     public static void save() {
         try{
             saveDB(LEADS_DB_PATH, leads);
             saveDB(CONTACTS_DB_PATH, contacts);
+            saveDB(OPPORTUNITIES_DB_PATH, opportunities);
         } catch (IOException e) {
             System.err.println("Failed to save new lead(s) to leads.json");
         }
@@ -56,6 +53,7 @@ public abstract class DatabaseManager {
     public static void reset(){
         leads.clear();
         contacts.clear();
+        opportunities.clear();
     }
     private static void appendFile(File file, Object content) throws IOException {
             Gson gson = new Gson();
@@ -78,6 +76,7 @@ public abstract class DatabaseManager {
         try{
             loadDB(LEADS_DB_PATH, leads, new Lead[]{});
             loadDB(CONTACTS_DB_PATH, contacts, new Contact[]{});
+            loadDB(OPPORTUNITIES_DB_PATH, opportunities, new Opportunity[]{});
         } catch (IOException e) {
             System.err.println("Unable to load databases");
         }
@@ -100,7 +99,7 @@ public abstract class DatabaseManager {
         else{if (!leadsDBFile.createNewFile()){throw new IOException("Can't create DB file!");}}
     }
 
-    // InputHandler uses this method to add lead to lead array
+    // LEADS METHODS
     public static void addLead(Lead lead) {
         leads.add(lead);
     }
@@ -111,5 +110,24 @@ public abstract class DatabaseManager {
         } else {
             return leads.get(leads.size() - 1).getId() + 1;
         }
+    }
+
+    public static Lead findLeadById(int id) throws IllegalArgumentException {
+        for (Lead lead : leads) {
+            if(lead.getId() == id) {
+                return lead;
+            }
+        }
+        throw new IllegalArgumentException("No lead matching provided id");
+    }
+
+    // OPPORTUNITIES METHODS
+    public static Opportunity findOpportunityById(int id) throws IllegalArgumentException {
+        for (Opportunity opportunity : opportunities) {
+            if(opportunity.getId() == id) {
+                return opportunity;
+            }
+        }
+        throw new IllegalArgumentException("No opportunity matching provided id");
     }
 }
