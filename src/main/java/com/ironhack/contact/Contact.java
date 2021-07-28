@@ -1,6 +1,4 @@
-package Contact;
-
-import ContactInfo.ContactInfo;
+package com.ironhack.contact;
 
 public class Contact extends ContactInfo {
 

@@ -1,20 +1,22 @@
-package com.ironhack.databasemanager;
+package com.ironhack.data;
 
-import Contact.Contact;
-import Lead.Lead;
+import com.ironhack.contact.Contact;
+import com.ironhack.contact.Lead;
 import com.google.gson.Gson;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseManagerTest {
+
     @Test
     public void reset_method_insert_sample_data_assert_database_is_rested(){
         //Create test data to be saved in leads db file
