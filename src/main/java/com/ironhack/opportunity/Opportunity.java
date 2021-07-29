@@ -1,18 +1,18 @@
 package com.ironhack.opportunity;
 
 import com.ironhack.contact.Contact;
+import com.ironhack.data.DatabaseManager;
 
 public class Opportunity {
-    private static int idCounter = 1;
-    private int id = idCounter;
+    private int id;
     private Product product;
     private int quantity;
     private Contact contact;
     private Status status;
 
     //Constructor
-    public Opportunity(int id, Product product, int quantity, Contact contact) {
-        setId(id);
+    public Opportunity(Product product, int quantity, Contact contact) {
+        setId(DatabaseManager.findLastOpportunityId());
         setProduct(product);
         setQuantity(quantity);
         setContact(contact);
@@ -26,7 +26,6 @@ public class Opportunity {
 
     public void setId(int id) {
         this.id = id;
-        idCounter++;
     }
 
     public Product getProduct() {
