@@ -5,6 +5,7 @@ import com.ironhack.contact.ContactInfo;
 import com.ironhack.contact.Lead;
 import com.google.gson.Gson;
 import com.ironhack.opportunity.Opportunity;
+import com.ironhack.opportunity.Product;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -93,7 +94,9 @@ public abstract class DatabaseManager {
                 Gson gson = new Gson();
                 tmpType = gson.fromJson(content.toString(),tmpType.getClass());
                 destination.clear();
-                destination.addAll(Arrays.asList(tmpType));
+                if (content.length()!=0){
+                    destination.addAll(Arrays.asList(tmpType));
+                }
 
         }
         else{if (!leadsDBFile.createNewFile()){throw new IOException("Can't create DB file!");}}
@@ -111,6 +114,13 @@ public abstract class DatabaseManager {
             return leads.get(leads.size() - 1).getId() + 1;
         }
     }
+    public static int findLastOpportunityId() {
+        if(opportunities.isEmpty()) {
+            return 1;
+        } else {
+            return opportunities.get(opportunities.size() - 1).getId() + 1;
+        }
+    }
 
     public static Lead findLeadById(int id) throws IllegalArgumentException {
         for (Lead lead : leads) {
@@ -121,6 +131,7 @@ public abstract class DatabaseManager {
         throw new IllegalArgumentException("No lead matching provided id");
     }
 
+
     // OPPORTUNITIES METHODS
     public static Opportunity findOpportunityById(int id) throws IllegalArgumentException {
         for (Opportunity opportunity : opportunities) {
@@ -129,5 +140,59 @@ public abstract class DatabaseManager {
             }
         }
         throw new IllegalArgumentException("No opportunity matching provided id");
+    }
+
+    public static void convertLeadToOpportunity(int id){
+        //Find lead by ID, throw an exception if it won't find a lead
+        try{
+            Lead lead = findLeadById(id);
+            //Create a Contact with the found lead data
+            Contact contact = new Contact(lead.getName(),lead.getPhoneNumber(),lead.getPhoneNumber(),lead.getCompanyName());
+            //Ask the user about type of the product
+            boolean validProductInput=false;
+            Product product = null;
+            while(!validProductInput){
+                Scanner scn = new Scanner(System.in);
+                System.out.println("Please input the product: 1. HYBRID, 2.FLATBED 3. BOX");
+                int input = scn.nextInt();
+                //scn.close();
+                switch (input){
+                    case 1:
+                        product = Product.HYBRID;
+                        validProductInput = true;
+                        break;
+                    case 2:
+                        product = Product.FLATBED;
+                        validProductInput = true;
+                        break;
+                    case 3:
+                        product = Product.BOX;
+                        validProductInput = true;
+                        break;
+                    default:
+                        System.out.println("Please input the valid number");
+                }
+            }
+            Scanner scanner = new Scanner(System.in);
+            int numberOfTrucks;
+            do {
+                System.out.println("Please enter a number");
+                numberOfTrucks = scanner.nextInt();
+                }
+            while (numberOfTrucks < 1);
+
+            //Create an Opportunity from found Lead
+            Opportunity opportunity = new Opportunity(product,numberOfTrucks,contact);
+            //Add the new contact and opportunity to the database
+            contacts.add(contact);
+            opportunities.add(opportunity);
+            //Delete the lead from DB
+            leads.remove(lead);
+            //save the database
+            save();
+            System.out.println("Lead successfully converted");
+        }catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
     }
 }

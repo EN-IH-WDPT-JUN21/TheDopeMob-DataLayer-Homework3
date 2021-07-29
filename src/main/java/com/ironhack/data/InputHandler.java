@@ -224,7 +224,7 @@ public abstract class InputHandler {
     }
 
     public static void convertId(String commandId) {
-        System.out.println("Lead converted to com.ironhack.opportunity");
+        DatabaseManager.convertLeadToOpportunity(Integer.parseInt(commandId));
     }
 
     public static void lookupOpportunity(String commandId){
