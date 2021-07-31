@@ -1,1 +1,1 @@
-[{"id":1,"product":"HYBRID","quantity":10,"contact":{"id":3,"name":"me yo","phoneNumber":"123456789","email":"123456789","companyName":"eee"},"status":"OPEN"},{"id":2,"product":"HYBRID","quantity":1000,"contact":{"id":3,"name":"Sun Yo","phoneNumber":"987654321","email":"987654321","companyName":"woo"},"status":"OPEN"}]
+[{"id":1,"product":"HYBRID","quantity":50,"contact":{"id":2,"name":"Mickey Mouse","phoneNumber":"111111111","email":"mickey@mouse.com","companyName":"Disney"},"status":"CLOSED_WON"}]

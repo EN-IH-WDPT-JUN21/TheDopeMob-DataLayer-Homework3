@@ -11,7 +11,7 @@ public class Opportunity {
     private Status status;
 
     //Constructor
-    public Opportunity(Product product, int quantity, Contact contact) {
+    public Opportunity(int product, int quantity, Contact contact) {
         setId(DatabaseManager.findLastOpportunityId());
         setProduct(product);
         setQuantity(quantity);
@@ -32,8 +32,10 @@ public class Opportunity {
         return product;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProduct(int product) {
+        if(product == 1) this.product = Product.HYBRID;
+        if(product == 2) this.product = Product.FLATBED;
+        if(product == 3) this.product = Product.BOX;
     }
 
     public int getQuantity() {
