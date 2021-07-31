@@ -11,6 +11,18 @@ public abstract class InputHandler {
         String fullCommand;
         String actionCommand;
         String commandId;
+        //List of all commands
+        String[] commands = new String[]{
+                "new lead",
+                "show leads",
+                "lookup lead {Id}",
+                "convert {Id}",
+                "lookup opportunity {Id}",
+                "close-won {Id}",
+                "close-lost {Id}",
+                "help",
+                "quit"
+        };
 
         // Load database leads.json and contacts.json
         DatabaseManager.load();
@@ -20,7 +32,7 @@ public abstract class InputHandler {
             Thread.sleep(1000);
             System.out.println("\nWelcome Gustavo");
             Thread.sleep(1000);
-            System.out.println("\nInstructions");
+            System.out.println("\nType HELP to print all available commands.");
         }catch(InterruptedException e) {
             e.printStackTrace();
             System.out.println("Thread was interrupted");
@@ -69,25 +81,31 @@ public abstract class InputHandler {
                         System.out.println("There is no lead with that id, enter a valid id.\nUse 'show leads' to check all leads");
                     }
                     break;
-                case "lookup com.ironhack.opportunity":
+                case "lookup opportunity":
                     try{
                         lookupOpportunity(commandId);
                     }catch (IndexOutOfBoundsException e) {
-                        System.out.println("There is no com.ironhack.opportunity with that id, enter a valid id");
+                        System.out.println("There is no opportunity with that id, enter a valid id");
                     }
                     break;
                 case "close-won":
                     try{
                         closeWon(commandId);
                     }catch (IndexOutOfBoundsException e){
-                        System.out.println("There is no com.ironhack.opportunity with that id, enter a valid id");
+                        System.out.println("There is no opportunity with that id, enter a valid id");
                     }
                     break;
                 case "close-lost":
                     try{
                         closeLost(commandId);
                     }catch (IndexOutOfBoundsException e){
-                        System.out.println("There is no com.ironhack.opportunity with that id, enter a valid id");
+                        System.out.println("There is no opportunity with that id, enter a valid id");
+                    }
+                    break;
+                case "help":
+                    System.out.println("Available commands:");
+                    for (String command : commands){
+                        System.out.println(command);
                     }
                     break;
                 case "quit":
@@ -224,7 +242,7 @@ public abstract class InputHandler {
     }
 
     public static void convertId(String commandId) {
-        DatabaseManager.convertLeadToOpportunity(Integer.parseInt(commandId));
+        DatabaseManager.convertLead(Integer.parseInt(commandId));
     }
 
     public static void lookupOpportunity(String commandId){
