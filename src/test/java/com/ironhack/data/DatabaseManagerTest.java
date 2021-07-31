@@ -18,17 +18,19 @@ import static org.junit.jupiter.api.Assertions.*;
 class DatabaseManagerTest {
     @BeforeAll
     public static void setUp(){
-        DatabaseManager.setContactsDbPath("test_contacts.json");
-        DatabaseManager.setLeadsDbPath("test_leads.json");
-        DatabaseManager.setOpportunitiesDbPath("test_opportunities.json");
+        DatabaseManager.setContactsDbPath("src/test/java/com/ironhack/databases/test_contacts.json");
+        DatabaseManager.setLeadsDbPath("src/test/java/com/ironhack/databases/test_leads.json");
+        DatabaseManager.setOpportunitiesDbPath("src/test/java/com/ironhack/databases/test_opportunities.json");
+        DatabaseManager.setAccountsDbPath("src/test/java/com/ironhack/databases/test_accounts.json");
 
     }
     @AfterAll
     public static void tearDown(){
         DatabaseManager.reset();
-        DatabaseManager.setContactsDbPath("contacts.json");
-        DatabaseManager.setLeadsDbPath("leads.json");
-        DatabaseManager.setOpportunitiesDbPath("opportunities.json");
+        DatabaseManager.setContactsDbPath("src/main/java/com/ironhack/databases/contacts.json");
+        DatabaseManager.setLeadsDbPath("src/main/java/com/ironhack/databases/leads.json");
+        DatabaseManager.setOpportunitiesDbPath("src/main/java/com/ironhack/databases/opportunities.json");
+        DatabaseManager.setAccountsDbPath("src/main/java/com/ironhack/databases/accounts.json");
     }
 
     @Test
