@@ -12,14 +12,4 @@ class LeadTest {
         leadUnderTest = new Lead("name", "phoneNumber", "email", "companyName");
     }
 
-    @Test
-    void testConvertLead() {
-        // Setup
-        final Lead lead = new Lead("name", "phoneNumber", "email", "companyName");
-
-        // Run the test
-        leadUnderTest.convertLead(lead);
-
-        // Verify the results
-    }
 }

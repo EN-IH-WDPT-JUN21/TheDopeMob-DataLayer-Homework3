@@ -164,6 +164,7 @@ public abstract class InputHandler {
                 break;
             }
         }
+
         System.out.println("The registered name is: " + name + "\n");
         return name;
     }

@@ -21,6 +21,7 @@ class DatabaseManagerTest {
         DatabaseManager.setContactsDbPath("test_contacts.json");
         DatabaseManager.setLeadsDbPath("test_leads.json");
         DatabaseManager.setOpportunitiesDbPath("test_opportunities.json");
+
     }
     @AfterAll
     public static void tearDown(){
