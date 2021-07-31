@@ -1,5 +1,6 @@
 package com.ironhack.data;
 
+import com.ironhack.commons.Commons;
 import com.ironhack.contact.Contact;
 import com.ironhack.contact.ContactInfo;
 import com.ironhack.contact.Lead;
@@ -149,38 +150,20 @@ public abstract class DatabaseManager {
             //Create a Contact with the found lead data
             Contact contact = new Contact(lead.getName(),lead.getPhoneNumber(),lead.getPhoneNumber(),lead.getCompanyName());
             //Ask the user about type of the product
-            boolean validProductInput=false;
+            int input = Commons.GetNumericInputFromUserInRange("Please input the product: 1. HYBRID, 2.FLATBED 3. BOX",1,3);
             Product product = null;
-            while(!validProductInput){
-                Scanner scn = new Scanner(System.in);
-                System.out.println("Please input the product: 1. HYBRID, 2.FLATBED 3. BOX");
-                int input = scn.nextInt();
-                //scn.close();
-                switch (input){
-                    case 1:
-                        product = Product.HYBRID;
-                        validProductInput = true;
-                        break;
-                    case 2:
-                        product = Product.FLATBED;
-                        validProductInput = true;
-                        break;
-                    case 3:
-                        product = Product.BOX;
-                        validProductInput = true;
-                        break;
-                    default:
-                        System.out.println("Please input the valid number");
+            switch (input){
+                case 1:
+                    product = Product.HYBRID;
+                    break;
+                case 2:
+                    product = Product.FLATBED;
+                    break;
+                case 3:
+                    product = Product.BOX;
+                    break;
                 }
-            }
-            Scanner scanner = new Scanner(System.in);
-            int numberOfTrucks;
-            do {
-                System.out.println("Please enter a number");
-                numberOfTrucks = scanner.nextInt();
-                }
-            while (numberOfTrucks < 1);
-
+            int numberOfTrucks = Commons.GetNumericInputFromUserInRange("Please enter a number",1,999999);
             //Create an Opportunity from found Lead
             Opportunity opportunity = new Opportunity(product,numberOfTrucks,contact);
             //Add the new contact and opportunity to the database
