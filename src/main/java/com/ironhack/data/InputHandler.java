@@ -1,5 +1,6 @@
 package com.ironhack.data;
 
+import com.ironhack.contact.Contact;
 import com.ironhack.contact.Lead;
 
 import java.util.Scanner;
@@ -243,11 +244,26 @@ public abstract class InputHandler {
     }
 
     public static void convertId(String commandId) {
-        DatabaseManager.convertLead(Integer.parseInt(commandId));
+        String product = "0";
+        String numberOfProduct = "0";
+        Lead currentLead = DatabaseManager.findLeadById(Integer.parseInt(commandId));
+        Contact decisionMaker = new Contact(currentLead.getName(), currentLead.getPhoneNumber(), currentLead.getEmail(), currentLead.getCompanyName());
+        Scanner scanner = new Scanner(System.in);
+        while(!(product.equals("1")  || product.equals("2") || product.equals("3"))) {
+            System.out.println("Select product:\n1. HYBRID\n2. FLATBED\n3. BOX");
+            product = scanner.nextLine();
+        }
+        while(numberOfProduct == "0") {
+            System.out.println("Enter quantity of product");
+            numberOfProduct = scanner.nextLine();
+        }
+
+        DatabaseManager.convertLead(Integer.parseInt(product), Integer.parseInt(numberOfProduct), decisionMaker);
+        DatabaseManager.getLeads().remove(currentLead);
     }
 
     public static void lookupOpportunity(String commandId){
-        System.out.println("Retrieved " + commandId + "com/ironhack/opportunity");
+        System.out.println(DatabaseManager.findOpportunityById(Integer.parseInt(commandId)));
     }
     public static void closeWon(String commandId) {
         System.out.println("Closed won com.ironhack.opportunity with id: " + commandId);

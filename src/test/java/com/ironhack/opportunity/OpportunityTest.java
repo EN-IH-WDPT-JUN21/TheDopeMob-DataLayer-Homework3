@@ -18,7 +18,7 @@ class OpportunityTest {
     @BeforeEach
     void setUp() {
         initMocks(this);
-        opportunityUnderTest = new Opportunity(Product.HYBRID, 0, mockContact);
+        opportunityUnderTest = new Opportunity(1, 0, mockContact);
     }
 
     @Test

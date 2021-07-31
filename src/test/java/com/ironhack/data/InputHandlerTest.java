@@ -20,24 +20,29 @@ class InputHandlerTest {
         DatabaseManager.load();
         DatabaseManager.reset();
         DatabaseManager.save();
-        DatabaseManager.addLead(new Lead("Test Lead", "123456789", "hola@something.io", "The Dope Mob" ));
-        DatabaseManager.save();
+
 
     }
 
     @AfterAll
     static void restoreDefaultState() {
         // Restore default state and databases
-        DatabaseManager.reset();
-        DatabaseManager.save();
         DatabaseManager.setContactsDbPath("contacts.json");
         DatabaseManager.setLeadsDbPath("leads.json");
         DatabaseManager.setOpportunitiesDbPath("opportunities.json");
     }
 
+    @BeforeEach
+    void setUp() {
+        DatabaseManager.addLead(new Lead("Test Lead", "123456789", "hola@something.io", "The Dope Mob" ));
+        DatabaseManager.save();
+    }
+
     @AfterEach
     void tearDown() {
         // Restore standard input and output to default after each test
+        DatabaseManager.reset();
+        DatabaseManager.save();
         System.setIn(System.in);
         System.setOut(System.out);
     }
@@ -94,9 +99,21 @@ class InputHandlerTest {
 
     @Test
     @DisplayName("Should convert lead to opportunity")
-    void convertLeadToOpportunity() {
+    void convertLeadToOpportunityTest() {
+        System.setIn(new ByteArrayInputStream("1\n50\n".getBytes()));
         InputHandler.convertId("1");
         assertTrue(DatabaseManager.getOpportunities().size() == 1);
+    }
+
+    @Test
+    @DisplayName("Should display selected opportunity")
+    void lookupOpportunityTest() {
+        System.setIn(new ByteArrayInputStream("1\n50\n".getBytes()));
+        InputHandler.convertId("1");
+        ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStreamCaptor));
+        InputHandler.lookupOpportunity("1");
+        assertEquals("Opportunity{id=1, product=HYBRID, quantity=50, contact={id=2, name='Test Lead', phoneNumber='123456789', email='hola@something.io', companyName='The Dope Mob'}, status=OPEN}", outputStreamCaptor.toString().trim());
     }
 
 }
