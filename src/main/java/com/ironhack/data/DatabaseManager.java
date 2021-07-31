@@ -17,9 +17,9 @@ import java.util.Scanner;
 
 public abstract class DatabaseManager {
 
-    private static final String LEADS_DB_PATH = "leads.json";
-    private static final String CONTACTS_DB_PATH = "contacts.json";
-    private static final String OPPORTUNITIES_DB_PATH = "opportunities.json";
+    private static String LEADS_DB_PATH = "leads.json";
+    private static String CONTACTS_DB_PATH = "contacts.json";
+    private static String OPPORTUNITIES_DB_PATH = "opportunities.json";
 
     private static final ArrayList<Lead> leads = new ArrayList<>();
     private static final ArrayList<ContactInfo> contacts = new ArrayList<>();
@@ -40,8 +40,16 @@ public abstract class DatabaseManager {
         return CONTACTS_DB_PATH;
     }
 
-
-
+    //Setters are needed for switching to test database, in production code it won't be used
+    public static void setLeadsDbPath(String leadsDbPath) {
+        LEADS_DB_PATH = leadsDbPath;
+    }
+    public static void setContactsDbPath(String contactsDbPath) {
+        CONTACTS_DB_PATH = contactsDbPath;
+    }
+    public static void setOpportunitiesDbPath(String opportunitiesDbPath) {
+        OPPORTUNITIES_DB_PATH = opportunitiesDbPath;
+    }
 
     public static void save() {
         try{

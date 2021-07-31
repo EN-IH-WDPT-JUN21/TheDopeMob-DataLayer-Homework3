@@ -16,6 +16,19 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseManagerTest {
+    @BeforeAll
+    public static void setUp(){
+        DatabaseManager.setContactsDbPath("test_contacts.json");
+        DatabaseManager.setLeadsDbPath("test_leads.json");
+        DatabaseManager.setOpportunitiesDbPath("test_opportunities.json");
+    }
+    @AfterAll
+    public static void tearDown(){
+        DatabaseManager.reset();
+        DatabaseManager.setContactsDbPath("contacts.json");
+        DatabaseManager.setLeadsDbPath("leads.json");
+        DatabaseManager.setOpportunitiesDbPath("opportunities.json");
+    }
 
     @Test
     public void reset_method_insert_sample_data_assert_database_is_rested(){
