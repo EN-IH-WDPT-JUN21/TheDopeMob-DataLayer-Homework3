@@ -25,7 +25,7 @@ public abstract class DatabaseManager {
 
     //Main objects of this class, they hold the data
     private static final ArrayList<Lead> leads = new ArrayList<>();
-    private static final ArrayList<ContactInfo> contacts = new ArrayList<>();
+    private static final ArrayList<Contact> contacts = new ArrayList<>();
     private static final ArrayList<Opportunity> opportunities = new ArrayList<>();
     private static final ArrayList<Account> accounts = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public abstract class DatabaseManager {
     public static ArrayList<Lead> getLeads() {
         return leads;
     }
-    public static ArrayList<ContactInfo> getContacts() {
+    public static ArrayList<Contact> getContacts() {
         return contacts;
     }
     public static ArrayList<Opportunity> getOpportunities() {
@@ -136,7 +136,7 @@ public abstract class DatabaseManager {
         else{if (!dbFile.createNewFile()){throw new IOException("Can't create DB file!");}}
     }
 
-    // LEADS METHODS
+    // Leads methods
     public static void addLead(Lead lead) {
         leads.add(lead);
     }
@@ -167,7 +167,7 @@ public abstract class DatabaseManager {
 
     }
 
-    // OPPORTUNITIES METHODS
+    // Opportunity methods
     public static Opportunity findOpportunityById(int id) throws IllegalArgumentException {
         for (Opportunity opportunity : opportunities) {
             if(opportunity.getId() == id) {
@@ -184,4 +184,26 @@ public abstract class DatabaseManager {
         }
     }
 
+    // Account methods
+    public static void createAccount(int industry, int employeeCount, String city, String country) {
+        Account account = new Account(industry, employeeCount, city, country);
+        account.addContactToList(contacts.get(contacts.size() - 1));
+        account.addOpportunityToList(opportunities.get(opportunities.size() - 1));
+        accounts.add(account);
+        save();
+        System.out.println("Account created successfully");
+    }
+    public static int findLastAccountId() {
+        if(accounts.isEmpty()) return 1;
+        else return opportunities.get(opportunities.size() -1).getId() + 1;
+    }
+    public static Account findAccountByOpportunityId(int id) {
+        Account foundAccount = null;
+        for (Account account : accounts) {
+            for (Opportunity opportunity : opportunities) {
+                if (opportunity.getId() == id) foundAccount = account;
+            }
+        }
+        return foundAccount;
+    }
 }

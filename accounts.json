@@ -1,1 +1,1 @@
-[]
+[{"id":1,"employeeCount":50,"type":"PRODUCE","city":"Sevilla","Country":"Spain","contactList":[{"id":2,"name":"Mickey Mouse","phoneNumber":"111111111","email":"mickey@mouse.com","companyName":"Disney"}],"opportunityList":[{"id":1,"product":"HYBRID","quantity":50,"contact":{"id":2,"name":"Mickey Mouse","phoneNumber":"111111111","email":"mickey@mouse.com","companyName":"Disney"},"status":"OPEN"}]}]
