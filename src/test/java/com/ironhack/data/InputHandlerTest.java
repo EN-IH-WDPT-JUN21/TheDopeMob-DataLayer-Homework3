@@ -14,9 +14,10 @@ class InputHandlerTest {
     @BeforeAll
     static void setForAll() {
         // Set test databases and their state
-        DatabaseManager.setLeadsDbPath("test_leads.json");
-        DatabaseManager.setContactsDbPath("test_contacts.json");
-        DatabaseManager.setOpportunitiesDbPath("test_opportunities.json");
+        DatabaseManager.setLeadsDbPath("src/test/java/com/ironhack/databases/test_accounts.json");
+        DatabaseManager.setContactsDbPath("src/test/java/com/ironhack/databases/test_contacts.json");
+        DatabaseManager.setOpportunitiesDbPath("src/test/java/com/ironhack/databases/test_opportunities.json");
+        DatabaseManager.setAccountsDbPath("src/test/java/com/ironhack/databases/test_accounts.json");
         DatabaseManager.load();
         DatabaseManager.reset();
         DatabaseManager.save();
@@ -27,9 +28,10 @@ class InputHandlerTest {
     @AfterAll
     static void restoreDefaultState() {
         // Restore default state and databases
-        DatabaseManager.setContactsDbPath("contacts.json");
-        DatabaseManager.setLeadsDbPath("leads.json");
-        DatabaseManager.setOpportunitiesDbPath("opportunities.json");
+        DatabaseManager.setContactsDbPath("src/main/java/com/ironhack/databases/contacts.json");
+        DatabaseManager.setLeadsDbPath("src/main/java/com/ironhack/databases/leads.json");
+        DatabaseManager.setOpportunitiesDbPath("src/main/java/com/ironhack/databases/opportunities.json");
+        DatabaseManager.setAccountsDbPath("src/main/java/com/ironhack/databases/accounts.json");
     }
 
     @BeforeEach

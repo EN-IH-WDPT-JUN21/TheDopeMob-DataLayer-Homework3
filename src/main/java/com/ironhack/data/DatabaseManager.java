@@ -18,10 +18,10 @@ import java.util.Scanner;
 public abstract class DatabaseManager {
 
     //Names for database files, they're not final because JUnit tests are changing it so they won't delete the production data
-    private static String LEADS_DB_PATH = "leads.json";
-    private static String CONTACTS_DB_PATH = "contacts.json";
-    private static String OPPORTUNITIES_DB_PATH = "opportunities.json";
-    private static String ACCOUNTS_DB_PATH = "accounts.json";
+    private static String LEADS_DB_PATH = "src/main/java/com/ironhack/databases/leads.json";
+    private static String CONTACTS_DB_PATH = "src/main/java/com/ironhack/databases/contacts.json";
+    private static String OPPORTUNITIES_DB_PATH = "src/main/java/com/ironhack/databases/opportunities.json";
+    private static String ACCOUNTS_DB_PATH = "src/main/java/com/ironhack/databases/accounts.json";
 
     //Main objects of this class, they hold the data
     private static final ArrayList<Lead> leads = new ArrayList<>();
