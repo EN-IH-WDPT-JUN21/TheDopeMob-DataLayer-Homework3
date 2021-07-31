@@ -52,9 +52,12 @@ public abstract class InputHandler {
                 if (fullCommand.split(" ").length == 3) {
                     actionCommand = fullCommand.split(" ")[0] + " " + fullCommand.split(" ")[1];
                     commandId = fullCommand.split(" ")[2];
-                } else {
+                } else if(fullCommand.split(" ").length ==2) {
                     actionCommand = fullCommand.split(" ")[0];
                     commandId = fullCommand.split(" ")[1];
+                } else {
+                    actionCommand = "not valid";
+                    commandId = "0";
                 }
             } else {
                 actionCommand = fullCommand;
@@ -86,6 +89,8 @@ public abstract class InputHandler {
                     try {
                         lookupOpportunity(commandId);
                     } catch (IndexOutOfBoundsException e) {
+                        System.out.println("There is no opportunity with that id, enter a valid id");
+                    } catch (IllegalArgumentException e) {
                         System.out.println("There is no opportunity with that id, enter a valid id");
                     }
                     break;
