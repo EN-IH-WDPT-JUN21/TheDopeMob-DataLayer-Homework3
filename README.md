@@ -1,53 +1,148 @@
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/github_username/repo_name">
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  </a>
+
+<h3 align="center">project_title</h3>
+
+  <p align="center">
+    project_description
+    <br />
+    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    ·
+    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
+  </p>
 
 
-Requirements
 
-For this project you must accomplish all of the following:
 
-Create a use case diagram and add it to your README.md. Create a class diagram and add it to your README.md. Create unit tests for every method other than basic getters, setters, and constructors (getters and setters with logic do require unit tests). Handle all exceptions gracefully (incorrect input should not crash the program). Leads can be added to the CRM by typing the command “New Lead” (case insensitive). When a new Lead is created the user will be prompted for name, phoneNumber, email, and companyName. All fields must be supplied to create the new Lead. The system should automatically create an id for the Lead. This may require some research and Googling to accomplish, but is relatively trivial. Your CRM should keep track of how many objects have been created and provide the current count as the id for each new object. A list of all Leads’ id and name can be displayed by typing “Show Leads” (case insensitive). An individual Lead’s details can be displayed by typing “Lookup Lead id” (case insensitive) where “id” is the actual id of the Lead to lookup. A Lead can be converted to an com.ironhack.opportunity by typing “convert id” (case insensitive) where “id” is the actual id of the Lead to convert. When a Lead is converted, a Contact will be created with the Lead contact info and a new id. When a Lead is converted, the user will be prompted for the product and the number of trucks for this com.ironhack.opportunity. A new com.ironhack.opportunity should be created with the above information and with the new Contact as the decisionMaker for the com.ironhack.opportunity and a status of “OPEN”. To recap, com.ironhack.opportunity should have the following properties:
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
+  </ol>
+</details>
 
-id - a unique identifier
 
-product - an Enum with options HYBRID, FLATBED, or BOX
 
-quantity - the number of trucks being considered for purchase
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-decisionMaker - a Contact
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-status - an Enum with options OPEN, CLOSED_WON, CLOSED_LOST (these are common sales terms indicating an ongoing potential sale, a sale, and an com.ironhack.opportunity where a sale was not made and the sale is no longer a possibility)
+Here's a blank template to get started:
+**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
+`github_username`, `repo_name`, `twitter_handle`, `email`, `project_title`, `project_description`
 
-When a Lead is converted, the user will be prompted for the industry, number of employees, city, and country of the organization. An Account represents the company that is looking to buy a truck. Each Account should have a List of Contacts and a List of Opportunities. To recap, the Account should have the following properties:
 
-id - a unique identifier
+### Built With
 
-industry - an Enum with options PRODUCE, ECOMMERCE, MANUFACTURING, MEDICAL, OTHER
+* []()
+* []()
+* []()
 
-employeeCount - a number representing the number of employees in the company
 
-city - a String
 
-country - a String
+<!-- GETTING STARTED -->
+## Getting Started
 
-contactList - a List of Contacts associated with this Account
+To get a local copy up and running follow these simple steps.
 
-opportunityList - a list of Opportunities associated with this Account
+### Prerequisites
 
-Leads are removed from the system once they have been successfully converted.
+This is an example of how to list things you need to use the software and how to install them.
+* npm
+  ```sh
+  npm install npm@latest -g
+  ```
 
-com.ironhack.opportunity status can be edited using the command “close-lost id” or “close-won id” where “id” is the id of the com.ironhack.opportunity that should be closed.
+### Installation
 
-Note: For simplicity, Lead, Account, and Contact information cannot be updated once the object has been created.
+1. Clone the repo
+   ```sh
+   git clone https://github.com/github_username/repo_name.git
+   ```
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
 
-Note: For simplicity, there is currently no way to associate multiple Contacts or Opportunities with a single Account. These should still be Lists as we will be adding more functionality to this application in the future.
 
-Important Note.
 
-Everyone in the squad should contribute equally to the project in time and in lines of code written.
+<!-- USAGE EXAMPLES -->
+## Usage
 
-All code must be reviewed before it is merged into the master branch.
+Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
-All squad members must participate in code review.
+_For more examples, please refer to the [Documentation](https://example.com)_
 
-Code should not be merged into master if it lacks sufficient test coverage.
 
-This is intended to be a challenging assignment. You will have to rely heavily on your teammates and independent research. Learning independently is a hallmark of a good developer and our job is to turn you into good developers. This process may be frustrating but you will learn a ton!
+
+<!-- ROADMAP -->
+## Roadmap
+
+See the [open issues](https://github.com/github_username/repo_name/issues) for a list of proposed features (and known issues).
+
+
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+
+
+<!-- CONTACT -->
+## Contact
+
+Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
+
+Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+
+
+
+<!-- ACKNOWLEDGEMENTS -->
+## Acknowledgements
+
+* []()
+* []()
+* []()
