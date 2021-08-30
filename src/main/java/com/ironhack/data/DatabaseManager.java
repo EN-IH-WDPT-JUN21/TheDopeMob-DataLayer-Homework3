@@ -1,11 +1,10 @@
 package com.ironhack.data;
 
-import com.ironhack.account.Account;
-import com.ironhack.contact.Contact;
-import com.ironhack.contact.ContactInfo;
-import com.ironhack.contact.Lead;
+import com.ironhack.dao.Account;
+import com.ironhack.dao.Contact;
+import com.ironhack.dao.Lead;
 import com.google.gson.Gson;
-import com.ironhack.opportunity.Opportunity;
+import com.ironhack.dao.Opportunity;
 
 
 import java.io.File;
@@ -185,7 +184,7 @@ public abstract class DatabaseManager {
     }
 
     // Account methods
-    public static void createAccount(int industry, int employeeCount, String city, String country) {
+    public static void createAccount(Long industry, int employeeCount, String city, String country) {
         Account account = new Account(industry, employeeCount, city, country);
         account.addContactToList(contacts.get(contacts.size() - 1));
         account.addOpportunityToList(opportunities.get(opportunities.size() - 1));

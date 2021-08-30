@@ -1,7 +1,7 @@
 package com.ironhack.data;
 
-import com.ironhack.contact.Contact;
-import com.ironhack.contact.Lead;
+import com.ironhack.dao.Contact;
+import com.ironhack.dao.Lead;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

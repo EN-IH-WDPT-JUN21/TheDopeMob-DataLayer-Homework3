@@ -1,7 +1,9 @@
-package com.ironhack.opportunity;
+package com.ironhack.dao;
 
-import com.ironhack.contact.Contact;
 import com.ironhack.data.DatabaseManager;
+import com.ironhack.enums.Product;
+import com.ironhack.enums.Status;
+
 
 public class Opportunity {
     private int id;

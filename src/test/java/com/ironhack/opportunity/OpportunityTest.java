@@ -1,6 +1,7 @@
 package com.ironhack.opportunity;
 
-import com.ironhack.contact.Contact;
+import com.ironhack.dao.Contact;
+import com.ironhack.dao.Opportunity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

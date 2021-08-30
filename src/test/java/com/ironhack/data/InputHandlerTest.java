@@ -1,6 +1,6 @@
 package com.ironhack.data;
 
-import com.ironhack.contact.Lead;
+import com.ironhack.dao.Lead;
 import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayInputStream;
