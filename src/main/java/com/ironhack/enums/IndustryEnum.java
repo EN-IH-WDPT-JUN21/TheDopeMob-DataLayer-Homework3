@@ -1,4 +1,4 @@
-package com.ironhack.account;
+package com.ironhack.enums;
 
 public enum IndustryEnum {
         PRODUCE,

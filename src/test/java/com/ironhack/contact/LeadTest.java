@@ -1,7 +1,7 @@
 package com.ironhack.contact;
 
+import com.ironhack.dao.Lead;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 class LeadTest {
 

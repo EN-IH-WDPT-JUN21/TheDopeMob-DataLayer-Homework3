@@ -1,5 +1,6 @@
 package com.ironhack.contact;
 
+import com.ironhack.dao.Contact;
 import org.junit.jupiter.api.BeforeEach;
 
 class ContactTest {

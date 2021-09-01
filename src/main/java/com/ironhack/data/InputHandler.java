@@ -1,8 +1,8 @@
 package com.ironhack.data;
 
-import com.ironhack.contact.Contact;
-import com.ironhack.contact.Lead;
-import com.ironhack.opportunity.Status;
+import com.ironhack.dao.Contact;
+import com.ironhack.dao.Lead;
+import com.ironhack.enums.Status;
 
 import java.util.Scanner;
 
@@ -294,7 +294,7 @@ public abstract class InputHandler {
             country = scanner.nextLine();
         }
 
-        DatabaseManager.createAccount(Integer.parseInt(industry), Integer.parseInt(employeeCount), city, country);
+        DatabaseManager.createAccount(Long.parseLong(industry), Integer.parseInt(employeeCount), city, country);
     }
 
     public static void lookupOpportunity(String commandId) {
