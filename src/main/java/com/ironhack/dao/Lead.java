@@ -1,11 +1,26 @@
 package com.ironhack.dao;
 
-import com.ironhack.contact.ContactInfo;
 
-public class Lead extends ContactInfo {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-    public Lead(String name, String phoneNumber, String email, String companyName) {
-        super(name, phoneNumber, email, companyName);
-    }
+import javax.persistence.Entity;
+
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Lead {
+
+    private String name;
+
+    private String phoneNumber;
+
+    private String email;
+
+    private String companyName;
 
 }

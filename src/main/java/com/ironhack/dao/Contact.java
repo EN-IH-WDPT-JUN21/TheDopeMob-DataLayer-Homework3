@@ -1,10 +1,27 @@
 package com.ironhack.dao;
 
-import com.ironhack.contact.ContactInfo;
 
-public class Contact extends ContactInfo {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-    public Contact(String name, String phoneNumber, String email, String companyName) {
-        super(name, phoneNumber, email, companyName);
-    }
+import javax.persistence.Entity;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Contact {
+
+    private String name;
+
+    private String phoneNumber;
+
+    private String email;
+
+    private String companyName;
+
+
 }
