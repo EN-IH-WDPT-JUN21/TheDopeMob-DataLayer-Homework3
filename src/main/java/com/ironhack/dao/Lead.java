@@ -1,5 +1,6 @@
 package com.ironhack.dao;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,4 +35,5 @@ public class Lead {
         this.email = email;
         this.companyName = companyName;
     }
+
 }

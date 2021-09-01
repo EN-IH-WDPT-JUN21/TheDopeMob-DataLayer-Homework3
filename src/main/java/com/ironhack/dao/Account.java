@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+    import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 
@@ -46,7 +46,6 @@ public class Account {
 
     public Account(Long industry, int employeeCount, String city, String country) {
     }
-
 
     public void addContactToList(Contact contact) {
         contactList.add(contact);
