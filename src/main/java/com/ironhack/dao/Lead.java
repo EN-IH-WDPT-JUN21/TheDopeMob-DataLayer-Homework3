@@ -16,14 +16,16 @@ import javax.persistence.*;
 public class Lead {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "contact_id")
+    @Column(name = "lead_id")
     private int id;
 
+    @Column(name = "name")
     private String name;
 
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "email")
     private String email;
 
     @Column(name = "company_name")
@@ -35,5 +37,4 @@ public class Lead {
         this.email = email;
         this.companyName = companyName;
     }
-
 }

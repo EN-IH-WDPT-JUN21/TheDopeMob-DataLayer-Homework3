@@ -9,10 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
 
 @Entity
 @Getter
@@ -23,7 +21,7 @@ public class Opportunity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "account_id")
+    @Column(name = "opportunity_id")
     private int id;
 
     @Enumerated(EnumType.STRING)
@@ -33,10 +31,30 @@ public class Opportunity {
     private int quantity;
 
     @NotNull
+    @ManyToOne
+    @JoinColumn(name = "contact_id")
     private Contact contact;
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account accountOpportunity;
+
+    public Opportunity(int product, int quantity, Contact contact) {
+        setId(DatabaseManager.findLastOpportunityId());
+        setProduct(product);
+        setQuantity(quantity);
+        setContact(contact);
+        this.status = Status.OPEN;
+    }
+
+    public void setProduct(int product) {
+        if(product == 1) this.product = Product.HYBRID;
+        if(product == 2) this.product = Product.FLATBED;
+        if(product == 3) this.product = Product.BOX;
+    }
 
     //Methods
     public void opportunityLost(){
@@ -46,5 +64,4 @@ public class Opportunity {
     public void opportunityWon(){
         setStatus(Status.CLOSED_WON);
     }
-
 }

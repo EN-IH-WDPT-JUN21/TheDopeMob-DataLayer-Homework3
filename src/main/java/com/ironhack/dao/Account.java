@@ -10,6 +10,7 @@ import lombok.Setter;
     import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,18 +32,18 @@ public class Account {
     private IndustryEnum type;
 
     @NotBlank(message = "Must supply City")
+    @Column(name = "city")
     private String city;
 
     @NotBlank(message = "Must supply Country")
+    @Column(name = "country")
     private String country;
 
-    @OneToMany(mappedBy = "account_id")
-    @Column(name = "contact_list")
-    private ArrayList<Contact> contactList;
+    @OneToMany(mappedBy = "accountContact")
+    private List<Contact> contactList;
 
-    @OneToMany(mappedBy = "account_id")
-    @Column(name = "opportunity_list")
-    private ArrayList<Opportunity> opportunityList;
+    @OneToMany(mappedBy = "accountOpportunity")
+    private List<Opportunity> opportunityList;
 
     public Account(Long industry, int employeeCount, String city, String country) {
     }
@@ -55,7 +56,7 @@ public class Account {
         opportunityList.add(opportunity);
     }
 
-    public ArrayList<Opportunity> getOpportunityList() {
+    public List<Opportunity> getOpportunityList() {
         return opportunityList;
     }
 
