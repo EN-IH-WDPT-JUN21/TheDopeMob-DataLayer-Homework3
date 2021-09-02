@@ -1,7 +1,7 @@
 package com.ironhack.data;
 
 import com.ironhack.dao.Contact;
-import com.ironhack.dao.Lead;
+import com.ironhack.dao.LeadContact;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -36,9 +36,9 @@ class DatabaseManagerTest {
     @Test
     public void reset_method_insert_sample_data_assert_database_is_rested(){
         //Create test data to be saved in leads db file
-        Lead l1 = new Lead("Adam Test","1234-555", "A.Test@Example.com", "Example");
-        Lead l2 = new Lead("Adam Test","5555555", "A.Test@Example.com", "Example");
-        Lead l3 = new Lead("Adam Test","33334343", "A.Test@Example.com", "Example");
+        LeadContact l1 = new LeadContact("Adam Test","1234-555", "A.Test@Example.com", "Example");
+        LeadContact l2 = new LeadContact("Adam Test","5555555", "A.Test@Example.com", "Example");
+        LeadContact l3 = new LeadContact("Adam Test","33334343", "A.Test@Example.com", "Example");
         //Adds the data to the Leads List throughout a getter.
         DatabaseManager.getLeads().add(l1);
         DatabaseManager.getLeads().add(l2);
@@ -59,9 +59,9 @@ class DatabaseManagerTest {
     public void save_method_insert_sample_data_then_assert_its_saved() throws IOException {
         //Create test data to be saved in leads db file
         DatabaseManager.reset();
-        Lead l1 = new Lead("Adam Test","1234-555", "A.Test@Example.com", "Example");
-        Lead l2 = new Lead("Adam Test","5555555", "A.Test@Example.com", "Example");
-        Lead l3 = new Lead("Adam Test","33334343", "A.Test@Example.com", "Example");
+        LeadContact l1 = new LeadContact("Adam Test","1234-555", "A.Test@Example.com", "Example");
+        LeadContact l2 = new LeadContact("Adam Test","5555555", "A.Test@Example.com", "Example");
+        LeadContact l3 = new LeadContact("Adam Test","33334343", "A.Test@Example.com", "Example");
         //Adds the data to the Leads List throughout a getter.
         DatabaseManager.getLeads().add(l1);
         DatabaseManager.getLeads().add(l2);
@@ -81,7 +81,7 @@ class DatabaseManagerTest {
         }
         scn.close();
         //Creating a reference object that after parsing it to json should have the same data
-        ArrayList<Lead> referenceObject = new ArrayList<Lead>();
+        ArrayList<LeadContact> referenceObject = new ArrayList<LeadContact>();
         referenceObject.add(l1);
         referenceObject.add(l2);
         referenceObject.add(l3);
@@ -131,9 +131,9 @@ class DatabaseManagerTest {
         if (contactsFile.exists() && !contactsFile.delete())
             throw new IOException("Can't delete db file!");
         //Creating sample data
-        Lead l1 = new Lead("Adam Test","1234-555", "A.Test@Example.com", "Example");
-        Lead l2 = new Lead("Adam Test","5555555", "A.Test@Example.com", "Example");
-        Lead l3 = new Lead("Adam Test","33334343", "A.Test@Example.com", "Example");
+        LeadContact l1 = new LeadContact("Adam Test","1234-555", "A.Test@Example.com", "Example");
+        LeadContact l2 = new LeadContact("Adam Test","5555555", "A.Test@Example.com", "Example");
+        LeadContact l3 = new LeadContact("Adam Test","33334343", "A.Test@Example.com", "Example");
         Contact c1 = new Contact("Adam Contact","555434554","A.Con@Ex.com", "Ex1");
         Contact c2 = new Contact("Anna Contact","555434dfv554","A1.Con@Ex.com", "Ex2");
         Contact c3 = new Contact("Mark Contact","5554345fdg54","A2.Con@Ex.com", "Ex3");
@@ -162,7 +162,7 @@ class DatabaseManagerTest {
         scn.close();
         //Creating reference Lists of Leads and Contacts
         Gson gson = new Gson();
-        ArrayList<Lead> leadRef = new ArrayList<Lead>();
+        ArrayList<LeadContact> leadRef = new ArrayList<LeadContact>();
         ArrayList<Contact> contactRef = new ArrayList<Contact>();
         leadRef.add(l1);
         leadRef.add(l2);
@@ -182,12 +182,12 @@ class DatabaseManagerTest {
             throw new IOException("Can't delete db file!");
         DatabaseManager.reset();
         //Creating sample data
-        Lead l1 = new Lead("Adam Test","1234-555", "A.Test@Example.com", "Example1");
-        Lead l2 = new Lead("Anna Test","5555555", "An.Test@Example.com", "Example2");
-        Lead l3 = new Lead("Julia Test","33334343", "J.Test@Example.com", "Example3");
-        Lead l4 = new Lead("Daniel Test","1234-555", "D.Test@Example.com", "Example4");
-        Lead l5 = new Lead("Martin Test","5555555", "M.Test@Example.com", "Example5");
-        Lead l6 = new Lead("Adrian Test","33334343", "Ad.Test@Example.com", "Example6");
+        LeadContact l1 = new LeadContact("Adam Test","1234-555", "A.Test@Example.com", "Example1");
+        LeadContact l2 = new LeadContact("Anna Test","5555555", "An.Test@Example.com", "Example2");
+        LeadContact l3 = new LeadContact("Julia Test","33334343", "J.Test@Example.com", "Example3");
+        LeadContact l4 = new LeadContact("Daniel Test","1234-555", "D.Test@Example.com", "Example4");
+        LeadContact l5 = new LeadContact("Martin Test","5555555", "M.Test@Example.com", "Example5");
+        LeadContact l6 = new LeadContact("Adrian Test","33334343", "Ad.Test@Example.com", "Example6");
         //Inserting sample data
         DatabaseManager.getLeads().add(l1);
         DatabaseManager.getLeads().add(l2);
@@ -205,7 +205,7 @@ class DatabaseManagerTest {
         //Loading data from file
         DatabaseManager.load();
         //Creating reference List for equal assertion
-        ArrayList<Lead> referenceObject = new ArrayList<>();
+        ArrayList<LeadContact> referenceObject = new ArrayList<>();
         referenceObject.add(l1);
         referenceObject.add(l2);
         referenceObject.add(l3);
@@ -226,7 +226,7 @@ class DatabaseManagerTest {
         if (contactsFile.exists() && !contactsFile.delete())
             throw new IOException("Can't delete db file!");
         //Create and add sample data
-        Lead l1 = new Lead("Use Case Test","10000","U.Case@Test.com","UCase1");
+        LeadContact l1 = new LeadContact("Use Case Test","10000","U.Case@Test.com","UCase1");
         DatabaseManager.getLeads().add(l1);
         //Save 1 object
         assertFalse(leadsFile.exists());
@@ -238,7 +238,7 @@ class DatabaseManagerTest {
         DatabaseManager.load();
         assertEquals(1,DatabaseManager.getLeads().size());
         //Add another object
-        Lead l2 = new Lead("Need Sleep","10000-no","Sleep.Me@Test.com","UCase2");
+        LeadContact l2 = new LeadContact("Need Sleep","10000-no","Sleep.Me@Test.com","UCase2");
         DatabaseManager.getLeads().add(l2);
         //save
         assertTrue(leadsFile.exists());
@@ -248,7 +248,7 @@ class DatabaseManagerTest {
         //load 2 objects
         DatabaseManager.load();
         //Add 3rd object
-        Lead l3 = new Lead("Last lead","10000-no","Last.lead@Test.com","UCase3");
+        LeadContact l3 = new LeadContact("Last lead","10000-no","Last.lead@Test.com","UCase3");
         DatabaseManager.getLeads().add(l3);
         assertEquals(3,DatabaseManager.getLeads().size());
         //save
@@ -265,7 +265,7 @@ class DatabaseManagerTest {
         //load without saving the previous step
         DatabaseManager.load();
         //Creating reference object
-        ArrayList<Lead> reference = new ArrayList<>();
+        ArrayList<LeadContact> reference = new ArrayList<>();
         reference.add(l1);
         reference.add(l2);
         reference.add(l3);
