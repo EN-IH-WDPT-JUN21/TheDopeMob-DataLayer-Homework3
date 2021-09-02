@@ -1,6 +1,6 @@
 package com.ironhack.data;
 
-import com.ironhack.dao.Lead;
+import com.ironhack.dao.LeadContact;
 import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayInputStream;
@@ -36,7 +36,7 @@ class InputHandlerTest {
 
     @BeforeEach
     void setUp() {
-        DatabaseManager.addLead(new Lead("Test Lead", "123456789", "hola@something.io", "The Dope Mob" ));
+        DatabaseManager.addLead(new LeadContact("Test Lead", "123456789", "hola@something.io", "The Dope Mob" ));
         DatabaseManager.save();
     }
 

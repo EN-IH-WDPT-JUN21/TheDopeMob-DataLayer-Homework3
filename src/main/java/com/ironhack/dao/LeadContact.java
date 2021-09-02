@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Lead {
+public class LeadContact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lead_id")
@@ -31,7 +31,7 @@ public class Lead {
     @Column(name = "company_name")
     private String companyName;
 
-    public Lead(String name, String phoneNumber, String email, String companyName) {
+    public LeadContact(String name, String phoneNumber, String email, String companyName) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;

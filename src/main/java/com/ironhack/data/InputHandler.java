@@ -1,7 +1,7 @@
 package com.ironhack.data;
 
 import com.ironhack.dao.Contact;
-import com.ironhack.dao.Lead;
+import com.ironhack.dao.LeadContact;
 import com.ironhack.enums.Status;
 
 import java.util.Scanner;
@@ -135,14 +135,14 @@ public abstract class InputHandler {
         String tempPhoneNumber;
         String tempEmail;
         String tempCompanyName;
-        Lead tempLead;
+        LeadContact tempLead;
 
         tempName = setName();
         tempPhoneNumber = setPhone();
         tempEmail = setEmail();
         tempCompanyName = setCompanyName();
 
-        tempLead = new Lead(tempName, tempPhoneNumber, tempEmail, tempCompanyName);
+        tempLead = new LeadContact(tempName, tempPhoneNumber, tempEmail, tempCompanyName);
 
         DatabaseManager.addLead(tempLead);
         DatabaseManager.save();
@@ -257,7 +257,7 @@ public abstract class InputHandler {
         // Logic to create opportunity and contact
         String product = "0";
         String numberOfProduct = "0";
-        Lead currentLead = DatabaseManager.findLeadById(Integer.parseInt(commandId));
+        LeadContact currentLead = DatabaseManager.findLeadById(Integer.parseInt(commandId));
         Contact decisionMaker = new Contact(currentLead.getName(), currentLead.getPhoneNumber(), currentLead.getEmail(), currentLead.getCompanyName());
         Scanner scanner = new Scanner(System.in);
         while (!(product.equals("1") || product.equals("2") || product.equals("3"))) {
