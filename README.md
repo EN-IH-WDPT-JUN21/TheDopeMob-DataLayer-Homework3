@@ -102,30 +102,10 @@ Be sure to:
 ### Create New Lead
 
 * Type `new lead`.
-
-### Show Leads
-
-* Type `show leads`.
-
-### Lookup Lead
-
-* Type `lookup lead {id}`.
    
 ### Convert Lead
 
 * Type `convert {id}`.
-
-### Lookup Opportunity
-
-* Type lookup `opportunity {id}`.
-
-### Close Won Opportunity
-
-* Type `close-won {id}`.
-
-### Close Lost Opportunity
-
-* Type `close-lost {id}`.
 
 <!-- ROADMAP -->
 ## Roadmap
