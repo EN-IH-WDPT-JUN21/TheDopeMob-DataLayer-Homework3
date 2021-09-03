@@ -5,19 +5,10 @@
     <img src="src/main/resources/static/the-dope-mob-logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">CRM Project - The Data Layer</h3>
 
   <p align="center">
-    project_description
-    <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
+    A customer relationship management application to create, modify and delete customer information. All data is stored in a relational database.
   </p>
 
 
@@ -54,20 +45,17 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`github_username`, `repo_name`, `twitter_handle`, `email`, `project_title`, `project_description`
-
+The objective of the project is to develop a Data Layer for a Customer Relationship 
+Management application. To do that we leveraged the Spring framework and refactor the code into 
+Data Access Object entities, repository interfaces and controllers.
 
 ### Built With
 
-* []()
-* []()
-* []()
-
-
+* [Spring](https://spring.io/)
+* [Java](https://www.java.com/en/)
+* [Maven](https://maven.apache.org/)
+* [Lombok](https://projectlombok.org/)
+* [MySQL](https://www.mysql.com/)
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -76,39 +64,73 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+This a list of minimum requirements to run the program:
+
+* [Java SE 11](https://www.oracle.com/java/technologies/javase-downloads.html)
+* [MySQL Workbench 8.0 CE](https://dev.mysql.com/downloads/workbench/)
+
+Be sure to:
+1. Assign valid values in properties ```spring.data.source```, `spring.data.username` and `spring.data.password`
+   in `application.properties`.
+
 
 ### Installation
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/EN-IH-WDPT-JUN21/TheDopeMob-DataLayer-Homework3.git
    ```
-2. Install NPM packages
-   ```sh
-   npm install
-   ```
-
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### Start
+1. Open the project on your IDE.
+2. Go to the CRMApplication class in the src directory.
+3. Run the main method.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+### Help - All Commands
+1. Type help into the console.
+2. All valid commands will be printed.
+3. All commands are case-insensitive.
 
+### Quit
+1. Type `quit`.
+2. Program will shut down.
 
+### Create New Lead
+
+* Type `new lead`.
+
+### Show Leads
+
+* Type `show leads`.
+
+### Lookup Lead
+
+* Type `lookup lead {id}`.
+   
+### Convert Lead
+
+* Type `convert {id}`.
+
+### Lookup Opportunity
+
+* Type lookup `opportunity {id}`.
+
+### Close Won Opportunity
+
+* Type `close-won {id}`.
+
+### Close Lost Opportunity
+
+* Type `close-lost {id}`.
 
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a list of proposed features (and known issues).
-
+* Refactor into a REST API.
 
 
 <!-- CONTRIBUTING -->
@@ -134,15 +156,19 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
+Dave Smith - [@Afexx123](https://github.com/Afexx123)
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Gustavo Maldonado - [@GustavoM01](https://github.com/GustavoM01)
+
+Jegor Chomczuk  - [@jegor-chomczuk](https://github.com/jegor-chomczuk)
+
+Wojciech Drygas - [@WojciechDrygas](https://github.com/WojciechDrygas)
+
+Project Link: [https://github.com/EN-IH-WDPT-JUN21/TheDopeMob-DataLayer-Homework3](https://github.com/EN-IH-WDPT-JUN21/TheDopeMob-DataLayer-Homework3)
 
 
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* []()
-* []()
-* []()
+* [Ironhack Team](https://www.ironhack.com/es)

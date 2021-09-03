@@ -26,8 +26,8 @@ public abstract class InputHandler {
                 "quit"
         };
 
-        // Load database leads.json and contacts.json
-        DatabaseManager.load();
+        //DELETE// Load database leads.json and contacts.json
+        //DELETE// DatabaseManager.load();
 
         try {
             System.out.println("\r***Log in successful***");
@@ -48,7 +48,7 @@ public abstract class InputHandler {
             System.out.println("\nEnter command:");
             fullCommand = scanner.nextLine().toLowerCase();
 
-            if (fullCommand.matches(".*\\d.*")) {
+            if (fullCommand.matches(".*\\d.*")) { // check for {id} number in command
                 if (fullCommand.split(" ").length == 3) {
                     actionCommand = fullCommand.split(" ")[0] + " " + fullCommand.split(" ")[1];
                     commandId = fullCommand.split(" ")[2];
