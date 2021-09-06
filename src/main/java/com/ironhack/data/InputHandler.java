@@ -26,24 +26,11 @@ public abstract class InputHandler {
                 "quit"
         };
 
-        //DELETE// Load database leads.json and contacts.json
-        //DELETE// DatabaseManager.load();
-
-        try {
-            System.out.println("\r***Log in successful***");
-            Thread.sleep(1000);
-            System.out.println("\nWelcome to LBL Trucking CRM");
-            Thread.sleep(1000);
-            System.out.println("\nType HELP to print all available commands.");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            System.out.println("Thread was interrupted");
-        }
-
+        System.out.println("***LBL Trucking CRM***");
 
         Scanner scanner = new Scanner(System.in);
 
-        // Command loop: asks for valid input and assigns id to variable if necessary
+        // Command loop: asks for valid input and passes id if necessary
         while (true) {
             System.out.println("\nEnter command:");
             fullCommand = scanner.nextLine().toLowerCase();
