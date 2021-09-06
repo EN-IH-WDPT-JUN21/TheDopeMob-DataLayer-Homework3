@@ -19,20 +19,13 @@ import java.util.Scanner;
 
 
 @Component
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class InputHandler {
 
     @Autowired
     private SalesRepRepository salesRepRepository;
 
-    private Optional<SalesRep> salesRep = salesRepRepository.findById(1L);
-
-    public InputHandler(SalesRepRepository salesRepRepository) {
-        this.salesRepRepository = salesRepRepository;
-    }
+    @Autowired
+    private LeadContactRepository leadContactRepository;
 
     // Scanner for commands, login message and instructions
     public void start() {
@@ -149,17 +142,17 @@ public class InputHandler {
         String tempEmail;
         String tempCompanyName;
         LeadContact tempLead;
-        SalesRep tempSalesRep;
+        SalesRep tempSalesRep = salesRepRepository.findById(1L).get();
 
         tempName = setName();
         tempPhoneNumber = setPhone();
         tempEmail = setEmail();
         tempCompanyName = setCompanyName();
 
-        tempLead = new LeadContact(salesRep.get(), tempName, tempPhoneNumber, tempEmail, tempCompanyName);
+        tempLead = new LeadContact(tempSalesRep, tempName, tempPhoneNumber, tempEmail, tempCompanyName);
+        leadContactRepository.save(tempLead);
 
-//        DatabaseManager.addLead(tempLead);
-//        DatabaseManager.save();
+
     }
 
     // ---HELPER FUNCTION USED BY newLead()---//

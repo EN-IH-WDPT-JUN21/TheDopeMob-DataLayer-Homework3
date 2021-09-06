@@ -21,4 +21,11 @@ public class SalesRep {
 
     private String name;
 
+    @Override
+    public String toString() {
+        return "SalesRep{" +
+                "salesRepId=" + salesRepId +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

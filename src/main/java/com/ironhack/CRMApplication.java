@@ -1,10 +1,11 @@
 package com.ironhack;
 
 import com.ironhack.controller.LeadController;
-//import com.ironhack.data.InputHandler;
 import com.ironhack.dao.LeadContact;
 import com.ironhack.data.InputHandler;
+import com.ironhack.dao.SalesRep;
 import com.ironhack.repository.LeadContactRepository;
+import com.ironhack.repository.SalesRepRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,6 +25,9 @@ public class CRMApplication implements CommandLineRunner {
     LeadContactRepository leadContactRepository;
 
     @Autowired
+    SalesRepRepository salesRepRepository;
+
+    @Autowired
     LeadController leadController;
 
     @Autowired
@@ -36,7 +40,13 @@ public class CRMApplication implements CommandLineRunner {
         public void run(String... args) {
 
             inputHandler.start();
-
+//            List<SalesRep> salesReps = salesRepRepository.findAll();
+//            for (SalesRep salesRep :
+//                 salesReps) {
+//                System.out.println(salesRep);
+//            }
+//            Optional<SalesRep> salesRep = salesRepRepository.findById(1L);
+//            System.out.println(salesRep.get());
     }
 
 }
