@@ -1,15 +1,13 @@
 package com.ironhack.dao;
 
-import com.ironhack.enums.IndustryEnum;
-import com.ironhack.data.DatabaseManager;
+import com.ironhack.enums.Industry;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-    import javax.persistence.*;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,7 +27,7 @@ public class Account {
 
     @Enumerated
     @Column(name = "industry_type")
-    private IndustryEnum type;
+    private Industry industryType;
 
     @NotBlank(message = "Must supply City")
     @Column(name = "city")
@@ -39,34 +37,11 @@ public class Account {
     @Column(name = "country")
     private String country;
 
-    @OneToMany(mappedBy = "accountContact")
-    private List<Contact> contactList;
+    @OneToMany(mappedBy = "accountContact") // This can be deleted and create a query trough opportunities
+    private List<Contact> contactList;      // to get all contacts
 
-    @OneToMany(mappedBy = "accountOpportunity")
+    @OneToMany(mappedBy = "accountId")
     private List<Opportunity> opportunityList;
 
-    public Account(Long industry, int employeeCount, String city, String country) {
-    }
-
-    public void addContactToList(Contact contact) {
-        contactList.add(contact);
-    }
-
-    public void addOpportunityToList(Opportunity opportunity) {
-        opportunityList.add(opportunity);
-    }
-
-    public List<Opportunity> getOpportunityList() {
-        return opportunityList;
-    }
-
-    public Opportunity findOpportunityById(int id) {
-        for (Opportunity opportunity : opportunityList) {
-            if(opportunity.getId() == id) {
-                return opportunity;
-            }
-        }
-        throw new IllegalArgumentException("No opportunity matching provided id");
-    }
 }
 
