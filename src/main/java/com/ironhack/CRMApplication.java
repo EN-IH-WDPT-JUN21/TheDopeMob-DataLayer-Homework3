@@ -9,7 +9,7 @@ public class CRMApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(CRMApplication.class, args);
-        InputHandler.start();
+//        InputHandler.start();
 
     }
 

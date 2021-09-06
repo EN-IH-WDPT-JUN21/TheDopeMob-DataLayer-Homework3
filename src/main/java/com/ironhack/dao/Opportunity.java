@@ -35,6 +35,11 @@ public class Opportunity {
     @JoinColumn(name = "contact_id")
     private Contact contact;
 
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "sales_rep_id")
+    private SalesRep salesRep;
+
     @Enumerated(EnumType.STRING)
     private Status status;
 

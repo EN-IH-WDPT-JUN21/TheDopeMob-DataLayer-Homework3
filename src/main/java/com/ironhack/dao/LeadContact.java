@@ -31,6 +31,10 @@ public class LeadContact {
     @Column(name = "company_name")
     private String companyName;
 
+    @ManyToOne
+    @JoinColumn(name = "sales_rep_id")
+    private SalesRep salesRep;
+
     public LeadContact(String name, String phoneNumber, String email, String companyName) {
         this.name = name;
         this.phoneNumber = phoneNumber;
