@@ -6,15 +6,10 @@ import com.ironhack.dao.SalesRep;
 import com.ironhack.enums.Status;
 import com.ironhack.repository.LeadContactRepository;
 import com.ironhack.repository.SalesRepRepository;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.Scanner;
 
 
@@ -142,7 +137,7 @@ public class InputHandler {
         String tempEmail;
         String tempCompanyName;
         LeadContact tempLead;
-        SalesRep tempSalesRep = salesRepRepository.findById(1L).get();
+        SalesRep tempSalesRep = salesRepRepository.findById(1L).get(); // Add setSalesRep method to select from available reps
 
         tempName = setName();
         tempPhoneNumber = setPhone();
@@ -151,8 +146,6 @@ public class InputHandler {
 
         tempLead = new LeadContact(tempSalesRep, tempName, tempPhoneNumber, tempEmail, tempCompanyName);
         leadContactRepository.save(tempLead);
-
-
     }
 
     // ---HELPER FUNCTION USED BY newLead()---//

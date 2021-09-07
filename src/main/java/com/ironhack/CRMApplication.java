@@ -22,15 +22,6 @@ import java.util.Optional;
 public class CRMApplication implements CommandLineRunner {
 
     @Autowired
-    LeadContactRepository leadContactRepository;
-
-    @Autowired
-    SalesRepRepository salesRepRepository;
-
-    @Autowired
-    LeadController leadController;
-
-    @Autowired
     InputHandler inputHandler;
 
     public static void main(String[] args) {
