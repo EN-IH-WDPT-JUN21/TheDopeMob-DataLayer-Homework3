@@ -37,7 +37,6 @@ public class Opportunity {
     @Enumerated(EnumType.STRING)
     private Product productType;
 
-    @NotBlank
     private int quantity;
 
     @Enumerated(EnumType.STRING)
@@ -46,6 +45,15 @@ public class Opportunity {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account accountId;
+
+    public Opportunity(SalesRep salesRep, Contact decisionMaker, Product productType, int quantity, Status status, Account accountId) {
+        this.salesRep = salesRep;
+        this.decisionMaker = decisionMaker;
+        this.productType = productType;
+        this.quantity = quantity;
+        this.status = status;
+        this.accountId = accountId;
+    }
 
     // ENTITY UP UNTIL HERE
 

@@ -22,6 +22,9 @@ public class Account {
     @Column(name = "account_id")
     private Long accountId;
 
+    @Column(name = "company_name", unique = true)
+    private String companyName;
+
     @Column(name = "employee_count")
     private int employeeCount;
 
@@ -42,6 +45,14 @@ public class Account {
 
     @OneToMany(mappedBy = "accountId")
     private List<Opportunity> opportunityList;
+
+    public Account(String companyName, int employeeCount, Industry industryType, String city, String country) {
+        this.companyName = companyName;
+        this.employeeCount = employeeCount;
+        this.industryType = industryType;
+        this.city = city;
+        this.country = country;
+    }
 
 }
 
