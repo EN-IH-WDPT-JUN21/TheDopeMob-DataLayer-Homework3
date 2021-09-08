@@ -17,7 +17,7 @@ public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "contact_id")
-    private int id;
+    private Long contactId;
 
     @Column(name = "name")
     private String name;
@@ -31,11 +31,11 @@ public class Contact {
     @Column(name = "company_name")
     private String companyName;
 
-    @ManyToOne
+    @ManyToOne                        //DELETE - account can access contacts through opportunity
     @JoinColumn(name = "account_id")
     private Account accountContact;
 
-    @OneToMany(mappedBy = "contact")
+    @OneToMany(mappedBy = "decisionMaker")
     private List<Opportunity> opportunityList;
 
     public Contact(String name, String phoneNumber, String email, String companyName) {

@@ -1,6 +1,6 @@
 package com.ironhack.dao;
 
-import com.ironhack.data.DatabaseManager;
+//import com.ironhack.data.DatabaseManager;
 import com.ironhack.enums.Product;
 import com.ironhack.enums.Status;
 import lombok.AllArgsConstructor;
@@ -22,43 +22,37 @@ public class Opportunity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "opportunity_id")
-    private int id;
-
-    @Enumerated(EnumType.STRING)
-    private Product product;
-
-    @NotBlank
-    private int quantity;
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "contact_id")
-    private Contact contact;
+    private Long opportunityId;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "sales_rep_id")
     private SalesRep salesRep;
 
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "contact_id")
+    private Contact decisionMaker;
+
+    @Enumerated(EnumType.STRING)
+    private Product productType;
+
+    @NotBlank
+    private int quantity;
+
     @Enumerated(EnumType.STRING)
     private Status status;
 
     @ManyToOne
     @JoinColumn(name = "account_id")
-    private Account accountOpportunity;
+    private Account accountId;
 
-    public Opportunity(int product, int quantity, Contact contact) {
-        setId(DatabaseManager.findLastOpportunityId());
-        setProduct(product);
-        setQuantity(quantity);
-        setContact(contact);
-        this.status = Status.OPEN;
-    }
+    // ENTITY UP UNTIL HERE
 
     public void setProduct(int product) {
-        if(product == 1) this.product = Product.HYBRID;
-        if(product == 2) this.product = Product.FLATBED;
-        if(product == 3) this.product = Product.BOX;
+        if(product == 1) this.productType = Product.HYBRID;
+        if(product == 2) this.productType = Product.FLATBED;
+        if(product == 3) this.productType = Product.BOX;
     }
 
     //Methods
@@ -69,4 +63,5 @@ public class Opportunity {
     public void opportunityWon(){
         setStatus(Status.CLOSED_WON);
     }
+
 }

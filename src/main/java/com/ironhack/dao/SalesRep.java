@@ -15,10 +15,17 @@ import javax.persistence.*;
 public class SalesRep {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sales_rep_id")
     private Long salesRepId;
 
-    private String salesRepName;
+    private String name;
 
+    @Override
+    public String toString() {
+        return "SalesRep{" +
+                "salesRepId=" + salesRepId +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

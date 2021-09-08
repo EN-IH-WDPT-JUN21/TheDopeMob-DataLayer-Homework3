@@ -2,14 +2,28 @@ package com.ironhack.data;
 
 import com.ironhack.dao.Contact;
 import com.ironhack.dao.LeadContact;
+import com.ironhack.dao.SalesRep;
 import com.ironhack.enums.Status;
+import com.ironhack.repository.LeadContactRepository;
+import com.ironhack.repository.SalesRepRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
-public abstract class InputHandler {
+
+@Component
+public class InputHandler {
+
+    @Autowired
+    private SalesRepRepository salesRepRepository;
+
+    @Autowired
+    private LeadContactRepository leadContactRepository;
 
     // Scanner for commands, login message and instructions
-    public static void start() {
+    public void start() {
         String fullCommand;
         String actionCommand;
         String commandId;
@@ -117,22 +131,21 @@ public abstract class InputHandler {
 
     //----METHODS FOR COMMANDS AVAILABLE TO USER----//
     // Creates a new lead, called by welcome()
-    public static void newLead() {
+    public void newLead() {
         String tempName;
         String tempPhoneNumber;
         String tempEmail;
         String tempCompanyName;
         LeadContact tempLead;
+        SalesRep tempSalesRep = salesRepRepository.findById(1L).get(); // Add setSalesRep method to select from available reps
 
         tempName = setName();
         tempPhoneNumber = setPhone();
         tempEmail = setEmail();
         tempCompanyName = setCompanyName();
 
-        tempLead = new LeadContact(tempName, tempPhoneNumber, tempEmail, tempCompanyName);
-
-        DatabaseManager.addLead(tempLead);
-        DatabaseManager.save();
+        tempLead = new LeadContact(tempSalesRep, tempName, tempPhoneNumber, tempEmail, tempCompanyName);
+        leadContactRepository.save(tempLead);
     }
 
     // ---HELPER FUNCTION USED BY newLead()---//
@@ -229,12 +242,12 @@ public abstract class InputHandler {
 
     //---METHODS FOR COMMANDS AVAILABLE TO USER----//
     public static void showLeads() {
-        System.out.println(DatabaseManager.getLeads());
+//        System.out.println(DatabaseManager.getLeads());
     }
 
     public static void lookupLeads(String commandId) {
         try {
-            System.out.println(DatabaseManager.findLeadById(Integer.parseInt(commandId)));
+//            System.out.println(DatabaseManager.findLeadById(Integer.parseInt(commandId)));
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
@@ -244,8 +257,8 @@ public abstract class InputHandler {
         // Logic to create opportunity and contact
         String product = "0";
         String numberOfProduct = "0";
-        LeadContact currentLead = DatabaseManager.findLeadById(Integer.parseInt(commandId));
-        Contact decisionMaker = new Contact(currentLead.getName(), currentLead.getPhoneNumber(), currentLead.getEmail(), currentLead.getCompanyName());
+//        LeadContact currentLead = DatabaseManager.findLeadById(Integer.parseInt(commandId));
+//        Contact decisionMaker = new Contact(currentLead.getName(), currentLead.getPhoneNumber(), currentLead.getEmail(), currentLead.getCompanyName());
         Scanner scanner = new Scanner(System.in);
         while (!(product.equals("1") || product.equals("2") || product.equals("3"))) {
             System.out.println("Select product:\n1. HYBRID\n2. FLATBED\n3. BOX");
@@ -256,8 +269,8 @@ public abstract class InputHandler {
             numberOfProduct = scanner.nextLine();
         }
 
-        DatabaseManager.convertLead(Integer.parseInt(product), Integer.parseInt(numberOfProduct), decisionMaker);
-        DatabaseManager.getLeads().remove(currentLead);
+//        DatabaseManager.convertLead(Integer.parseInt(product), Integer.parseInt(numberOfProduct), decisionMaker);
+//        DatabaseManager.getLeads().remove(currentLead);
 
         // Logic to create account
         String industry = "0";
@@ -281,19 +294,19 @@ public abstract class InputHandler {
             country = scanner.nextLine();
         }
 
-        DatabaseManager.createAccount(Long.parseLong(industry), Integer.parseInt(employeeCount), city, country);
+//        DatabaseManager.createAccount(Long.parseLong(industry), Integer.parseInt(employeeCount), city, country);
     }
 
     public static void lookupOpportunity(String commandId) {
-        System.out.println(DatabaseManager.findOpportunityById(Integer.parseInt(commandId)));
+//        System.out.println(DatabaseManager.findOpportunityById(Integer.parseInt(commandId)));
     }
 
     public static void closeWon(String commandId) {
         int id = Integer.parseInt(commandId);
         try {
-            DatabaseManager.findOpportunityById(id).setStatus(Status.CLOSED_WON);
-            DatabaseManager.findAccountByOpportunityId(id).findOpportunityById(id).setStatus(Status.CLOSED_WON);
-            DatabaseManager.save();
+//            DatabaseManager.findOpportunityById(id).setStatus(Status.CLOSED_WON);
+//            DatabaseManager.findAccountByOpportunityId(id).findOpportunityById(id).setStatus(Status.CLOSED_WON);
+//            DatabaseManager.save();
             System.out.println("Congratulations on a job well done!!!");
         } catch (IllegalArgumentException e) {
             System.out.println("There is no opportunity with that id");
@@ -303,9 +316,9 @@ public abstract class InputHandler {
     public static void closeLost(String commandId) {
         int id = Integer.parseInt(commandId);
         try {
-            DatabaseManager.findOpportunityById(id).setStatus(Status.CLOSED_LOST);
-            DatabaseManager.findAccountByOpportunityId(id).findOpportunityById(id).setStatus(Status.CLOSED_LOST);
-            DatabaseManager.save();
+//            DatabaseManager.findOpportunityById(id).setStatus(Status.CLOSED_LOST);
+//            DatabaseManager.findAccountByOpportunityId(id).findOpportunityById(id).setStatus(Status.CLOSED_LOST);
+//            DatabaseManager.save();
             System.out.println("That's a bummer, be a little pushy next time...");
         } catch (IllegalArgumentException e) {
             System.out.println("There is no opportunity with that id");
