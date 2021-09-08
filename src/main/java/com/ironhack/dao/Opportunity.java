@@ -37,7 +37,6 @@ public class Opportunity {
     @Enumerated(EnumType.STRING)
     private Product productType;
 
-    @NotBlank
     private int quantity;
 
     @Enumerated(EnumType.STRING)
@@ -47,21 +46,25 @@ public class Opportunity {
     @JoinColumn(name = "account_id")
     private Account accountId;
 
-    // ENTITY UP UNTIL HERE
-
-    public void setProduct(int product) {
-        if(product == 1) this.productType = Product.HYBRID;
-        if(product == 2) this.productType = Product.FLATBED;
-        if(product == 3) this.productType = Product.BOX;
+    public Opportunity(SalesRep salesRep, Contact decisionMaker, Product productType, int quantity, Status status, Account accountId) {
+        this.salesRep = salesRep;
+        this.decisionMaker = decisionMaker;
+        this.productType = productType;
+        this.quantity = quantity;
+        this.status = status;
+        this.accountId = accountId;
     }
 
-    //Methods
-    public void opportunityLost(){
-    setStatus(Status.CLOSED_LOST);
+    @Override
+    public String toString() {
+        return "Opportunity{" +
+                "opportunityId=" + opportunityId +
+                ", salesRep=" + salesRep +
+                ", decisionMaker=" + decisionMaker +
+                ", productType=" + productType +
+                ", quantity=" + quantity +
+                ", status=" + status +
+                ", accountId=" + accountId +
+                '}';
     }
-
-    public void opportunityWon(){
-        setStatus(Status.CLOSED_WON);
-    }
-
 }

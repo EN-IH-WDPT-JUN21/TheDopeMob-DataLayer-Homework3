@@ -1,15 +1,18 @@
 package com.ironhack.data;
 
-import com.ironhack.dao.Contact;
-import com.ironhack.dao.LeadContact;
-import com.ironhack.dao.SalesRep;
+import com.ironhack.controller.*;
+import com.ironhack.dao.*;
+import com.ironhack.enums.Industry;
+import com.ironhack.enums.Product;
 import com.ironhack.enums.Status;
 import com.ironhack.repository.LeadContactRepository;
 import com.ironhack.repository.SalesRepRepository;
 
+import com.ironhack.service.OpportunityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 
@@ -17,16 +20,25 @@ import java.util.Scanner;
 public class InputHandler {
 
     @Autowired
-    private SalesRepRepository salesRepRepository;
+    private SalesRepController salesRepController;
 
     @Autowired
-    private LeadContactRepository leadContactRepository;
+    private LeadController leadController;
 
-    // Scanner for commands, login message and instructions
+    @Autowired
+    private ContactController contactController;
+
+    @Autowired
+    private OpportunityController opportunityController;
+
+    @Autowired
+    private AccountController accountController;
+
+    // Initialize scanner for user input
     public void start() {
         String fullCommand;
         String actionCommand;
-        String commandId;
+        Long commandId = 0L;
         //List of all commands
         String[] commands = new String[]{
                 "new lead",
@@ -52,22 +64,23 @@ public class InputHandler {
             if (fullCommand.matches(".*\\d.*")) { // check for {id} number in command
                 if (fullCommand.split(" ").length == 3) {
                     actionCommand = fullCommand.split(" ")[0] + " " + fullCommand.split(" ")[1];
-                    commandId = fullCommand.split(" ")[2];
+                    commandId = Long.parseLong(fullCommand.split(" ")[2]);
                 } else if(fullCommand.split(" ").length ==2) {
                     actionCommand = fullCommand.split(" ")[0];
-                    commandId = fullCommand.split(" ")[1];
+                    commandId = Long.parseLong(fullCommand.split(" ")[1]);
                 } else {
                     actionCommand = "not valid";
-                    commandId = "0";
                 }
             } else {
                 actionCommand = fullCommand;
-                commandId = "0";
             }
 
             switch (actionCommand) {
                 case "new lead":
                     newLead();
+                    break;
+                case "new salesrep":
+                    newSalesRep();
                     break;
                 case "show leads":
                     showLeads();
@@ -128,200 +141,277 @@ public class InputHandler {
             }
         }
     }
+    // ---USER OPERATION--- //
+    public void newSalesRep() {
+        String tempName = setName();
+        SalesRep tempSalesRep = new SalesRep(tempName);
+        salesRepController.createSalesRep(tempSalesRep);
+    }
 
-    //----METHODS FOR COMMANDS AVAILABLE TO USER----//
-    // Creates a new lead, called by welcome()
     public void newLead() {
-        String tempName;
-        String tempPhoneNumber;
-        String tempEmail;
-        String tempCompanyName;
-        LeadContact tempLead;
-        SalesRep tempSalesRep = salesRepRepository.findById(1L).get(); // Add setSalesRep method to select from available reps
 
-        tempName = setName();
-        tempPhoneNumber = setPhone();
-        tempEmail = setEmail();
-        tempCompanyName = setCompanyName();
+        String tempName = setName();
+        String tempPhoneNumber = setPhone();
+        String tempEmail = setEmail();
+        String tempCompanyName = setCompanyName();
+        SalesRep tempSalesRep = setSalesRep();
 
-        tempLead = new LeadContact(tempSalesRep, tempName, tempPhoneNumber, tempEmail, tempCompanyName);
-        leadContactRepository.save(tempLead);
+        LeadContact tempLead = new LeadContact(tempSalesRep, tempName, tempPhoneNumber, tempEmail, tempCompanyName);
+
+        leadController.createLead(tempLead);
     }
 
-    // ---HELPER FUNCTION USED BY newLead()---//
-    // newLead() helper method with name input validation
-    public static String setName() {
-        String name;
-        boolean isThereFirstAndLastname;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter lead's name and lastname:");
+        // ---HELPER METHODS USED BY newLead()--- //
+        public String setName() {
+            String name;
+            Scanner scanner = new Scanner(System.in);
 
-        while (true) {
-            name = scanner.nextLine();
-            isThereFirstAndLastname = (name.split(" ").length == 2);
-
-            if (name.length() < 3) {
-                System.out.println("Name must have at least 3 characters");
-            } else if (name.matches(".*\\d.*")) {
-                System.out.println("Name cannot contain numbers");
-                ;
-            } else if (!isThereFirstAndLastname) {
-                System.out.println("Please enter name and lastname separated by a space");
-            } else {
-                break;
+            while (true) {
+                System.out.println("\nEnter name and lastname:");
+                name = scanner.nextLine();
+                boolean isThereFirstAndLastname = (name.split(" ").length == 2);
+                if (name.length() < 3) System.out.println("Name must have at least 3 characters");
+                else if (name.matches(".*\\d.*") || name.matches(".*\\p{Punct}.*")) System.out.println("Name cannot contain numbers" +
+                                                                                                                    "or especial characters");
+                else if (!isThereFirstAndLastname) System.out.println("Please enter name and lastname separated by a space");
+                else {
+                    System.out.println("The registered name is: " + name + "\n");
+                    return name;
+                }
             }
         }
 
-        System.out.println("The registered name is: " + name + "\n");
-        return name;
-    }
+        public String setPhone() {
+            String phone;
+            Scanner scanner = new Scanner(System.in);
 
-    // newLead() helper method with phone input validation
-    public static String setPhone() {
-        String phone;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter lead's phone number, should be 9 digits long:");
+            while (true) {
+                System.out.println("\nEnter lead's phone number, should be 9 digits long:");
+                phone = scanner.nextLine();
+                if (phone.length() != 9) System.out.println("Phone must be 9 digits long");
+                else if (phone.matches("\\d+")) {
+                    System.out.println("The registered phone is: " + phone + "\n");
+                    return phone;
+                }
 
-        while (true) {
-            phone = scanner.nextLine();
-
-            if (phone.length() != 9) {
-                System.out.println("Phone must be 9 digits long");
-            } else if (phone.charAt(0) == '0') {
-                System.out.println("Phone cannot start with zero");
-            } else if (phone.matches(".*[a-z|A-Z].*")) {
-                System.out.println("Phone cannot have letters");
-            } else {
-                break;
             }
         }
-        System.out.println("The registered phone is: " + phone + "\n");
-        return phone;
-    }
 
-    // newLead() helper method with email input validation
-    public static String setEmail() {
-        String email;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter lead's email address:");
+        public String setEmail() {
+            String email;
+            Scanner scanner = new Scanner(System.in);
 
-        while (true) {
-            email = scanner.nextLine();
+            while (true) {
+                System.out.println("\nEnter lead's email address:");
+                email = scanner.nextLine();
 
-            if (email.length() < 4) {
-                System.out.println("Email must be more than 4 characters long");
-            } else if (!email.matches("^(.+)@(.+)\\.(.+)$")) {
-                System.out.println("Please enter a valid email address");
-                ;
-            } else {
-                break;
+                if (email.length() < 5) System.out.println("Email must be more than 5 characters long");
+                else if (!email.matches("^(.+)@(.+)\\.(.+)$")) System.out.println("Please enter a email like: example@hello.io");
+                else {
+                    System.out.println("The registered email is: " + email + "\n");
+                    return email;
+                }
             }
         }
-        System.out.println("The registered email is: " + email + "\n");
-        return email;
-    }
 
-    // newLead() helper method with companyName input validation
-    public static String setCompanyName() {
-        String companyName;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter lead's company name:");
+        public String setCompanyName() {
+            String companyName;
+            Scanner scanner = new Scanner(System.in);
 
-        while (true) {
-            companyName = scanner.nextLine();
-
-            if (companyName.length() < 3) {
-                System.out.println("Company name must have at least 3 characters");
-            } else {
-                break;
+            while (true) {
+                System.out.println("\nEnter company's name:");
+                companyName = scanner.nextLine();
+                if (companyName.length() < 3) System.out.println("Company name must have at least 3 characters");
+                else {
+                    System.out.println("The registered company name is: " + companyName + "\n");
+                    return companyName;
+                }
             }
         }
-        System.out.println("The registered company name is: " + companyName + "\n");
-        return companyName;
+
+        public SalesRep setSalesRep() {
+            String selectedSalesRep;
+            Scanner scanner = new Scanner(System.in);
+
+            while (true) {
+                System.out.println("\nSelect a sales rep. Enter the id:");
+                salesRepController.printAll();
+                selectedSalesRep = scanner.nextLine();
+
+                if(selectedSalesRep.matches("[0-9]+")) {
+                    SalesRep salesRep = salesRepController.findById(Long.parseLong(selectedSalesRep));
+                    if (salesRep == null) System.out.println("There is no sales rep with that id\n");
+                    else {
+                        System.out.println("The selected sales rep is: " + salesRep);
+                        return salesRep;
+                    }
+
+                }
+            }
+        }
+
+    //---USER OPERATION---//
+    public void showLeads() {
+        leadController.printAll();
     }
 
-    //---METHODS FOR COMMANDS AVAILABLE TO USER----//
-    public static void showLeads() {
-//        System.out.println(DatabaseManager.getLeads());
+    public void lookupLeads(Long commandId) {
+        LeadContact foundLead = leadController.findById(commandId);
+        if(foundLead == null) System.out.println("There is no lead with that id");
+        else System.out.println(foundLead);
+
     }
 
-    public static void lookupLeads(String commandId) {
-        try {
-//            System.out.println(DatabaseManager.findLeadById(Integer.parseInt(commandId)));
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+    public void convertId(Long commandId) {
+        // Find lead by id and create Contact from it
+        LeadContact leadToConvert = leadController.findById(commandId);
+        if(leadToConvert == null) System.out.println("There is no lead with that id");
+        else {
+            Contact contactFromLead = new Contact(
+                    leadToConvert.getName(),
+                    leadToConvert.getPhoneNumber(),
+                    leadToConvert.getEmail(),
+                    leadToConvert.getCompanyName());
+
+            // Gather arguments to create new Opportunity
+            Contact contactForOpportunity = contactController.createContact(contactFromLead);
+            Product tempProduct = setProduct();
+            int quantityOfProduct = setQuantity();
+
+            // Gather arguments to create new Account
+            String companyName = leadToConvert.getCompanyName();
+            int employeeCount = setEmployeeCount();
+            Industry industryType = setIndustryType();
+            String city = setCity();
+            String country = setCountry();
+
+            // Create new Account
+            Account newAccount = new Account(
+                    companyName,
+                    employeeCount,
+                    industryType,
+                    city,
+                    country);
+            Account accountForOpportunity = accountController.createAccount(newAccount);
+
+            // Create new Opportunity
+            Opportunity newOpportunity = new Opportunity(
+                    leadToConvert.getSalesRep(),
+                    contactForOpportunity,
+                    tempProduct,
+                    quantityOfProduct,
+                    Status.OPEN,
+                    accountForOpportunity);
+
+            opportunityController.createOpportunity(newOpportunity);
+
+            // Delete the converted lead
+            leadController.deleteLead(commandId);
         }
+
     }
 
-    public static void convertId(String commandId) {
-        // Logic to create opportunity and contact
-        String product = "0";
-        String numberOfProduct = "0";
-//        LeadContact currentLead = DatabaseManager.findLeadById(Integer.parseInt(commandId));
-//        Contact decisionMaker = new Contact(currentLead.getName(), currentLead.getPhoneNumber(), currentLead.getEmail(), currentLead.getCompanyName());
-        Scanner scanner = new Scanner(System.in);
-        while (!(product.equals("1") || product.equals("2") || product.equals("3"))) {
-            System.out.println("Select product:\n1. HYBRID\n2. FLATBED\n3. BOX");
-            product = scanner.nextLine();
-        }
-        while (numberOfProduct.equals("0")) {
-            System.out.println("Enter quantity of product");
-            numberOfProduct = scanner.nextLine();
+        // ---HELPER METHODS USED BY convertId()--- //
+
+        public Product setProduct() {
+            String productSelection = "";
+            Product product = null;
+            Scanner scanner = new Scanner(System.in);
+            while(!productSelection.matches("[0-9]+")) {
+                System.out.println("Select product:\n1. HYBRID\n2. FLATBED\n3. BOX");
+                productSelection = scanner.nextLine();
+                switch (productSelection) {
+                    case ("1"):
+                        product = Product.valueOf("HYBRID");
+                        break;
+                    case ("2"):
+                        product = Product.valueOf("FLATBED");
+                        break;
+                    case ("3"):
+                        product = Product.valueOf("BOX");
+                        break;
+                    default:
+                        System.out.println("Please select a valid product");
+                }
+            }
+            return product;
         }
 
-//        DatabaseManager.convertLead(Integer.parseInt(product), Integer.parseInt(numberOfProduct), decisionMaker);
-//        DatabaseManager.getLeads().remove(currentLead);
-
-        // Logic to create account
-        String industry = "0";
-        String employeeCount = "0";
-        String city = "";
-        String country = "";
-        while (!(industry.equals("1") || industry.equals("2") || industry.equals("3") || industry.equals("4") || industry.equals("5"))) {
-            System.out.println("Select industry:\n1. PRODUCE\n2. ECOMMERCE\n3. MANUFACTURING\n4. MEDICAL\n5. OTHER");
-            industry = scanner.nextLine();
-        }
-        while (employeeCount.equals("0")) {
-            System.out.println("Enter number of employees:");
-            employeeCount = scanner.nextLine();
-        }
-        while (city.equals("")) {
-            System.out.println("Enter city:");
-            city = scanner.nextLine();
-        }
-        while (country.equals("")) {
-            System.out.println("Enter country:");
-            country = scanner.nextLine();
+        public int setQuantity() {
+            String quantity = "";
+            Scanner scanner = new Scanner(System.in);
+            while (!quantity.matches("[0-9]+")) {
+                System.out.println("Enter quantity of product:");
+                quantity = scanner.nextLine();
+            }
+            return Integer.parseInt(quantity);
         }
 
-//        DatabaseManager.createAccount(Long.parseLong(industry), Integer.parseInt(employeeCount), city, country);
+        public int setEmployeeCount() {
+            String employeeCount = "";
+            Scanner scanner = new Scanner(System.in);
+            while (!employeeCount.matches("[0-9]+")) {
+                System.out.println("Enter number of employees:");
+                employeeCount = scanner.nextLine();
+            }
+            return Integer.parseInt(employeeCount);
+        }
+
+        public Industry setIndustryType() {
+            String industry;
+            Scanner scanner = new Scanner(System.in);
+            while(true) {
+                System.out.println("\nSelect industry:\n1. PRODUCE\n2. ECOMMERCE\n3. MANUFACTURING\n4. MEDICAL\n5. OTHER");
+                industry = scanner.nextLine();
+                switch (industry) {
+                    case ("1"):
+                        return Industry.valueOf("PRODUCE");
+                    case ("2"):
+                        return Industry.valueOf("ECOMMERCE");
+                    case ("3"):
+                        return Industry.valueOf("MANUFACTURING");
+                    case ("4"):
+                        return Industry.valueOf("MEDICAL");
+                    case ("5"):
+                        return Industry.valueOf("OTHER");
+                    default:
+                        System.out.println("Please select a valid industry\n");
+                }
+            }
+        }
+
+        public String setCity() {
+            String city = "";
+            Scanner scanner = new Scanner(System.in);
+            while (city.equals("")) {
+                System.out.println("\nEnter the company's city:");
+                city = scanner.nextLine();
+            }
+            return city;
+        }
+
+        public String setCountry() {
+            String country = "";
+            Scanner scanner = new Scanner(System.in);
+            while (country.equals("")) {
+                System.out.println("\nEnter the company's country:");
+                country = scanner.nextLine();
+            }
+            return country;
+        }
+
+
+    public void lookupOpportunity(Long commandId) {
+        Opportunity foundOpportunity = opportunityController.findById(commandId);
+        if(foundOpportunity == null) System.out.println("There is no opportunity with that id");
+        else System.out.println(foundOpportunity);
     }
 
-    public static void lookupOpportunity(String commandId) {
-//        System.out.println(DatabaseManager.findOpportunityById(Integer.parseInt(commandId)));
+    public void closeWon(Long commandId) {
+        opportunityController.updateCloseWon(commandId);
     }
 
-    public static void closeWon(String commandId) {
-        int id = Integer.parseInt(commandId);
-        try {
-//            DatabaseManager.findOpportunityById(id).setStatus(Status.CLOSED_WON);
-//            DatabaseManager.findAccountByOpportunityId(id).findOpportunityById(id).setStatus(Status.CLOSED_WON);
-//            DatabaseManager.save();
-            System.out.println("Congratulations on a job well done!!!");
-        } catch (IllegalArgumentException e) {
-            System.out.println("There is no opportunity with that id");
-        }
-    }
-
-    public static void closeLost(String commandId) {
-        int id = Integer.parseInt(commandId);
-        try {
-//            DatabaseManager.findOpportunityById(id).setStatus(Status.CLOSED_LOST);
-//            DatabaseManager.findAccountByOpportunityId(id).findOpportunityById(id).setStatus(Status.CLOSED_LOST);
-//            DatabaseManager.save();
-            System.out.println("That's a bummer, be a little pushy next time...");
-        } catch (IllegalArgumentException e) {
-            System.out.println("There is no opportunity with that id");
-        }
+    public void closeLost(Long commandId) {
+        opportunityController.updateCloseLost(commandId);
     }
 }
