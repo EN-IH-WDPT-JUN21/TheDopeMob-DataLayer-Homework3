@@ -55,21 +55,16 @@ public class Opportunity {
         this.accountId = accountId;
     }
 
-    // ENTITY UP UNTIL HERE
-
-    public void setProduct(int product) {
-        if(product == 1) this.productType = Product.HYBRID;
-        if(product == 2) this.productType = Product.FLATBED;
-        if(product == 3) this.productType = Product.BOX;
+    @Override
+    public String toString() {
+        return "Opportunity{" +
+                "opportunityId=" + opportunityId +
+                ", salesRep=" + salesRep +
+                ", decisionMaker=" + decisionMaker +
+                ", productType=" + productType +
+                ", quantity=" + quantity +
+                ", status=" + status +
+                ", accountId=" + accountId +
+                '}';
     }
-
-    //Methods
-    public void opportunityLost(){
-    setStatus(Status.CLOSED_LOST);
-    }
-
-    public void opportunityWon(){
-        setStatus(Status.CLOSED_WON);
-    }
-
 }

@@ -8,6 +8,7 @@ import com.ironhack.enums.Status;
 import com.ironhack.repository.LeadContactRepository;
 import com.ironhack.repository.SalesRepRepository;
 
+import com.ironhack.service.OpportunityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,12 +34,11 @@ public class InputHandler {
     @Autowired
     private AccountController accountController;
 
-
     // Initialize scanner for user input
     public void start() {
         String fullCommand;
         String actionCommand;
-        String commandId;
+        Long commandId = 0L;
         //List of all commands
         String[] commands = new String[]{
                 "new lead",
@@ -64,17 +64,15 @@ public class InputHandler {
             if (fullCommand.matches(".*\\d.*")) { // check for {id} number in command
                 if (fullCommand.split(" ").length == 3) {
                     actionCommand = fullCommand.split(" ")[0] + " " + fullCommand.split(" ")[1];
-                    commandId = fullCommand.split(" ")[2];
+                    commandId = Long.parseLong(fullCommand.split(" ")[2]);
                 } else if(fullCommand.split(" ").length ==2) {
                     actionCommand = fullCommand.split(" ")[0];
-                    commandId = fullCommand.split(" ")[1];
+                    commandId = Long.parseLong(fullCommand.split(" ")[1]);
                 } else {
                     actionCommand = "not valid";
-                    commandId = "0";
                 }
             } else {
                 actionCommand = fullCommand;
-                commandId = "0";
             }
 
             switch (actionCommand) {
@@ -257,51 +255,59 @@ public class InputHandler {
         leadController.printAll();
     }
 
-    public void lookupLeads(String commandId) {
-        LeadContact foundLead = leadController.findById(Long.parseLong(commandId));
+    public void lookupLeads(Long commandId) {
+        LeadContact foundLead = leadController.findById(commandId);
         if(foundLead == null) System.out.println("There is no lead with that id");
         else System.out.println(foundLead);
 
     }
 
-    public void convertId(String commandId) {
+    public void convertId(Long commandId) {
         // Find lead by id and create Contact from it
-        LeadContact leadToConvert = leadController.findById(Long.parseLong(commandId));
-        Contact contactFromLead = new Contact(
-                leadToConvert.getName(),
-                leadToConvert.getPhoneNumber(),
-                leadToConvert.getEmail(),
-                leadToConvert.getCompanyName());
+        LeadContact leadToConvert = leadController.findById(commandId);
+        if(leadToConvert == null) System.out.println("There is no lead with that id");
+        else {
+            Contact contactFromLead = new Contact(
+                    leadToConvert.getName(),
+                    leadToConvert.getPhoneNumber(),
+                    leadToConvert.getEmail(),
+                    leadToConvert.getCompanyName());
 
-        // Gather arguments to create new Account
-        String companyName = leadToConvert.getCompanyName();
-        int employeeCount = setEmployeeCount();
-        Industry industryType = setIndustryType();
-        String city = setCity();
-        String country = setCountry();
-        // Create and save new Account
-        Account newAccount = new Account(
-                                        companyName,
-                                        employeeCount,
-                                        industryType,
-                                        city,
-                                        country);
-        Account accountForOpportunity = accountController.createAccount(newAccount);
+            // Gather arguments to create new Opportunity
+            Contact contactForOpportunity = contactController.createContact(contactFromLead);
+            Product tempProduct = setProduct();
+            int quantityOfProduct = setQuantity();
 
-        // Gather arguments to create new Opportunity
-        Contact contactForOpportunity = contactController.createContact(contactFromLead);
-        Product tempProduct = setProduct();
-        int quantityOfProduct = setQuantity();
+            // Gather arguments to create new Account
+            String companyName = leadToConvert.getCompanyName();
+            int employeeCount = setEmployeeCount();
+            Industry industryType = setIndustryType();
+            String city = setCity();
+            String country = setCountry();
 
-        Opportunity newOpportunity = new Opportunity(
-                                            leadToConvert.getSalesRep(),
-                                            contactForOpportunity,
-                                            tempProduct,
-                                            quantityOfProduct,
-                                            Status.OPEN,
-                                            accountForOpportunity);
+            // Create new Account
+            Account newAccount = new Account(
+                    companyName,
+                    employeeCount,
+                    industryType,
+                    city,
+                    country);
+            Account accountForOpportunity = accountController.createAccount(newAccount);
 
-        opportunityController.createOpportunity(newOpportunity);
+            // Create new Opportunity
+            Opportunity newOpportunity = new Opportunity(
+                    leadToConvert.getSalesRep(),
+                    contactForOpportunity,
+                    tempProduct,
+                    quantityOfProduct,
+                    Status.OPEN,
+                    accountForOpportunity);
+
+            opportunityController.createOpportunity(newOpportunity);
+
+            // Delete the converted lead
+            leadController.deleteLead(commandId);
+        }
 
     }
 
@@ -352,10 +358,10 @@ public class InputHandler {
         }
 
         public Industry setIndustryType() {
-            String industry = "0";
+            String industry;
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Select industry:\n1. PRODUCE\n2. ECOMMERCE\n3. MANUFACTURING\n4. MEDICAL\n5. OTHER");
             while(true) {
+                System.out.println("\nSelect industry:\n1. PRODUCE\n2. ECOMMERCE\n3. MANUFACTURING\n4. MEDICAL\n5. OTHER");
                 industry = scanner.nextLine();
                 switch (industry) {
                     case ("1"):
@@ -369,7 +375,7 @@ public class InputHandler {
                     case ("5"):
                         return Industry.valueOf("OTHER");
                     default:
-                        System.out.println("Please select a valid industry");
+                        System.out.println("Please select a valid industry\n");
                 }
             }
         }
@@ -377,8 +383,8 @@ public class InputHandler {
         public String setCity() {
             String city = "";
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Enter the company's city");
             while (city.equals("")) {
+                System.out.println("\nEnter the company's city:");
                 city = scanner.nextLine();
             }
             return city;
@@ -387,39 +393,25 @@ public class InputHandler {
         public String setCountry() {
             String country = "";
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Enter the company's city");
             while (country.equals("")) {
+                System.out.println("\nEnter the company's country:");
                 country = scanner.nextLine();
             }
             return country;
         }
 
 
-    public static void lookupOpportunity(String commandId) {
-//        System.out.println(DatabaseManager.findOpportunityById(Integer.parseInt(commandId)));
+    public void lookupOpportunity(Long commandId) {
+        Opportunity foundOpportunity = opportunityController.findById(commandId);
+        if(foundOpportunity == null) System.out.println("There is no opportunity with that id");
+        else System.out.println(foundOpportunity);
     }
 
-    public static void closeWon(String commandId) {
-        int id = Integer.parseInt(commandId);
-        try {
-//            DatabaseManager.findOpportunityById(id).setStatus(Status.CLOSED_WON);
-//            DatabaseManager.findAccountByOpportunityId(id).findOpportunityById(id).setStatus(Status.CLOSED_WON);
-//            DatabaseManager.save();
-            System.out.println("Congratulations on a job well done!!!");
-        } catch (IllegalArgumentException e) {
-            System.out.println("There is no opportunity with that id");
-        }
+    public void closeWon(Long commandId) {
+        opportunityController.updateCloseWon(commandId);
     }
 
-    public static void closeLost(String commandId) {
-        int id = Integer.parseInt(commandId);
-        try {
-//            DatabaseManager.findOpportunityById(id).setStatus(Status.CLOSED_LOST);
-//            DatabaseManager.findAccountByOpportunityId(id).findOpportunityById(id).setStatus(Status.CLOSED_LOST);
-//            DatabaseManager.save();
-            System.out.println("That's a bummer, be a little pushy next time...");
-        } catch (IllegalArgumentException e) {
-            System.out.println("There is no opportunity with that id");
-        }
+    public void closeLost(Long commandId) {
+        opportunityController.updateCloseLost(commandId);
     }
 }

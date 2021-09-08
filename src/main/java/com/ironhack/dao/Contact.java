@@ -32,10 +32,6 @@ public class Contact {
     @Column(name = "company_name")
     private String companyName;
 
-    @ManyToOne                        //DELETE - account can access contacts through opportunity
-    @JoinColumn(name = "account_id")
-    private Account accountContact;
-
     @OneToMany(mappedBy = "decisionMaker")
     private List<Opportunity> opportunityList;
 

@@ -32,5 +32,9 @@ public class LeadController {
         }
     }
 
+    public void deleteLead(Long id) {
+        leadContactRepository.deleteById(id);
+    }
+
 
 }

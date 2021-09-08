@@ -40,9 +40,6 @@ public class Account {
     @Column(name = "country")
     private String country;
 
-    @OneToMany(mappedBy = "accountContact") // This can be deleted and create a query trough opportunities
-    private List<Contact> contactList;      // to get all contacts
-
     @OneToMany(mappedBy = "accountId")
     private List<Opportunity> opportunityList;
 

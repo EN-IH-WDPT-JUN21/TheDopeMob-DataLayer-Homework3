@@ -70,7 +70,7 @@ This a list of minimum requirements to run the program:
 * [MySQL Workbench 8.0 CE](https://dev.mysql.com/downloads/workbench/)
 
 Be sure to:
-1. Assign valid values in properties ```spring.data.source```, `spring.data.username` and `spring.data.password`
+1. Assign valid values in properties `spring.data.source`, `spring.data.username` and `spring.data.password`
    in `application.properties`.
 
 
@@ -87,7 +87,7 @@ Be sure to:
 
 ### Start
 1. Open the project on your IDE.
-2. Go to the CRMApplication class in the src directory.
+2. Go to the CRMApplication class in the `src` directory.
 3. Run the main method.
 
 ### Help - All Commands
@@ -96,16 +96,16 @@ Be sure to:
 3. All commands are case-insensitive.
 
 ### Quit
-1. Type `quit`.
+1. Type `quit` in the console.
 2. Program will shut down.
 
 ### Create New Lead
 
-* Type `new lead`.
+* Type `new lead` in the console.
    
 ### Convert Lead
 
-* Type `convert {id}`.
+* Type `convert {id}` in the console.
 
 <!-- ROADMAP -->
 ## Roadmap
