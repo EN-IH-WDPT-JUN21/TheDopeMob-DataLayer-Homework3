@@ -18,24 +18,26 @@ public class InputHandler {
     @Autowired
     Operator operator;
 
+    // List of all commands
+    private final String[] commands = new String[]{
+            "new lead",
+            "new salesrep",
+            "show leads",
+            "lookup lead {Id}",
+            "convert {Id}",
+            "lookup opportunity {Id}",
+            "close-won {Id}",
+            "close-lost {Id}",
+            "help",
+            "quit"
+    };
+
+    final String notValidCommand = "\nPlease enter a valid command";
+
+    private ArrayList<String> commandArray = new ArrayList<>();
+
     // Initialize scanner for user input
     public void start() {
-        ArrayList<String> commandArray = new ArrayList<>();
-        final String notValidCommand = "\nPlease enter a valid command";
-
-        //List of all commands
-        String[] commands = new String[]{
-                "new lead",
-                "new salesrep",
-                "show leads",
-                "lookup lead {Id}",
-                "convert {Id}",
-                "lookup opportunity {Id}",
-                "close-won {Id}",
-                "close-lost {Id}",
-                "help",
-                "quit"
-        };
 
         System.out.println("***LBL Trucking CRM***");
         Scanner scanner = new Scanner(System.in);
@@ -117,6 +119,7 @@ public class InputHandler {
                     break;
 
                 case ("quit"):
+                    scanner.close();
                     System.out.println("\nGoodbye!");
                     System.exit(0);
 
