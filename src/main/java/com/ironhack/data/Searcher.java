@@ -13,24 +13,22 @@ import java.util.List;
 public class Searcher {
 
     @Autowired
-    LeadController leadController;
-    @Autowired
-    OpportunityController opportunityController;
+    Helper helper;
 
     public void findLead(String leadId){
-        LeadContact foundLead = leadController.findById(Long.parseLong(leadId));
+        LeadContact foundLead = helper.leadController.findById(Long.parseLong(leadId));
         if(foundLead == null) System.out.println("There is no lead with that id");
         else System.out.println(foundLead);
     }
 
     public void findOpportunity(String opportunityId){
-        Opportunity foundOpportunity = opportunityController.findById(Long.parseLong(opportunityId));
+        Opportunity foundOpportunity = helper.opportunityController.findById(Long.parseLong(opportunityId));
         if(foundOpportunity == null) System.out.println("There is no opportunity with that id");
         else System.out.println(foundOpportunity);
     }
 
     public void findAllLeads(){
-        leadController.printAll();
+        helper.leadController.printAll();
     }
 
 

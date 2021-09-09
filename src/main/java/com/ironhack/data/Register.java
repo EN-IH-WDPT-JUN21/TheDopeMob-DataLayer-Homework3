@@ -1,7 +1,6 @@
 package com.ironhack.data;
 
 import com.ironhack.controller.LeadController;
-import com.ironhack.controller.SalesRepController;
 import com.ironhack.dao.LeadContact;
 import com.ironhack.dao.SalesRep;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +13,11 @@ public class Register {
     Helper helper;
 
     @Autowired
-    SalesRepController salesRepController;
-
-    @Autowired
     LeadController leadController;
     public void newSalesRep() {
         String tempName = helper.setName();
         SalesRep tempSalesRep = new SalesRep(tempName);
-        salesRepController.createSalesRep(tempSalesRep);
+        helper.salesRepController.createSalesRep(tempSalesRep);
     }
 
     public void newLead() {
@@ -32,7 +28,7 @@ public class Register {
         String tempCompanyName = helper.setCompanyName();
         SalesRep tempSalesRep;
 
-        if(salesRepController.findAll().isEmpty()) {
+        if(helper.salesRepController.findAll().isEmpty()) {
             System.out.println("\nThere is no sales rep in the database\nPlease create one");
             newSalesRep();
         }

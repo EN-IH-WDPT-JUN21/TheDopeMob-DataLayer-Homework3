@@ -49,7 +49,7 @@ public class InputHandler {
             switch (commandArray.get(0)) {
 
                 case ("new"):
-                    // Register
+                    // Create new lead or new salesRep
                     try {
                         if (commandArray.get(1).equals("lead")) register.newLead();
                         else if (commandArray.get(1).equals("salesrep")) register.newSalesRep();
@@ -82,7 +82,7 @@ public class InputHandler {
                     break;
 
                 case ("convert"):
-                    // Convert
+                    // Convert lead to opportunity
                     try {
                         if (commandArray.get(1).matches("[0-9]+")) operator.convertLead(commandArray.get(1));
                         else System.out.println(notValidCommand);
