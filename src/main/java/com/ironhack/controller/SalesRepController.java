@@ -26,6 +26,10 @@ public class SalesRepController {
         return optionalSalesRep.orElse(null);
     }
 
+    public List<SalesRep> findAll() {
+        return salesRepRepository.findAll();
+    }
+
     public void printAll() {
         List<SalesRep> salesReps = salesRepRepository.findAll();
         for (SalesRep salesRep:

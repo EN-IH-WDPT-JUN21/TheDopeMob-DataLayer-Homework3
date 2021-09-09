@@ -171,7 +171,7 @@ public class InputHandler {
                 name = scanner.nextLine();
                 boolean isThereFirstAndLastname = (name.split(" ").length == 2);
                 if (name.length() < 3) System.out.println("Name must have at least 3 characters");
-                else if (name.matches(".*\\d.*") || name.matches(".*\\p{Punct}.*")) System.out.println("Name cannot contain numbers" +
+                else if (name.matches(".*\\d.*") || name.matches(".*\\p{Punct}.*")) System.out.println("Name cannot contain numbers " +
                                                                                                                     "or especial characters");
                 else if (!isThereFirstAndLastname) System.out.println("Please enter name and lastname separated by a space");
                 else {
@@ -232,6 +232,11 @@ public class InputHandler {
         public SalesRep setSalesRep() {
             String selectedSalesRep;
             Scanner scanner = new Scanner(System.in);
+
+            if(salesRepController.findAll().isEmpty()) {
+                System.out.println("There are no sales rep on the database\nPlease create one");
+                newSalesRep();
+            }
 
             while (true) {
                 System.out.println("\nSelect a sales rep. Enter the id:");
