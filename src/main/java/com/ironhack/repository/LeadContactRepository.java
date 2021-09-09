@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface LeadContactRepository extends JpaRepository<LeadContact, Long> {
 
-    public List<LeadContact> findLeadContactBySalesRep();
+//    public List<LeadContact> findLeadContactBySalesRep();
 }
