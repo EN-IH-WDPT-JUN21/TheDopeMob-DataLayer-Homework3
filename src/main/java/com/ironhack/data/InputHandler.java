@@ -1,5 +1,6 @@
 package com.ironhack.data;
 
+import com.ironhack.commons.Commons;
 import com.ironhack.controller.*;
 import com.ironhack.dao.*;
 import com.ironhack.enums.Industry;
@@ -12,6 +13,8 @@ import com.ironhack.service.OpportunityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -272,28 +275,54 @@ public class InputHandler {
                     leadToConvert.getPhoneNumber(),
                     leadToConvert.getEmail(),
                     leadToConvert.getCompanyName());
-
             // Gather arguments to create new Opportunity
             Contact contactForOpportunity = contactController.createContact(contactFromLead);
             Product tempProduct = setProduct();
             int quantityOfProduct = setQuantity();
+            //Req 12,13,14 linking account with Opportunity or creating a new account
+            String pickedOptionForCreatingNewAccount;
+            //If there's no account available there's no need to ask if you want to link to the existing one, since you would have nothing to pick from
+            if (accountController.findAllAccounts().size() == 0)
+                //"Y" is for creating a new account
+                {System.out.println("There's no accounts available!");
+                pickedOptionForCreatingNewAccount="Y";}
+            else
+                //this guarantees that the user will input only from the available options
+                {pickedOptionForCreatingNewAccount = Commons.GetStringFromUserFromAvailable("Would you like to create a new Account? (Y/N)",new String[]{"Y","N"});}
+            Account accountForOpportunity;
+            //Here the code splits for the option you picked earlier
+            if(pickedOptionForCreatingNewAccount.equals("N")){
+                //Link with the existing account
+                List<Account> accounts =  accountController.findAllAccounts();
+                System.out.println("Please associate an account with the contact and opportunity!");
+                List<Long> accountIDs = new ArrayList<>();
+                for (Account account: accounts) {
+                    System.out.println(account.getAccountId()+". "+account.getCompanyName());
+                    accountIDs.add(account.getAccountId());
+                }
+                //Commons class method guarantee that a correct input is picked.
+                Long pickedAccountID = Commons.GetLongFromUserFromAvailableOptions("Pick one of the existing accounts!",accountIDs);
+                accountForOpportunity = accountController.findById(pickedAccountID);
+            }
+            else {
+                //This code executes if the user selected that he wants to create a new account or there's no account available
+                // Gather arguments to create new Account
+                System.out.println("Creating new account!");
+                String companyName = leadToConvert.getCompanyName();
+                int employeeCount = setEmployeeCount();
+                Industry industryType = setIndustryType();
+                String city = setCity();
+                String country = setCountry();
 
-            // Gather arguments to create new Account
-            String companyName = leadToConvert.getCompanyName();
-            int employeeCount = setEmployeeCount();
-            Industry industryType = setIndustryType();
-            String city = setCity();
-            String country = setCountry();
-
-            // Create new Account
-            Account newAccount = new Account(
-                    companyName,
-                    employeeCount,
-                    industryType,
-                    city,
-                    country);
-            Account accountForOpportunity = accountController.createAccount(newAccount);
-
+                // Create new Account
+                Account newAccount = new Account(
+                        companyName,
+                        employeeCount,
+                        industryType,
+                        city,
+                        country);
+                accountForOpportunity = accountController.createAccount(newAccount);
+            }
             // Create new Opportunity
             Opportunity newOpportunity = new Opportunity(
                     leadToConvert.getSalesRep(),
