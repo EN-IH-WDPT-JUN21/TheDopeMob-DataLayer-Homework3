@@ -24,6 +24,10 @@ public class LeadController {
         return optionalLeadContact.orElse(null);
     }
 
+    public void findLeadListBySalesRep() {
+        List<LeadContact> leadContactList = leadContactRepository.findLeadContactBySalesRep();
+    }
+
     public void printAll() {
         List<LeadContact> leadContacts = leadContactRepository.findAll();
         for (LeadContact leadContact:
