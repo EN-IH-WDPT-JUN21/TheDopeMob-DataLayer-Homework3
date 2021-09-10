@@ -41,5 +41,10 @@ public class Contact {
         this.email = email;
         this.companyName = companyName;
     }
+
+    @Override
+    public String toString() {
+        return name + " " + phoneNumber + " " + email;
+    }
 }
 

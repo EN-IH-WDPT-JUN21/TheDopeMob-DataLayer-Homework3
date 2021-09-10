@@ -29,7 +29,7 @@ public class InputHandler {
             "close-won {Id}",
             "close-lost {Id}",
             "help",
-            "quit"
+            "quit\n"
     };
 
     final String notValidCommand = "\nPlease enter a valid command\nType help for all available commands";
@@ -41,14 +41,17 @@ public class InputHandler {
 
         System.out.println("***LBL Trucking CRM***");
         Scanner scanner = new Scanner(System.in);
+        System.out.println("\nPlease enter a command:");
 
         while (true) {
-            commandArray.clear();
-            System.out.println("\nEnter command:");
+            commandArray.clear(); // before scanner to clear ArrayList before every new input
             commandArray.addAll(Arrays.asList(scanner.nextLine().toLowerCase().trim().split(" ")));
             fullCommand = String.join(" ", commandArray);
 
             switch (commandArray.get(0)) {
+
+                case (""):
+                    break;
 
                 case ("new"):
                     // Create new lead or new salesRep

@@ -30,10 +30,14 @@ public class LeadController {
 
     public void printAll() {
         List<LeadContact> leadContacts = leadContactRepository.findAll();
-        for (LeadContact leadContact:
-                leadContacts) {
-            System.out.println(leadContact);
+        if(leadContacts.isEmpty()) System.out.println("There are no leads in the database");
+        else {
+            for (LeadContact leadContact:
+                    leadContacts) {
+                System.out.println(leadContact);
+            }
         }
+
     }
 
     public void deleteLead(Long id) {
