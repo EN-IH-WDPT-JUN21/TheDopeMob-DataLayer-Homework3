@@ -123,24 +123,20 @@ public class Helper {
         String productSelection = "";
         Product product = null;
         Scanner scanner = new Scanner(System.in);
-        while(!productSelection.matches("[0-9]+")) {
+        while(true) {
             System.out.println("Select product:\n1. HYBRID\n2. FLATBED\n3. BOX");
             productSelection = scanner.nextLine();
             switch (productSelection) {
                 case ("1"):
-                    product = Product.valueOf("HYBRID");
-                    break;
+                    return Product.valueOf("HYBRID");
                 case ("2"):
-                    product = Product.valueOf("FLATBED");
-                    break;
+                    return Product.valueOf("FLATBED");
                 case ("3"):
-                    product = Product.valueOf("BOX");
-                    break;
+                    return Product.valueOf("BOX");
                 default:
-                    System.out.println("Please select a valid product");
+                    System.out.println("Please select a valid product\n");
             }
         }
-        return product;
     }
 
     public int setQuantity() {
@@ -204,6 +200,22 @@ public class Helper {
             country = scanner.nextLine();
         }
         return country;
+    }
+
+    public String setUserChoiceForAccountCreation() {
+        Scanner scanner = new Scanner(System.in);
+        String selection = scanner.nextLine().toUpperCase();
+        while(true) {
+            switch (selection) {
+                case ("Y"):
+                    return "Y";
+                case ("N"):
+                    return "N";
+                default:
+                    System.out.println("Please enter Y or N");
+            }
+
+        }
     }
 
 }
