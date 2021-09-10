@@ -105,9 +105,7 @@ public class InputHandler {
                 case "lookup opportunity":
                     try {
                         lookupOpportunity(commandId);
-                    } catch (IndexOutOfBoundsException e) {
-                        System.out.println("There is no opportunity with that id, enter a valid id");
-                    } catch (IllegalArgumentException e) {
+                    } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
                         System.out.println("There is no opportunity with that id, enter a valid id");
                     }
                     break;
@@ -343,26 +341,22 @@ public class InputHandler {
         // ---HELPER METHODS USED BY convertId()--- //
 
         public Product setProduct() {
-            String productSelection = "";
             Product product = null;
             Scanner scanner = new Scanner(System.in);
-            while(!productSelection.matches("[0-9]+")) {
-                System.out.println("Select product:\n1. HYBRID\n2. FLATBED\n3. BOX");
-                productSelection = scanner.nextLine();
-                switch (productSelection) {
-                    case ("1"):
-                        product = Product.valueOf("HYBRID");
-                        break;
-                    case ("2"):
-                        product = Product.valueOf("FLATBED");
-                        break;
-                    case ("3"):
-                        product = Product.valueOf("BOX");
-                        break;
-                    default:
-                        System.out.println("Please select a valid product");
+            System.out.println("Select product:\n1. HYBRID\n2. FLATBED\n3. BOX");
+            //This method guarantees that one of the available option will be picked
+            int productSelection = Commons.GetNumericInputFromUserInRange("Pick one of the available options!",1,3);
+            //Refactored the code because the old regex functionality was enabling invalid input.
+            switch (productSelection) {
+                case (1):
+                    product = Product.valueOf("HYBRID");
+                    break;
+                case (2):
+                    product = Product.valueOf("FLATBED");
+                    break;
+                default:
+                    product = Product.valueOf("BOX");
                 }
-            }
             return product;
         }
 
@@ -387,25 +381,21 @@ public class InputHandler {
         }
 
         public Industry setIndustryType() {
-            String industry;
             Scanner scanner = new Scanner(System.in);
-            while(true) {
-                System.out.println("\nSelect industry:\n1. PRODUCE\n2. ECOMMERCE\n3. MANUFACTURING\n4. MEDICAL\n5. OTHER");
-                industry = scanner.nextLine();
-                switch (industry) {
-                    case ("1"):
-                        return Industry.valueOf("PRODUCE");
-                    case ("2"):
-                        return Industry.valueOf("ECOMMERCE");
-                    case ("3"):
-                        return Industry.valueOf("MANUFACTURING");
-                    case ("4"):
-                        return Industry.valueOf("MEDICAL");
-                    case ("5"):
-                        return Industry.valueOf("OTHER");
-                    default:
-                        System.out.println("Please select a valid industry\n");
-                }
+            System.out.println("\nSelect industry:\n1. PRODUCE\n2. ECOMMERCE\n3. MANUFACTURING\n4. MEDICAL\n5. OTHER");
+            //Same refactor as in set product type, using the Commons class methods guarantees a valid pick is selected
+            int industry = Commons.GetNumericInputFromUserInRange("Please pick from available options!",1,5);
+            switch (industry) {
+                case (1):
+                    return Industry.valueOf("PRODUCE");
+                case (2):
+                    return Industry.valueOf("ECOMMERCE");
+                case (3):
+                    return Industry.valueOf("MANUFACTURING");
+                case (4):
+                    return Industry.valueOf("MEDICAL");
+                default:
+                    return Industry.valueOf("OTHER");
             }
         }
 

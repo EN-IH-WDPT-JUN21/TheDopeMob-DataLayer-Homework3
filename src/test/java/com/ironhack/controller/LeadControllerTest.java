@@ -67,6 +67,15 @@ class LeadControllerTest {
         System.setOut(standardOut);
     }
     @Test
+    void printAll_negative_printedEmpty() {
+        PrintStream standardOut = System.out;
+        ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStreamCaptor));
+        leadController.printAll();
+        assertEquals("",outputStreamCaptor.toString().trim());
+        System.setOut(standardOut);
+    }
+    @Test
     void deleteLead_positive_leadDeleted(){
         LeadContact lead1 = new LeadContact(null,"new lead","123456789","me@me.com","none");
         LeadContact lead2 = new LeadContact(null,"new lead2","123456789","me2@me.com","none2");
