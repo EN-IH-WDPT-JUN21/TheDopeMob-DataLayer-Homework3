@@ -41,9 +41,9 @@ public class InputHandler {
 
         System.out.println("***LBL Trucking CRM***");
         Scanner scanner = new Scanner(System.in);
-        System.out.println("\nPlease enter a command:");
 
         while (true) {
+            System.out.println("\nPlease enter a command:");
             commandArray.clear(); // before scanner to clear ArrayList before every new input
             commandArray.addAll(Arrays.asList(scanner.nextLine().toLowerCase().trim().split(" ")));
             fullCommand = String.join(" ", commandArray);

@@ -14,6 +14,7 @@ public class Register {
 
     @Autowired
     LeadController leadController;
+
     public void newSalesRep() {
         String tempName = helper.setName();
         SalesRep tempSalesRep = new SalesRep(tempName);
