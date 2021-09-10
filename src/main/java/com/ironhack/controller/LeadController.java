@@ -17,7 +17,9 @@ public class LeadController {
     @Autowired
     LeadContactRepository leadContactRepository;
 
-    public void createLead(LeadContact leadContact) {leadContactRepository.save(leadContact);}
+    public void createLead(LeadContact leadContact) {
+        if (leadContact==null){throw new IllegalArgumentException("Lead can't be a null object");}
+        else{leadContactRepository.save(leadContact);}}
 
     public LeadContact findById(Long id) {
         Optional<LeadContact> optionalLeadContact = leadContactRepository.findById(id);

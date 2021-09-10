@@ -18,7 +18,10 @@ public class OpportunityController {
     @Autowired
     OpportunityService opportunityService;
 
-    public void createOpportunity(Opportunity opportunity) {opportunityRepository.save(opportunity);}
+    public void createOpportunity(Opportunity opportunity) {
+        if (opportunity==null){throw new IllegalArgumentException("Opportunity can't be an empty object");}
+        else{opportunityRepository.save(opportunity);}
+        }
 
     public Opportunity findById(Long id) {
         Optional<Opportunity> foundOpportunity = opportunityRepository.findById(id);
@@ -31,6 +34,5 @@ public class OpportunityController {
 
     public void updateCloseLost(Long id) {
         opportunityService.updateCloseLost(id);
-
     }
 }

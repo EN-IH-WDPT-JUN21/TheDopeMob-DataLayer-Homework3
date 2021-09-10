@@ -59,7 +59,9 @@ public class Commons {
                     throw new IOException("Invalid option!");
                 validInput = true;
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+                System.out.println("Invalid option!");
+            }
         }while(!validInput);
         return input.toUpperCase();
     }
@@ -83,7 +85,9 @@ public class Commons {
                     throw new IOException("Invalid option!");
                 validInput = true;
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+                System.out.println("Invalid option!");
+            }
         }while(!validInput);
         return input;
     }
