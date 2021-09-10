@@ -18,8 +18,8 @@ public class InputHandler {
     @Autowired
     Operator operator;
 
-    // List of all commands
-    private final String[] commands = new String[]{
+    // List of all commandMenu
+    private final String[] commandMenu = new String[]{
             "new lead",
             "new salesrep",
             "show leads",
@@ -32,9 +32,9 @@ public class InputHandler {
             "quit"
     };
 
-    final String notValidCommand = "\nPlease enter a valid command";
-
+    final String notValidCommand = "\nPlease enter a valid command\nType help for all available commands";
     private ArrayList<String> commandArray = new ArrayList<>();
+    private String fullCommand;
 
     // Initialize scanner for user input
     public void start() {
@@ -46,64 +46,42 @@ public class InputHandler {
             commandArray.clear();
             System.out.println("\nEnter command:");
             commandArray.addAll(Arrays.asList(scanner.nextLine().toLowerCase().trim().split(" ")));
+            fullCommand = String.join(" ", commandArray);
+
             switch (commandArray.get(0)) {
 
                 case ("new"):
                     // Create new lead or new salesRep
-                    try {
-                        if (commandArray.get(1).equals("lead")) register.newLead();
-                        else if (commandArray.get(1).equals("salesrep")) register.newSalesRep();
-                        else System.out.println(notValidCommand);
-                    } catch (IndexOutOfBoundsException e) {
-                        System.out.println("There is no register with that id");
-                    }
+                    if(fullCommand.equals("new lead")) register.newLead();
+                    else if(fullCommand.equals("new salesrep")) register.newSalesRep();
+                    else System.out.println(notValidCommand);
                     break;
 
                 case ("lookup"):
                     // Search single registry
-                    try {
-                        if (commandArray.get(1).equals("lead")) searcher.findLead(commandArray.get(2));
-                        else if (commandArray.get(1).equals("opportunity"))
-                            searcher.findOpportunity(commandArray.get(2));
-                        else System.out.println(notValidCommand);
-                    } catch (IndexOutOfBoundsException e) {
-                        System.out.println("There is no register with that id");
-                    }
+                    if(fullCommand.matches("lookup lead [0-9]+")) searcher.findLead(commandArray.get(2));
+                    else if(fullCommand.matches("lookup opportunity [0-9]+")) searcher.findOpportunity(commandArray.get(2));
+                    else System.out.println(notValidCommand);
                     break;
 
                 case ("show"):
                     // Search for all registries
-                    try {
-                        if (commandArray.get(1).equals("leads")) searcher.findAllLeads();
-                        else System.out.println(notValidCommand);
-                    } catch (IndexOutOfBoundsException e) {
-                        System.out.println(notValidCommand);
-                    }
+                    if(fullCommand.matches("show leads")) searcher.findAllLeads();
+                    else System.out.println(notValidCommand);
                     break;
 
                 case ("convert"):
                     // Convert lead to opportunity
-                    try {
-                        if (commandArray.get(1).matches("[0-9]+")) operator.convertLead(commandArray.get(1));
-                        else System.out.println(notValidCommand);
-                    } catch (IndexOutOfBoundsException e) {
-                        System.out.println(notValidCommand);
-                    }
+                    if(fullCommand.matches("convert [0-9]+")) operator.convertLead(commandArray.get(1));
+                    else System.out.println(notValidCommand);
                     break;
 
                 case ("close-won"):
                 case ("close-lost"):
                     // Close
-                    try{
-                        if (commandArray.get(1).matches("[0-9]+")) {
-                            if(commandArray.get(0).equals("close-won")) operator.closeWon(commandArray.get(1));
-                            else operator.closeLost(commandArray.get(1));
-                        }else {
-                            System.out.println(notValidCommand);
-                        }
-                    }catch (IndexOutOfBoundsException e) {
-                        System.out.println(notValidCommand);
-                    }
+                    if(fullCommand.matches("close-won [0-9]+")) operator.closeWon(commandArray.get(1));
+                    else if(fullCommand.matches("close-lost [0-9]")) operator.closeLost(commandArray.get(1));
+                    else System.out.println(notValidCommand);
                     break;
 
                 case ("report"):
@@ -113,7 +91,7 @@ public class InputHandler {
                 case ("help"):
                     // Help
                     System.out.println("\nAvailable commands:");
-                    for (String singleCommand : commands) {
+                    for (String singleCommand : commandMenu) {
                         System.out.println(singleCommand);
                     }
                     break;
