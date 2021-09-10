@@ -88,6 +88,28 @@ public class InputHandler {
                     break;
 
                 case ("report"):
+                    if(fullCommand.matches("report lead by salesrep")) searcher.helper.leadController.findLeadsBySalesRep();
+                    else if(fullCommand.matches("report opportunity by salesrep")) searcher.helper.opportunityController.findOpportunitiesBySalesRep();
+                    else if(fullCommand.matches("report closed-won by salesrep"))searcher.helper.opportunityController.findWonOpportunitiesBySalesRep();
+                    else if(fullCommand.matches("report closed-lost by salesrep"))searcher.helper.opportunityController.findLostOpportunitiesBySalesRep();
+                    else if(fullCommand.matches("report open by salesrep")) searcher.helper.opportunityController.findOpenOpportunitiesBySalesRep();
+                    else if(fullCommand.matches("report opportunity by product")) searcher.helper.opportunityController.countByProduct();
+                    else if(fullCommand.matches("report closed-won by product")) searcher.helper.opportunityController.countWonByProduct();
+                    else if(fullCommand.matches("report closed-lost by product")) searcher.helper.opportunityController.countLostByProduct();
+                    else if(fullCommand.matches("report open by product")) searcher.helper.opportunityController.countOpenByProduct();
+                    else if(fullCommand.matches("report opportunity by country")) searcher.helper.opportunityController.countByCountry();
+                    else if(fullCommand.matches("report closed-won by country")) searcher.helper.opportunityController.countWonByCountry();
+                    else if(fullCommand.matches("report closed-lost by country")) searcher.helper.opportunityController.countLostByCountry();
+                    else if(fullCommand.matches("report open by country")) searcher.helper.opportunityController.countOpenByCountry();
+                    else if(fullCommand.matches("report opportunity by city")) searcher.helper.opportunityController.countByCity();
+                    else if(fullCommand.matches("report closed-won by city")) searcher.helper.opportunityController.countWonByCity();
+                    else if(fullCommand.matches("report closed-lost by city")) searcher.helper.opportunityController.countLostByCity();
+                    else if(fullCommand.matches("report open by city")) searcher.helper.opportunityController.countOpenByCity();
+                    else if(fullCommand.matches("report opportunity by industry")) searcher.helper.opportunityController.countByIndustry();
+                    else if(fullCommand.matches("report closed-won by industry")) searcher.helper.opportunityController.countWonByIndustry();
+                    else if(fullCommand.matches("report closed-lost by industry")) searcher.helper.opportunityController.countLostByIndustry();
+                    else if(fullCommand.matches("report open by industry")) searcher.helper.opportunityController.countOpenByIndustry();
+                    else System.out.println(notValidCommand);
                     // Report
                     break;
 

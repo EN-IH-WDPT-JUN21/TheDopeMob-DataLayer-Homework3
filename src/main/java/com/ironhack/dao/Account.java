@@ -28,7 +28,7 @@ public class Account {
     @Column(name = "employee_count")
     private int employeeCount;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "industry_type")
     private Industry industryType;
 
