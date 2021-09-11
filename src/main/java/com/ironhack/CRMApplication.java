@@ -30,14 +30,7 @@ public class CRMApplication implements CommandLineRunner {
         @Override
         public void run(String... args) {
 
-            //inputHandler.start();
-//            List<SalesRep> salesReps = salesRepRepository.findAll();
-//            for (SalesRep salesRep :
-//                 salesReps) {
-//                System.out.println(salesRep);
-//            }
-//            Optional<SalesRep> salesRep = salesRepRepository.findById(1L);
-//            System.out.println(salesRep.get());
+            inputHandler.start();
     }
 
 }

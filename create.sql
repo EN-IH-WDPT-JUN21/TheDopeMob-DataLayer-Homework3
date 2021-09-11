@@ -1,4 +1,3 @@
-
     create table account (
        account_id bigint not null auto_increment,
         city varchar(255),

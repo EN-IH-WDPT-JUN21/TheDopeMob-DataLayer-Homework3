@@ -1,6 +1,6 @@
 package com.ironhack.dao;
 
-//import com.ironhack.data.DatabaseManager;
+
 import com.ironhack.enums.Product;
 import com.ironhack.enums.Status;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity

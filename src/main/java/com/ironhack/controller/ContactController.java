@@ -24,4 +24,6 @@ public class ContactController {
         Optional<Contact> foundContact = contactRepository.findByEmail(email);
         return foundContact.orElse(null);
     }
+
+
 }

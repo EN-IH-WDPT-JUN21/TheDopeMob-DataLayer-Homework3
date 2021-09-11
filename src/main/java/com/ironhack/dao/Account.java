@@ -28,7 +28,7 @@ public class Account {
     @Column(name = "employee_count")
     private int employeeCount;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "industry_type")
     private Industry industryType;
 
@@ -51,5 +51,9 @@ public class Account {
         this.country = country;
     }
 
+    @Override
+    public String toString() {
+        return " " + accountId + "-" + companyName;
+    }
 }
 

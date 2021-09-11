@@ -1,436 +1,154 @@
 package com.ironhack.data;
 
-import com.ironhack.commons.Commons;
-import com.ironhack.controller.*;
-import com.ironhack.dao.*;
-import com.ironhack.enums.Industry;
-import com.ironhack.enums.Product;
-import com.ironhack.enums.Status;
-import com.ironhack.repository.LeadContactRepository;
-import com.ironhack.repository.SalesRepRepository;
-
-import com.ironhack.service.OpportunityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.Arrays;
 import java.util.Scanner;
-
 
 @Component
 public class InputHandler {
 
     @Autowired
-    private SalesRepController salesRepController;
-
+    Register register;
     @Autowired
-    private LeadController leadController;
-
+    Searcher searcher;
     @Autowired
-    private ContactController contactController;
+    Operator operator;
 
-    @Autowired
-    private OpportunityController opportunityController;
+    // List of all commandMenu
+    private final String[] commandMenu = new String[]{
+            "new lead",
+            "new salesrep",
+            "show leads",
+            "lookup lead {Id}",
+            "convert {Id}",
+            "lookup opportunity {Id}",
+            "close-won {Id}",
+            "close-lost {Id}",
+            "help",
+            "quit\n"
+    };
 
-    @Autowired
-    private AccountController accountController;
+    final String notValidCommand = "\nPlease enter a valid command\nType help for all available commands";
+    private ArrayList<String> commandArray = new ArrayList<>();
+    private String fullCommand;
 
     // Initialize scanner for user input
     public void start() {
-        String fullCommand;
-        String actionCommand;
-        Long commandId = 0L;
-        //List of all commands
-        String[] commands = new String[]{
-                "new lead",
-                "show leads",
-                "lookup lead {Id}",
-                "convert {Id}",
-                "lookup opportunity {Id}",
-                "close-won {Id}",
-                "close-lost {Id}",
-                "help",
-                "quit"
-        };
 
         System.out.println("***LBL Trucking CRM***");
-
         Scanner scanner = new Scanner(System.in);
 
-        // Command loop: asks for valid input and passes id if necessary
         while (true) {
-            System.out.println("\nEnter command:");
-            fullCommand = scanner.nextLine().toLowerCase();
+            System.out.println("\nPlease enter a command:");
+            commandArray.clear(); // before scanner to clear ArrayList before every new input
+            commandArray.addAll(Arrays.asList(scanner.nextLine().toLowerCase().trim().split(" ")));
+            fullCommand = String.join(" ", commandArray);
 
-            if (fullCommand.matches(".*\\d.*")) { // check for {id} number in command
-                if (fullCommand.split(" ").length == 3) {
-                    actionCommand = fullCommand.split(" ")[0] + " " + fullCommand.split(" ")[1];
-                    commandId = Long.parseLong(fullCommand.split(" ")[2]);
-                } else if(fullCommand.split(" ").length ==2) {
-                    actionCommand = fullCommand.split(" ")[0];
-                    commandId = Long.parseLong(fullCommand.split(" ")[1]);
-                } else {
-                    actionCommand = "not valid";
-                }
-            } else {
-                actionCommand = fullCommand;
-            }
+            switch (commandArray.get(0)) {
 
-            switch (actionCommand) {
-                case "new lead":
-                    newLead();
+                case (""):
                     break;
-                case "new salesrep":
-                    newSalesRep();
+
+                case ("new"):
+                    // Create new lead or new salesRep
+                    if(fullCommand.equals("new lead")) register.newLead();
+                    else if(fullCommand.equals("new salesrep")) register.newSalesRep();
+                    else System.out.println(notValidCommand);
                     break;
-                case "show leads":
-                    showLeads();
+
+                case ("lookup"):
+                    // Search single registry
+                    if(fullCommand.matches("lookup lead [0-9]+")) searcher.findLead(commandArray.get(2));
+                    else if(fullCommand.matches("lookup opportunity [0-9]+")) searcher.findOpportunity(commandArray.get(2));
+                    else System.out.println(notValidCommand);
                     break;
-                case "lookup lead":
-                    try {
-                        lookupLeads(commandId);
-                    } catch (IndexOutOfBoundsException e) {
-                        System.out.println("There is no lead with that id, enter a valid id.\nUse 'show leads' to check all leads");
+
+                case ("show"):
+                    // Search for all registries
+                    if(fullCommand.matches("show leads")) searcher.findAllLeads();
+                    else System.out.println(notValidCommand);
+                    break;
+
+                case ("convert"):
+                    // Convert lead to opportunity
+                    if(fullCommand.matches("convert [0-9]+")) operator.convertLead(commandArray.get(1));
+                    else System.out.println(notValidCommand);
+                    break;
+
+                case ("close-won"):
+                case ("close-lost"):
+                    // Close
+                    if(fullCommand.matches("close-won [0-9]+")) operator.closeWon(commandArray.get(1));
+                    else if(fullCommand.matches("close-lost [0-9]")) operator.closeLost(commandArray.get(1));
+                    else System.out.println(notValidCommand);
+                    break;
+
+                case ("report"):
+                    // Report
+                    if(fullCommand.matches("report lead by salesrep")) searcher.helper.leadController.findLeadsBySalesRep();
+                    else if(fullCommand.matches("report opportunity by salesrep")) searcher.helper.opportunityController.findOpportunitiesBySalesRep();
+                    else if(fullCommand.matches("report closed-won by salesrep"))searcher.helper.opportunityController.findWonOpportunitiesBySalesRep();
+                    else if(fullCommand.matches("report closed-lost by salesrep"))searcher.helper.opportunityController.findLostOpportunitiesBySalesRep();
+                    else if(fullCommand.matches("report open by salesrep")) searcher.helper.opportunityController.findOpenOpportunitiesBySalesRep();
+                    else if(fullCommand.matches("report opportunity by product")) searcher.helper.opportunityController.countByProduct();
+                    else if(fullCommand.matches("report closed-won by product")) searcher.helper.opportunityController.countWonByProduct();
+                    else if(fullCommand.matches("report closed-lost by product")) searcher.helper.opportunityController.countLostByProduct();
+                    else if(fullCommand.matches("report open by product")) searcher.helper.opportunityController.countOpenByProduct();
+                    else if(fullCommand.matches("report opportunity by country")) searcher.helper.opportunityController.countByCountry();
+                    else if(fullCommand.matches("report closed-won by country")) searcher.helper.opportunityController.countWonByCountry();
+                    else if(fullCommand.matches("report closed-lost by country")) searcher.helper.opportunityController.countLostByCountry();
+                    else if(fullCommand.matches("report open by country")) searcher.helper.opportunityController.countOpenByCountry();
+                    else if(fullCommand.matches("report opportunity by city")) searcher.helper.opportunityController.countByCity();
+                    else if(fullCommand.matches("report closed-won by city")) searcher.helper.opportunityController.countWonByCity();
+                    else if(fullCommand.matches("report closed-lost by city")) searcher.helper.opportunityController.countLostByCity();
+                    else if(fullCommand.matches("report open by city")) searcher.helper.opportunityController.countOpenByCity();
+                    else if(fullCommand.matches("report opportunity by industry")) searcher.helper.opportunityController.countByIndustry();
+                    else if(fullCommand.matches("report closed-won by industry")) searcher.helper.opportunityController.countWonByIndustry();
+                    else if(fullCommand.matches("report closed-lost by industry")) searcher.helper.opportunityController.countLostByIndustry();
+                    else if(fullCommand.matches("report open by industry")) searcher.helper.opportunityController.countOpenByIndustry();
+                    else System.out.println(notValidCommand);
+
+                    break;
+                
+                case ("mean"):
+                case ("median"):
+                case ("max"):
+                case ("min"):
+                    if(fullCommand.matches("mean employeecount")) searcher.helper.opportunityController.meanEmployeeCount();
+                    else if(fullCommand.matches("median employeecount")) searcher.helper.opportunityController.medianEmployeeCount();
+                    else if(fullCommand.matches("max employeecount")) searcher.helper.opportunityController.maxEmployeeCount();
+                    else if(fullCommand.matches("min employeecount")) searcher.helper.opportunityController.minEmployeeCount();
+                    else if(fullCommand.matches("mean quantity")) searcher.helper.opportunityController.meanQuantity();
+                    else if(fullCommand.matches("median quantity")) searcher.helper.opportunityController.medianQuantity();
+                    else if(fullCommand.matches("max quantity")) searcher.helper.opportunityController.maxQuantity();
+                    else if(fullCommand.matches("min quantity")) searcher.helper.opportunityController.minQuantity();
+                    else if(fullCommand.matches("mean opps per account")) searcher.helper.opportunityController.meanOpportunityByAccount();
+                    else if(fullCommand.matches("median opps per account")) searcher.helper.opportunityController.medianOpportunityByAccount();
+                    else if(fullCommand.matches("max opps per account")) searcher.helper.opportunityController.maxOppsByAccount();
+                    else if(fullCommand.matches("min opps per account")) searcher.helper.opportunityController.minOppsByAccount();
+                    else System.out.println(notValidCommand);
+
+                    break;
+
+                case ("help"):
+                    // Help
+                    System.out.println("\nAvailable commands:");
+                    for (String singleCommand : commandMenu) {
+                        System.out.println(singleCommand);
                     }
                     break;
-                case "convert":
-                    try {
-                        convertId(commandId);
-                    } catch (IndexOutOfBoundsException e) {
-                        System.out.println("There is no lead with that id, enter a valid id.\nUse 'show leads' to check all leads");
-                    }
-                    break;
-                case "lookup opportunity":
-                    try {
-                        lookupOpportunity(commandId);
-                    } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
-                        System.out.println("There is no opportunity with that id, enter a valid id");
-                    }
-                    break;
-                case "close-won":
-                    try {
-                        closeWon(commandId);
-                    } catch (IndexOutOfBoundsException e) {
-                        System.out.println("There is no opportunity with that id, enter a valid id");
-                    }
-                    break;
-                case "close-lost":
-                    try {
-                        closeLost(commandId);
-                    } catch (IndexOutOfBoundsException e) {
-                        System.out.println("There is no opportunity with that id, enter a valid id");
-                    }
-                    break;
-                case "help":
-                    System.out.println("Available commands:");
-                    for (String command : commands) {
-                        System.out.println(command);
-                    }
-                    break;
-                case "quit":
-                    try {
-                        System.out.println("Goodbye!");
-                        Thread.sleep(1000);
-                        System.exit(0);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+
+                case ("quit"):
+                    scanner.close();
+                    System.out.println("\nGoodbye!");
+                    System.exit(0);
+
                 default:
-                    System.out.println("Please enter a valid command");
+                    System.out.println(notValidCommand);
             }
         }
-    }
-    // ---USER OPERATION--- //
-    public void newSalesRep() {
-        String tempName = setName();
-        SalesRep tempSalesRep = new SalesRep(tempName);
-        salesRepController.createSalesRep(tempSalesRep);
-    }
-
-    public void newLead() {
-
-        String tempName = setName();
-        String tempPhoneNumber = setPhone();
-        String tempEmail = setEmail();
-        String tempCompanyName = setCompanyName();
-        SalesRep tempSalesRep = setSalesRep();
-
-        LeadContact tempLead = new LeadContact(tempSalesRep, tempName, tempPhoneNumber, tempEmail, tempCompanyName);
-
-        leadController.createLead(tempLead);
-    }
-
-        // ---HELPER METHODS USED BY newLead()--- //
-        public String setName() {
-            String name;
-            Scanner scanner = new Scanner(System.in);
-
-            while (true) {
-                System.out.println("\nEnter name and lastname:");
-                name = scanner.nextLine();
-                boolean isThereFirstAndLastname = (name.split(" ").length == 2);
-                if (name.length() < 3) System.out.println("Name must have at least 3 characters");
-                else if (name.matches(".*\\d.*") || name.matches(".*\\p{Punct}.*")) System.out.println("Name cannot contain numbers" +
-                                                                                                                    "or especial characters");
-                else if (!isThereFirstAndLastname) System.out.println("Please enter name and lastname separated by a space");
-                else {
-                    System.out.println("The registered name is: " + name + "\n");
-                    return name;
-                }
-            }
-        }
-
-        public String setPhone() {
-            String phone;
-            Scanner scanner = new Scanner(System.in);
-
-            while (true) {
-                System.out.println("\nEnter lead's phone number, should be 9 digits long:");
-                phone = scanner.nextLine();
-                if (phone.length() != 9) System.out.println("Phone must be 9 digits long");
-                else if (phone.matches("\\d+")) {
-                    System.out.println("The registered phone is: " + phone + "\n");
-                    return phone;
-                }
-
-            }
-        }
-
-        public String setEmail() {
-            String email;
-            Scanner scanner = new Scanner(System.in);
-
-            while (true) {
-                System.out.println("\nEnter lead's email address:");
-                email = scanner.nextLine();
-
-                if (email.length() < 5) System.out.println("Email must be more than 5 characters long");
-                else if (!email.matches("^(.+)@(.+)\\.(.+)$")) System.out.println("Please enter a email like: example@hello.io");
-                else {
-                    System.out.println("The registered email is: " + email + "\n");
-                    return email;
-                }
-            }
-        }
-
-        public String setCompanyName() {
-            String companyName;
-            Scanner scanner = new Scanner(System.in);
-
-            while (true) {
-                System.out.println("\nEnter company's name:");
-                companyName = scanner.nextLine();
-                if (companyName.length() < 3) System.out.println("Company name must have at least 3 characters");
-                else {
-                    System.out.println("The registered company name is: " + companyName + "\n");
-                    return companyName;
-                }
-            }
-        }
-
-        public SalesRep setSalesRep() {
-            String selectedSalesRep;
-            Scanner scanner = new Scanner(System.in);
-
-            while (true) {
-                System.out.println("\nSelect a sales rep. Enter the id:");
-                salesRepController.printAll();
-                selectedSalesRep = scanner.nextLine();
-
-                if(selectedSalesRep.matches("[0-9]+")) {
-                    SalesRep salesRep = salesRepController.findById(Long.parseLong(selectedSalesRep));
-                    if (salesRep == null) System.out.println("There is no sales rep with that id\n");
-                    else {
-                        System.out.println("The selected sales rep is: " + salesRep);
-                        return salesRep;
-                    }
-
-                }
-            }
-        }
-
-    //---USER OPERATION---//
-    public void showLeads() {
-        leadController.printAll();
-    }
-
-    public void lookupLeads(Long commandId) {
-        LeadContact foundLead = leadController.findById(commandId);
-        if(foundLead == null) System.out.println("There is no lead with that id");
-        else System.out.println(foundLead);
-
-    }
-
-    public void convertId(Long commandId) {
-        // Find lead by id and create Contact from it
-        LeadContact leadToConvert = leadController.findById(commandId);
-        if(leadToConvert == null) System.out.println("There is no lead with that id");
-        else {
-            Contact contactFromLead = new Contact(
-                    leadToConvert.getName(),
-                    leadToConvert.getPhoneNumber(),
-                    leadToConvert.getEmail(),
-                    leadToConvert.getCompanyName());
-            // Gather arguments to create new Opportunity
-            Contact contactForOpportunity = contactController.createContact(contactFromLead);
-            Product tempProduct = setProduct();
-            int quantityOfProduct = setQuantity();
-            //Req 12,13,14 linking account with Opportunity or creating a new account
-            String pickedOptionForCreatingNewAccount;
-            //If there's no account available there's no need to ask if you want to link to the existing one, since you would have nothing to pick from
-            if (accountController.findAllAccounts().size() == 0)
-                //"Y" is for creating a new account
-                {System.out.println("There's no accounts available!");
-                pickedOptionForCreatingNewAccount="Y";}
-            else
-                //this guarantees that the user will input only from the available options
-                {pickedOptionForCreatingNewAccount = Commons.GetStringFromUserFromAvailable("Would you like to create a new Account? (Y/N)",new String[]{"Y","N"});}
-            Account accountForOpportunity;
-            //Here the code splits for the option you picked earlier
-            if(pickedOptionForCreatingNewAccount.equals("N")){
-                //Link with the existing account
-                List<Account> accounts =  accountController.findAllAccounts();
-                System.out.println("Please associate an account with the contact and opportunity!");
-                List<Long> accountIDs = new ArrayList<>();
-                for (Account account: accounts) {
-                    System.out.println(account.getAccountId()+". "+account.getCompanyName());
-                    accountIDs.add(account.getAccountId());
-                }
-                //Commons class method guarantee that a correct input is picked.
-                Long pickedAccountID = Commons.GetLongFromUserFromAvailableOptions("Pick one of the existing accounts!",accountIDs);
-                accountForOpportunity = accountController.findById(pickedAccountID);
-            }
-            else {
-                //This code executes if the user selected that he wants to create a new account or there's no account available
-                // Gather arguments to create new Account
-                System.out.println("Creating new account!");
-                String companyName = leadToConvert.getCompanyName();
-                int employeeCount = setEmployeeCount();
-                Industry industryType = setIndustryType();
-                String city = setCity();
-                String country = setCountry();
-
-                // Create new Account
-                Account newAccount = new Account(
-                        companyName,
-                        employeeCount,
-                        industryType,
-                        city,
-                        country);
-                accountForOpportunity = accountController.createAccount(newAccount);
-            }
-            // Create new Opportunity
-            Opportunity newOpportunity = new Opportunity(
-                    leadToConvert.getSalesRep(),
-                    contactForOpportunity,
-                    tempProduct,
-                    quantityOfProduct,
-                    Status.OPEN,
-                    accountForOpportunity);
-
-            opportunityController.createOpportunity(newOpportunity);
-
-            // Delete the converted lead
-            leadController.deleteLead(commandId);
-        }
-
-    }
-
-        // ---HELPER METHODS USED BY convertId()--- //
-
-        public Product setProduct() {
-            Product product = null;
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Select product:\n1. HYBRID\n2. FLATBED\n3. BOX");
-            //This method guarantees that one of the available option will be picked
-            int productSelection = Commons.GetNumericInputFromUserInRange("Pick one of the available options!",1,3);
-            //Refactored the code because the old regex functionality was enabling invalid input.
-            switch (productSelection) {
-                case (1):
-                    product = Product.valueOf("HYBRID");
-                    break;
-                case (2):
-                    product = Product.valueOf("FLATBED");
-                    break;
-                default:
-                    product = Product.valueOf("BOX");
-                }
-            return product;
-        }
-
-        public int setQuantity() {
-            String quantity = "";
-            Scanner scanner = new Scanner(System.in);
-            while (!quantity.matches("[0-9]+")) {
-                System.out.println("Enter quantity of product:");
-                quantity = scanner.nextLine();
-            }
-            return Integer.parseInt(quantity);
-        }
-
-        public int setEmployeeCount() {
-            String employeeCount = "";
-            Scanner scanner = new Scanner(System.in);
-            while (!employeeCount.matches("[0-9]+")) {
-                System.out.println("Enter number of employees:");
-                employeeCount = scanner.nextLine();
-            }
-            return Integer.parseInt(employeeCount);
-        }
-
-        public Industry setIndustryType() {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("\nSelect industry:\n1. PRODUCE\n2. ECOMMERCE\n3. MANUFACTURING\n4. MEDICAL\n5. OTHER");
-            //Same refactor as in set product type, using the Commons class methods guarantees a valid pick is selected
-            int industry = Commons.GetNumericInputFromUserInRange("Please pick from available options!",1,5);
-            switch (industry) {
-                case (1):
-                    return Industry.valueOf("PRODUCE");
-                case (2):
-                    return Industry.valueOf("ECOMMERCE");
-                case (3):
-                    return Industry.valueOf("MANUFACTURING");
-                case (4):
-                    return Industry.valueOf("MEDICAL");
-                default:
-                    return Industry.valueOf("OTHER");
-            }
-        }
-
-        public String setCity() {
-            String city = "";
-            Scanner scanner = new Scanner(System.in);
-            while (city.equals("")) {
-                System.out.println("\nEnter the company's city:");
-                city = scanner.nextLine();
-            }
-            return city;
-        }
-
-        public String setCountry() {
-            String country = "";
-            Scanner scanner = new Scanner(System.in);
-            while (country.equals("")) {
-                System.out.println("\nEnter the company's country:");
-                country = scanner.nextLine();
-            }
-            return country;
-        }
-
-
-    public void lookupOpportunity(Long commandId) {
-        Opportunity foundOpportunity = opportunityController.findById(commandId);
-        if(foundOpportunity == null) System.out.println("There is no opportunity with that id");
-        else System.out.println(foundOpportunity);
-    }
-
-    public void closeWon(Long commandId) {
-        opportunityController.updateCloseWon(commandId);
-    }
-
-    public void closeLost(Long commandId) {
-        opportunityController.updateCloseLost(commandId);
     }
 }
