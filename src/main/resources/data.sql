@@ -1,10 +1,10 @@
 INSERT INTO account (account_id, city, company_name, country, employee_count, industry_type) VALUES
 
-('1', 'Yonkers', 'Eco Focus', 'US', '11', '1'),
-('2', 'Lichfield', 'Innovation Arch', 'UK', '12', '2'),
-('3', 'East Liverpool', 'Strat Security', 'US', '13', '3'),
-('4', 'Warwick', 'Inspire Fitness Co', 'US', '14', '4'),
-('5', 'Shanklin', 'Cogent Data', 'UK', '15', '5');
+('1', 'Yonkers', 'Eco Focus', 'US', '11', 'PRODUCE'),
+('2', 'Lichfield', 'Innovation Arch', 'UK', '12', 'ECOMMERCE'),
+('3', 'East Liverpool', 'Strat Security', 'US', '13', 'MANUFACTURING'),
+('4', 'Warwick', 'Inspire Fitness Co', 'US', '14', 'MEDICAL'),
+('5', 'Shanklin', 'Cogent Data', 'UK', '15', 'OTHER');
 
 
 INSERT INTO contact (contact_id, company_name, email, name, phone_number) VALUES
