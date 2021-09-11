@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-
 @Component
 public class InputHandler {
 
@@ -113,10 +112,11 @@ public class InputHandler {
                     else System.out.println(notValidCommand);
 
                     break;
+                
                 case ("mean"):
-                case("median"):
+                case ("median"):
                 case ("max"):
-                case("min"):
+                case ("min"):
                     if(fullCommand.matches("mean employeecount")) searcher.helper.opportunityController.meanEmployeeCount();
                     else if(fullCommand.matches("median employeecount")) searcher.helper.opportunityController.medianEmployeeCount();
                     else if(fullCommand.matches("max employeecount")) searcher.helper.opportunityController.maxEmployeeCount();

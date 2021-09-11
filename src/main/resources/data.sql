@@ -1,9 +1,11 @@
 INSERT INTO account (account_id, city, company_name, country, employee_count, industry_type) VALUES
-('1', 'Yonkers', 'Eco Focus', 'US', '11', 'PRODUCE'),
-('2', 'Lichfield', 'Innovation Arch', 'UK', '12', 'ECOMMERCE'),
-('3', 'East Liverpool', 'Strat Security', 'US', '50', 'MANUFACTURING'),
-('4', 'Warwick', 'Inspire Fitness Co', 'US', '14', 'MEDICAL'),
-('5', 'Shanklin', 'Cogent Data', 'UK', '15', 'OTHER');
+
+('1', 'Yonkers', 'Eco Focus', 'US', '11', '1'),
+('2', 'Lichfield', 'Innovation Arch', 'UK', '12', '2'),
+('3', 'East Liverpool', 'Strat Security', 'US', '13', '3'),
+('4', 'Warwick', 'Inspire Fitness Co', 'US', '14', '4'),
+('5', 'Shanklin', 'Cogent Data', 'UK', '15', '5');
+
 
 INSERT INTO contact (contact_id, company_name, email, name, phone_number) VALUES
 ('1', 'Eco Focus', 'hello@eco.com', 'Zsófika Kleid', '300852848'),
@@ -28,7 +30,9 @@ INSERT INTO lead_contact (lead_id, company_name, email, name, phone_number, sale
 
 INSERT INTO opportunity (opportunity_id, product_type, quantity, status, account_id, contact_id, sales_rep_id) VALUES
 ('1', 'HYBRID', '1', 'OPEN', '1', '1', '1'),
-('2', 'FLATBED', '2', 'OPEN', '1', '2', '2'),
-('3', 'BOX', '3', 'OPEN', '3', '2', '3'),
-('4', 'HYBRID', '4', 'OPEN', '2', '4', '4'),
-('5', 'FLATBED', '5', 'OPEN', '2', '5', '5');
+
+('2', 'FLATBED', '2', 'OPEN', '2', '2', '2'),
+('3', 'BOX', '3', 'OPEN', '3', '3', '3'),
+('4', 'HYBRID', '4', 'OPEN', '4', '4', '4'),
+('5', 'FLATBED', '5', 'OPEN', '5', '5', '5');
+

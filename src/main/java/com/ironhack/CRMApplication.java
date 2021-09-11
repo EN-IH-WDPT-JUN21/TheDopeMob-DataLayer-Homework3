@@ -31,7 +31,6 @@ public class CRMApplication implements CommandLineRunner {
         public void run(String... args) {
 
             inputHandler.start();
-
     }
 
 }
