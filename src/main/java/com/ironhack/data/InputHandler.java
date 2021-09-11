@@ -88,6 +88,7 @@ public class InputHandler {
                     break;
 
                 case ("report"):
+                    // Report
                     if(fullCommand.matches("report lead by salesrep")) searcher.helper.leadController.findLeadsBySalesRep();
                     else if(fullCommand.matches("report opportunity by salesrep")) searcher.helper.opportunityController.findOpportunitiesBySalesRep();
                     else if(fullCommand.matches("report closed-won by salesrep"))searcher.helper.opportunityController.findWonOpportunitiesBySalesRep();
@@ -110,7 +111,26 @@ public class InputHandler {
                     else if(fullCommand.matches("report closed-lost by industry")) searcher.helper.opportunityController.countLostByIndustry();
                     else if(fullCommand.matches("report open by industry")) searcher.helper.opportunityController.countOpenByIndustry();
                     else System.out.println(notValidCommand);
-                    // Report
+
+                    break;
+                case ("mean"):
+                case("median"):
+                case ("max"):
+                case("min"):
+                    if(fullCommand.matches("mean employeecount")) searcher.helper.opportunityController.meanEmployeeCount();
+                    else if(fullCommand.matches("median employeecount")) searcher.helper.opportunityController.medianEmployeeCount();
+                    else if(fullCommand.matches("max employeecount")) searcher.helper.opportunityController.maxEmployeeCount();
+                    else if(fullCommand.matches("min employeecount")) searcher.helper.opportunityController.minEmployeeCount();
+                    else if(fullCommand.matches("mean quantity")) searcher.helper.opportunityController.meanQuantity();
+                    else if(fullCommand.matches("median quantity")) searcher.helper.opportunityController.medianQuantity();
+                    else if(fullCommand.matches("max quantity")) searcher.helper.opportunityController.maxQuantity();
+                    else if(fullCommand.matches("min quantity")) searcher.helper.opportunityController.minQuantity();
+                    else if(fullCommand.matches("mean opps per account")) searcher.helper.opportunityController.meanOpportunityByAccount();
+                    else if(fullCommand.matches("median opps per account")) searcher.helper.opportunityController.medianOpportunityByAccount();
+                    else if(fullCommand.matches("max opps per account")) searcher.helper.opportunityController.maxOppsByAccount();
+                    else if(fullCommand.matches("min opps per account")) searcher.helper.opportunityController.minOppsByAccount();
+                    else System.out.println(notValidCommand);
+
                     break;
 
                 case ("help"):

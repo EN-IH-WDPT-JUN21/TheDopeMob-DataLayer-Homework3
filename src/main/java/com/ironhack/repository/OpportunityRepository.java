@@ -91,8 +91,52 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, Long>{
             " FROM Opportunity AS c WHERE c.status = 'open' GROUP BY c.accountId.industryType")
     List<OpportunityCountByIndustry> countOpenByIndustry();
 
-//    @Query("SELECT AVG(c.account.employeeCount), COUNT(c.opportunityId)" +
-//            " FROM Opportunity AS c")
-//    List<Long> mean();
+    @Query("SELECT new com.ironhack.converter.MeanEmployeeCount(AVG(c.accountId.employeeCount), COUNT(c.opportunityId))" +
+            " FROM Opportunity AS c")
+    MeanEmployeeCount meanEmployee();
+
+    @Query("SELECT new com.ironhack.converter.Median(c.accountId.accountId, c.accountId.employeeCount)" +
+            " FROM Opportunity AS c ORDER BY c.accountId.employeeCount ASC")
+    List<Median> medianEmployee();
+
+    @Query("SELECT new com.ironhack.converter.MaxMin (c.accountId.employeeCount, c.accountId.companyName)" +
+            " FROM Opportunity AS c ORDER BY c.accountId.employeeCount DESC")
+    List<MaxMin> maxEmployee();
+
+    @Query("SELECT new com.ironhack.converter.MaxMin (c.accountId.employeeCount, c.accountId.companyName)" +
+            " FROM Opportunity AS c ORDER BY c.accountId.employeeCount ASC")
+    List<MaxMin> minEmployee();
+
+    @Query("SELECT new com.ironhack.converter.MeanQuantity(AVG(c.quantity), COUNT(c.opportunityId))" +
+            " FROM Opportunity AS c")
+    MeanQuantity meanQuantity();
+
+    @Query("SELECT new com.ironhack.converter.Median(c.accountId.accountId, c.quantity)" +
+            " FROM Opportunity AS c ORDER BY c.quantity ASC")
+    List<Median> medianQuantity();
+
+    @Query("SELECT new com.ironhack.converter.MaxMin (c.quantity, c.accountId.companyName)" +
+            " FROM Opportunity AS c ORDER BY c.quantity DESC")
+    List<MaxMin> maxQuantity();
+
+    @Query("SELECT new com.ironhack.converter.MaxMin (c.quantity, c.accountId.companyName)" +
+            " FROM Opportunity AS c ORDER BY c.accountId.employeeCount ASC")
+    List<MaxMin> minQuantity();
+
+    @Query("SELECT new com.ironhack.converter.MeanOpportunity (COUNT(DISTINCT c.accountId.accountId), COUNT(c.opportunityId))" +
+            " FROM Opportunity AS c")
+    MeanOpportunity meanOpportunity();
+
+    @Query("SELECT new com.ironhack.converter.MedianOpportunity (c.accountId.accountId, COUNT(c.opportunityId))" +
+            " FROM Opportunity AS c GROUP BY c.accountId.accountId ORDER BY COUNT(c.opportunityId) ASC")
+    List<MedianOpportunity> medianOpportunity();
+
+    @Query("SELECT new com.ironhack.converter.MaxMinOpportunity (c.accountId.companyName, COUNT(c.opportunityId))" +
+            " FROM Opportunity AS c GROUP BY c.accountId.companyName ORDER BY COUNT(c.opportunityId) DESC")
+    List<MaxMinOpportunity> maxOpportunity();
+
+    @Query("SELECT new com.ironhack.converter.MaxMinOpportunity (c.accountId.companyName, COUNT(c.opportunityId))" +
+            " FROM Opportunity AS c GROUP BY c.accountId.companyName ORDER BY COUNT(c.opportunityId) ASC")
+    List<MaxMinOpportunity> minOpportunity();
 
 }

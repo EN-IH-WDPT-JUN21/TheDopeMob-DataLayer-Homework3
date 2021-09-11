@@ -2,7 +2,6 @@ package com.ironhack.controller;
 
 import com.ironhack.converter.*;
 import com.ironhack.dao.Opportunity;
-import com.ironhack.enums.Status;
 import com.ironhack.repository.OpportunityRepository;
 import com.ironhack.service.OpportunityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -226,6 +225,105 @@ public class OpportunityController {
             }
         }
     }
+
+    public void meanEmployeeCount() {
+        MeanEmployeeCount meanAndCount = opportunityRepository.meanEmployee();
+        if(meanAndCount == null) System.out.println("There are no opportunities in the database");
+        else{
+            System.out.println(meanAndCount);
+        }
+    }
+
+    public void medianEmployeeCount(){
+        List<Median> medianAndCount = opportunityRepository.medianEmployee();
+        if(medianAndCount == null) System.out.println("There are no opportunities in the database");
+        else{
+            Integer medianEmployeeCountIndex = Math.round(medianAndCount.size() / 2);
+            System.out.println(medianAndCount.get(medianEmployeeCountIndex));
+        }
+    }
+
+    public void maxEmployeeCount(){
+        List<MaxMin> maxEmployeeCount = opportunityRepository.maxEmployee();
+        if(maxEmployeeCount.isEmpty()) System.out.println("There are no opportunities in the database");
+        else{
+            System.out.println(maxEmployeeCount.get(0));
+        }
+    }
+
+    public void minEmployeeCount(){
+        List<MaxMin> minEmployeeCount = opportunityRepository.minEmployee();
+        if(minEmployeeCount.isEmpty()) System.out.println("There are no opportunities in the database");
+        else{
+            System.out.println(minEmployeeCount.get(0));
+        }
+    }
+
+    public void meanQuantity() {
+        MeanQuantity meanAndCount = opportunityRepository.meanQuantity();
+        if(meanAndCount == null) System.out.println("There are no opportunities in the database");
+        else{
+            System.out.println(meanAndCount);
+        }
+    }
+
+    public void medianQuantity(){
+        List<Median> medianAndCount = opportunityRepository.medianQuantity();
+        if(medianAndCount.isEmpty()) System.out.println("There are no opportunities in the database");
+        else{
+            Integer medianEmployeeCountIndex = Math.round(medianAndCount.size() / 2);
+            System.out.println(medianAndCount.get(medianEmployeeCountIndex));
+        }
+    }
+
+    public void maxQuantity(){
+        List<MaxMin> maxQuantity = opportunityRepository.maxQuantity();
+        if(maxQuantity.isEmpty()) System.out.println("There are no opportunities in the database");
+        else{
+            System.out.println(maxQuantity.get(0));
+        }
+    }
+
+    public void minQuantity(){
+        List<MaxMin> minQuantity = opportunityRepository.minQuantity();
+        if(minQuantity.isEmpty()) System.out.println("There are no opportunities in the database");
+        else{
+            System.out.println(minQuantity.get(0));
+        }
+    }
+
+    public void meanOpportunityByAccount(){
+        MeanOpportunity meanOpportunity = opportunityRepository.meanOpportunity();
+        if(meanOpportunity == null) System.out.println("There are no opportunities in the database");
+        else{
+            System.out.println(meanOpportunity);
+        }
+    }
+
+    public void medianOpportunityByAccount(){
+        List<MedianOpportunity> medianAndCount = opportunityRepository.medianOpportunity();
+        if(medianAndCount.isEmpty()) System.out.println("There are no opportunities in the database");
+        else{
+            Integer medianOpportunityIndex = Math.round(medianAndCount.size() / 2);
+            System.out.println(medianAndCount.get(medianOpportunityIndex));
+        }
+    }
+
+    public void maxOppsByAccount(){
+        List<MaxMinOpportunity> maxOpportunity = opportunityRepository.maxOpportunity();
+        if(maxOpportunity.isEmpty()) System.out.println("There are no opportunities in the database");
+        else{
+            System.out.println(maxOpportunity.get(0));
+        }
+    }
+    public void minOppsByAccount(){
+        List<MaxMinOpportunity> minOpportunity = opportunityRepository.minOpportunity();
+        if(minOpportunity.isEmpty()) System.out.println("There are no opportunities in the database");
+        else{
+            System.out.println(minOpportunity.get(0));
+        }
+    }
+
 
     public void updateCloseWon(Long id) {
         opportunityService.updateCloseWon(id);
