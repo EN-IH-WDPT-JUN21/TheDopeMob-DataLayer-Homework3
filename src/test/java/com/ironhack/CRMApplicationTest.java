@@ -3,18 +3,15 @@ package com.ironhack;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
-/**
- * Unit test for simple App.
- */
-public class CRMApplicationTest
-{
-    /**
-     * Rigorous Test :-)
-     */
+@SpringBootTest
+public class CRMApplicationTest {
+
+    @MockBean
+    private CRMApplication crmApplication;
+
     @Test
-    public void shouldAnswerWithTrue()
-    {
-        assertTrue( true );
-    }
+    public void contextLoads(){}
 }

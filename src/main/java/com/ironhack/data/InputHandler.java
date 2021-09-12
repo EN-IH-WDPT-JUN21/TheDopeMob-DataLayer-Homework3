@@ -19,8 +19,6 @@ public class InputHandler {
 
     // List of all commandMenu
     private final String[] commandMenu = new String[]{
-
-
             "\nAVAILABLE COMMANDS:",
             "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500" +
                     "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
@@ -84,6 +82,7 @@ public class InputHandler {
                 case ("show"):
                     // Search for all registries
                     if(fullCommand.matches("show leads")) searcher.findAllLeads();
+                    if(fullCommand.matches("show salesreps")) searcher.findAllSalesReps();
                     else System.out.println(notValidCommand);
                     break;
 

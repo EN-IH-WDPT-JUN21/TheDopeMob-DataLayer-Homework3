@@ -32,6 +32,10 @@ public class Searcher {
         helper.leadController.printAll();
     }
 
+    public void findAllSalesReps() {
+        helper.salesRepController.printAll();
+    }
+
 
 
 }
