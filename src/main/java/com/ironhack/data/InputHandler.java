@@ -19,14 +19,29 @@ public class InputHandler {
 
     // List of all commandMenu
     private final String[] commandMenu = new String[]{
-            "new lead",
-            "new salesrep",
-            "show leads",
-            "lookup lead {Id}",
-            "convert {Id}",
-            "lookup opportunity {Id}",
-            "close-won {Id}",
-            "close-lost {Id}",
+
+
+            "\nAVAILABLE COMMANDS:",
+            "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500" +
+                    "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+            "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500" +
+                    "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+            "- new <>          |     <lead> or <salesRep>      |",
+            "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+            "- show leads      |                               |",
+            "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+            "- lookup <> {Id}  |     <lead> or <opportunity>   | {Id} from lead or opportunity",
+            "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+            "- convert {Id}    |                               |",
+            "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+            "- close-<>  {Id}  |     <won> or <lost>           |",
+            "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+            "                  |     <lead> , <opportunity>    |",
+            "- report <> by {} |     <open> , <close-won>      | {}: salesRep / Product / Country / City / Industry",
+            "                  |     <close-lost>              |",
+            "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+            "mean by {}        |                               | {}: EmployeeCount / Quantity / Opps per Account",
+            "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
             "help",
             "quit\n"
     };
@@ -135,7 +150,6 @@ public class InputHandler {
 
                 case ("help"):
                     // Help
-                    System.out.println("\nAvailable commands:");
                     for (String singleCommand : commandMenu) {
                         System.out.println(singleCommand);
                     }
