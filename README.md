@@ -112,7 +112,7 @@ Be sure to:
 
 ### Class UML Diagram
 
-<img src="src/main/resources/static/CRM-class-diagram-business-logic.png" alt="business-logic-diagram">
+<img src="src/main/resources/static/CRM-class-diagram-business-logic.png" alt="business-logic-diagram" width="500">
 
 <img src="src/main/resources/static/CRM-class-diagram-data-logic.png" alt="data-logic-diagram">
 
