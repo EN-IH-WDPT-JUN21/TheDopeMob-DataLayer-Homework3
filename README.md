@@ -110,6 +110,12 @@ Be sure to:
 <!-- ROADMAP -->
 ## Roadmap
 
+### Class UML Diagram
+
+<img src="src/main/resources/static/CRM-class-diagram-business-logic.png" alt="business-logic">
+
+<img src="src/main/resources/static/CRM-class-diagram-data-logic.png" alt="data-logic">
+
 * Refactor into a REST API.
 
 
