@@ -112,13 +112,13 @@ Be sure to:
 
 ### Class UML Diagram
 
-<img src="src/main/resources/static/CRM-class-diagram-business-logic.png" alt="business-logic-diagram" width="500">
+<img src="src/main/resources/static/CRM-class-diagram-business-logic.png" alt="business-logic-diagram" width="700" align="center">
 
-<img src="src/main/resources/static/CRM-class-diagram-data-logic.png" alt="data-logic-diagram">
+<img src="src/main/resources/static/CRM-class-diagram-data-logic.png" alt="data-logic-diagram" width="700" align="center">
 
 ### Use case UML Diagram
 
-<img src="src/main/resources/static/CRM-useCase-diagram.png" alt="use-case-diagram">
+<img src="src/main/resources/static/CRM-useCase-diagram.png" alt="use-case-diagram" height="700" align="center">
 
 ### Next steps
 * Refactor into a REST API.
