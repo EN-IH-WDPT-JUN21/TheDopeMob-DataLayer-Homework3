@@ -1,16 +1,16 @@
 package com.ironhack.converter;
 
-import com.ironhack.dao.Account;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class MeanOpportunity {
 
     final private Long meanOpportunity;
     final private Long accounts;
-
-    public MeanOpportunity(Long accounts, Long meanOpportunity) {
-        this.meanOpportunity = meanOpportunity;
-        this.accounts = accounts;
-    }
 
     @Override
     public String toString() {

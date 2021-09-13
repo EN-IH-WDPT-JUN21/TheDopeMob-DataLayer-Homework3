@@ -1,13 +1,15 @@
 package com.ironhack.converter;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
 public class OpportunityCountByCountry {
     private String country;
     private Long count;
-
-    public OpportunityCountByCountry(String country, Long count) {
-        this.country = country;
-        this.count = count;
-    }
 
     @Override
     public String toString() {
