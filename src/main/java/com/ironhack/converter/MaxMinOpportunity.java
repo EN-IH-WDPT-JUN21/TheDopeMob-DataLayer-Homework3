@@ -1,13 +1,15 @@
 package com.ironhack.converter;
 
-public class MaxMinOpportunity {
-    private Long maxMin;
-    private String name;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-    public MaxMinOpportunity(String name, Long maxMin) {
-        this.maxMin = maxMin;
-        this.name = name;
-    }
+@Getter
+@Setter
+@AllArgsConstructor
+public class MaxMinOpportunity {
+    private String name;
+    private Long maxMin;
 
     @Override
     public String toString() {

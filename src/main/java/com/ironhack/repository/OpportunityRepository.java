@@ -120,7 +120,7 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, Long>{
     List<MaxMin> maxQuantity();
 
     @Query("SELECT new com.ironhack.converter.MaxMin (c.quantity, c.accountId.companyName)" +
-            " FROM Opportunity AS c ORDER BY c.accountId.employeeCount ASC")
+            " FROM Opportunity AS c ORDER BY c.quantity ASC")
     List<MaxMin> minQuantity();
 
     @Query("SELECT new com.ironhack.converter.MeanOpportunity (COUNT(DISTINCT c.accountId.accountId), COUNT(c.opportunityId))" +

@@ -1,7 +1,11 @@
 package com.ironhack.converter;
 
 import com.ironhack.enums.Product;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class OpportunityCountByProduct {
     private Product product;
     private Long count;
