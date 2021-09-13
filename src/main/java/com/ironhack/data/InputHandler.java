@@ -26,7 +26,7 @@ public class InputHandler {
                     "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
             "- new <>          |     <lead> or <salesRep>      |",
             "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
-            "- show leads      |                               |",
+            "- show <>         |     <leads> or <salesReps>    |",
             "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
             "- lookup <> {Id}  |     <lead> or <opportunity>   | {Id} from lead or opportunity",
             "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
